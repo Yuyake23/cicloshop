@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/oficina
+    username: root
+  jpa:
+    openInView: true
+    hibernate:
+      ddlAuto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    showSql: true
+  output:
+    ansi:
+      enabled: ALWAYS
