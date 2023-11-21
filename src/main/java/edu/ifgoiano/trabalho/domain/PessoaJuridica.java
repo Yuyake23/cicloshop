@@ -8,7 +8,7 @@ public class PessoaJuridica extends Pessoa{
 
 	private static final long serialVersionUID = 1L;
 	
-	private String nomeFantasia;
+	protected String nomeFantasia;
 	
 	public PessoaJuridica() {
 		super();
