@@ -13,17 +13,17 @@ public abstract class Produto implements Serializable {
 	protected Long id;
 	protected Pessoa dono;
 	protected String marca;
-	protected BigDecimal precoCompra;
+	protected BigDecimal valor;
 
 	public Produto() {
 
 	}
 
-	public Produto(Long id, Pessoa dono, String marca, BigDecimal precoCompra) {
+	public Produto(Long id, Pessoa dono, String marca, BigDecimal valor) {
 		this.id = id;
 		this.dono = dono;
 		this.marca = marca;
-		this.precoCompra = precoCompra;
+		this.valor = valor;
 	}
 
 	public Long getId() {
@@ -50,12 +50,12 @@ public abstract class Produto implements Serializable {
 		this.marca = marca;
 	}
 
-	public BigDecimal getPrecoCompra() {
-		return precoCompra;
+	public BigDecimal getValor() {
+		return valor;
 	}
 
-	public void setPrecoCompra(BigDecimal precoCompra) {
-		this.precoCompra = precoCompra;
+	public void setValor(BigDecimal valor) {
+		this.valor = valor;
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public abstract class Produto implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Produto [id=" + id + ", dono=" + dono + ", marca=" + marca + ", precoCompra=" + precoCompra + "]";
+		return "Produto [id=" + id + ", dono=" + dono + ", marca=" + marca + ", valor=" + valor + "]";
 	}
 
 }

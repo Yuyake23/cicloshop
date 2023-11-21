@@ -41,8 +41,8 @@ public class Peca extends Produto implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Peca [id=" + id + "nome=" + nome + ", dono=" + dono + ", marca=" + marca + ", precoCompra="
-				+ precoCompra + ", quantidade=" + quantidade + "]";
+		return "Peca [id=" + id + "nome=" + nome + ", dono=" + dono + ", marca=" + marca + ", valor="
+				+ valor + ", quantidade=" + quantidade + "]";
 	}
 
 }
