@@ -37,7 +37,7 @@ public class Fornecedor extends PessoaJuridica {
 	public String toString() {
 		return "Pessoa [id=" + getId() + ", tipoPessoa=" + getTipoPessoa() + ", razaoSocial=" + nome + ", nomeFantasia="
 				+ nomeFantasia + ", cnpj=" + documento + ", telefone=" + telefone + ", endereco=" + endereco + ", data="
-				+ data + ", observacoes=" + observacoes + ", produtosFornecidos=" + produtosFornecidos + "]";
+				+ data + ", observacoes=" + observacoes + "]";
 	}
 
 }
