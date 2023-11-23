@@ -6,14 +6,33 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 import edu.ifgoiano.trabalho.domain.enums.TipoPessoa;
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import jakarta.persistence.Transient;
 
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo_pessoa", discriminatorType = DiscriminatorType.STRING)
 public abstract class Pessoa implements Serializable {
 
 	@Serial
 	private static final long serialVersionUID = 1L;
 	
-	private Long id;
-	private TipoPessoa tipoPessoa;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "pessoa_id")
+	protected Long id;
+	@Transient
+	protected TipoPessoa tipoPessoa;
 	// nome se pessoa física
 	// razão social se pessoa jurídica
 	protected String nome;
@@ -22,20 +41,21 @@ public abstract class Pessoa implements Serializable {
 	protected String documento;
 	protected String telefone;
 	protected String endereco;
-	protected LocalDate data;
+	@Temporal(value = TemporalType.DATE)
+	protected LocalDate dataGenese;
 	protected String observacoes;
 	
 	protected Pessoa() {
 		super();
 	}
 	
-	protected Pessoa(Long id, TipoPessoa tipoPessoa, String nome, String documento, String telefone, String endereco, LocalDate data, String observacoes) {
+	protected Pessoa(Long id, String nome, String documento, String telefone, String endereco, LocalDate dataGenese, String observacoes) {
 		this.id = id;
 		this.nome = nome;
 		this.documento = documento;
 		this.telefone = telefone;
 		this.endereco = endereco;
-		this.data = data;
+		this.dataGenese = dataGenese;
 		this.observacoes = observacoes;
 	}
 
@@ -87,12 +107,12 @@ public abstract class Pessoa implements Serializable {
 		this.endereco = endereco;
 	}
 
-	public LocalDate getData() {
-		return data;
+	public LocalDate getDataGenese() {
+		return dataGenese;
 	}
 
-	public void setData(LocalDate data) {
-		this.data = data;
+	public void setDataGenese(LocalDate dataGenese) {
+		this.dataGenese = dataGenese;
 	}
 
 	public String getObservacoes() {
@@ -123,7 +143,7 @@ public abstract class Pessoa implements Serializable {
 	@Override
 	public String toString() {
 		return "Pessoa [id=" + id + ", tipoPessoa=" + tipoPessoa + ", nome=" + nome + ", documento=" + documento
-				+ ", telefone=" + telefone + ", endereco=" + endereco + ", data=" + data + ", observacoes="
+				+ ", telefone=" + telefone + ", endereco=" + endereco + ", dataGenese=" + dataGenese + ", observacoes="
 				+ observacoes + "]";
 	}
 	

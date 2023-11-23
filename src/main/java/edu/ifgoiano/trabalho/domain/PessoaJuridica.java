@@ -3,7 +3,11 @@ package edu.ifgoiano.trabalho.domain;
 import java.time.LocalDate;
 
 import edu.ifgoiano.trabalho.domain.enums.TipoPessoa;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 
+@Entity
+@DiscriminatorValue("JURIDICA")
 public class PessoaJuridica extends Pessoa{
 
 	private static final long serialVersionUID = 1L;
@@ -12,10 +16,12 @@ public class PessoaJuridica extends Pessoa{
 	
 	public PessoaJuridica() {
 		super();
+		this.tipoPessoa = TipoPessoa.JURIDICA;
 	}
 	
-	public PessoaJuridica(Long id, TipoPessoa tipoPessoa, String cnpj, String razaoSocial, String nomeFantasia, String telefone, String endereco, LocalDate data, String observacoes) {
-		super(id, tipoPessoa, razaoSocial, cnpj, telefone, endereco, data, observacoes);
+	public PessoaJuridica(Long id, String cnpj, String razaoSocial, String nomeFantasia, String telefone, String endereco, LocalDate dataFundacao, String observacoes) {
+		super(id, razaoSocial, cnpj, telefone, endereco, dataFundacao, observacoes);
+		this.tipoPessoa = TipoPessoa.JURIDICA;
 		this.nomeFantasia = nomeFantasia;
 	}
 
@@ -30,7 +36,7 @@ public class PessoaJuridica extends Pessoa{
 	@Override
 	public String toString() {
 		return "Pessoa [id=" + getId() + ", tipoPessoa=" + getTipoPessoa() + ", razaoSocial=" + nome + ", nomeFantasia=" + nomeFantasia + ", cnpj=" + documento
-				+ ", telefone=" + telefone + ", endereco=" + endereco + ", data=" + data + ", observacoes="
+				+ ", telefone=" + telefone + ", endereco=" + endereco + ", dataGenese=" + dataGenese + ", observacoes="
 				+ observacoes + "]";
 	}
 

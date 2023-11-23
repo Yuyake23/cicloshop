@@ -4,6 +4,9 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class Peca extends Produto implements Serializable {
 
 	@Serial
@@ -41,7 +44,7 @@ public class Peca extends Produto implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Peca [id=" + id + "nome=" + nome + ", dono=" + dono + ", marca=" + marca + ", valor="
+		return "Peca [id=" + id + ", nome=" + nome + ", dono=" + dono + ", marca=" + marca + ", valor="
 				+ valor + ", quantidade=" + quantidade + "]";
 	}
 

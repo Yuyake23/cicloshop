@@ -8,22 +8,52 @@ import java.util.List;
 import java.util.Objects;
 
 import edu.ifgoiano.trabalho.domain.enums.StatusServico;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
+@Entity
 public class Servico implements Serializable {
 
 	@Serial
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "servico_id")
 	private Long id;
+	@ManyToOne
+	@JoinColumn(name = "cliente_id")
 	private Pessoa cliente;
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "funcionario_servico", 
+			joinColumns = {@JoinColumn(name = "servico_id")},
+			inverseJoinColumns = {@JoinColumn(name = "contrato_funcionario_id")})
 	private List<ContratoFuncionario> funcionarios;
+	@Enumerated
 	private StatusServico statusServico;
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "produto_servico", 
+			joinColumns = {@JoinColumn(name = "servico_id")},
+			inverseJoinColumns = {@JoinColumn(name = "contrato_funcionario_id")})
 	private List<Produto> produtos;
 	private BigDecimal custoMaoDeObra;
 	private BigDecimal custoProdutos;
 	private String descricao;
 	private String observacoes;
+	@Temporal(TemporalType.DATE)
 	private LocalDate dataEntrada;
+	@Temporal(TemporalType.DATE)
 	private LocalDate dataSaida;
 
 	public Servico() {

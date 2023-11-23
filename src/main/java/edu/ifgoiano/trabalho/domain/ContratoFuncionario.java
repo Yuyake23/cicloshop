@@ -6,17 +6,38 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+
+@Entity
 public class ContratoFuncionario implements Serializable {
 
 	@Serial
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "contrato_funcionario_id")
 	private Long id;
+	@ManyToOne
+	@JoinColumn(name = "funcionario_id")
 	private Pessoa funcionario;
 	private String cargo;
 	private BigDecimal salario;
+	@OneToOne
+	@JoinColumn(name = "dados_bancarios_id")
 	private DadosBancarios dadosBancarios;
+	@Temporal(TemporalType.DATE)
 	private LocalDate dataEntrada;
+	@Temporal(TemporalType.DATE)
 	private LocalDate dataSaida;
 
 	public ContratoFuncionario() {

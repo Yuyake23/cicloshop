@@ -5,13 +5,32 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+@Entity
 public class PrecoProduto implements Serializable {
 
 	@Serial
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "preco_produto_id")
 	private Long id;
+	@ManyToOne
+	@JoinColumn(name = "produto_id")
 	private Produto produto;
+	@ManyToOne
+	@JoinColumn(name = "fornecedor_id")
+	@JsonIgnore
 	private Fornecedor fornecedor;
 	private BigDecimal preco;
 	private Float porcentagemLucro;

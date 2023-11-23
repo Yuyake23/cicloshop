@@ -8,15 +8,40 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+
+@Entity
 public class Venda implements Serializable {
 
 	@Serial
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "venda_id")
 	private Long id;
+	@ManyToMany
+	@JoinTable(name = "produto_venda",
+			joinColumns = {@JoinColumn(name = "venda_id")},
+			inverseJoinColumns = {@JoinColumn(name = "produto_id")})
 	private List<Produto> produtos;
+	@ManyToOne
+	@JoinColumn(name = "comprador_id")
 	private Pessoa comprador;
+	@ManyToOne
+	@JoinColumn(name = "vendedor_id")
 	private ContratoFuncionario funcionario;
+	@Temporal(TemporalType.DATE)
 	private LocalDate dataVenda;
 	private BigDecimal valor;
 	private String observacoes;

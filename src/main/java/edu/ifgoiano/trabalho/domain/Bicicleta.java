@@ -4,6 +4,9 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class Bicicleta extends Produto implements Serializable {
 
 	@Serial
