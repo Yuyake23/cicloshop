@@ -1,9 +1,9 @@
-package edu.ifgoiano.trabalho.domain;
+package edu.ifgoiano.trabalho.model.entity;
 
 import java.io.Serial;
 import java.time.LocalDate;
 
-import edu.ifgoiano.trabalho.domain.enums.TipoPessoa;
+import edu.ifgoiano.trabalho.model.enums.TipoPessoa;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 

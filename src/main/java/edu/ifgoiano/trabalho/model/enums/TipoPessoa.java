@@ -1,4 +1,4 @@
-package edu.ifgoiano.trabalho.domain.enums;
+package edu.ifgoiano.trabalho.model.enums;
 
 public enum TipoPessoa {
 	FISICA, JURIDICA, FORNECEDOR;

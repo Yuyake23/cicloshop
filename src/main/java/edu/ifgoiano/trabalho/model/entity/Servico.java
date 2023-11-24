@@ -1,4 +1,4 @@
-package edu.ifgoiano.trabalho.domain;
+package edu.ifgoiano.trabalho.model.entity;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
-import edu.ifgoiano.trabalho.domain.enums.StatusServico;
+import edu.ifgoiano.trabalho.model.enums.StatusServico;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;

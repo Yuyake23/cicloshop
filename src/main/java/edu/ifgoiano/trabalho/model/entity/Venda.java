@@ -1,4 +1,4 @@
-package edu.ifgoiano.trabalho.domain;
+package edu.ifgoiano.trabalho.model.entity;
 
 import java.io.Serial;
 import java.io.Serializable;
