@@ -19,9 +19,9 @@ public class Peca extends Produto implements Serializable {
 		super();
 	}
 
-	public Peca(Long id, Pessoa dono, String marca, BigDecimal precoCompra, String nome,
+	public Peca(Long id, Pessoa dono, String marca, BigDecimal valor, String nome,
 			Integer quantidade) {
-		super(id, dono, marca, precoCompra);
+		super(id, dono, marca, valor);
 		this.nome = nome;
 		this.quantidade = quantidade;
 	}

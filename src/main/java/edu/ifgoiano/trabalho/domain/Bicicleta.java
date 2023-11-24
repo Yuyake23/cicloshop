@@ -20,9 +20,9 @@ public class Bicicleta extends Produto implements Serializable {
 		super();
 	}
 
-	public Bicicleta(Long id, Pessoa dono, String marca, BigDecimal precoCompra, String codigoSerial, String modelo,
+	public Bicicleta(Long id, Pessoa dono, String marca, BigDecimal valor, String codigoSerial, String modelo,
 			String cor) {
-		super(id, dono, marca, precoCompra);
+		super(id, dono, marca, valor);
 		this.codigoSerial = codigoSerial;
 		this.modelo = modelo;
 		this.cor = cor;
