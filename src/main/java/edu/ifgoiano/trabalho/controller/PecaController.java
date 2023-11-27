@@ -69,6 +69,6 @@ public class PecaController {
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deletarPorId(@PathVariable Long id) {
-		pecaService.deletarPorId(id);
+		produtoService.deletarPorId(id);
 	}
 }

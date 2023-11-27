@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -33,11 +34,11 @@ public class BicicletaController {
 		return produtoService.salvar(dto);
 	}
 	
-	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-	public Iterable<BicicletaDto> salvarTodos(@RequestBody Iterable<BicicletaDto> dtos) {
-		return produtoService.salvarTodos(dtos);
-	}
+//	@PostMapping
+//	@ResponseStatus(HttpStatus.CREATED)
+//	public Iterable<BicicletaDto> salvarTodos(@RequestBody Iterable<BicicletaDto> dtos) {
+//		return produtoService.salvarTodos(dtos);
+//	}
 	
 	@GetMapping
 	public List<BicicletaDto> buscarTodos() {
@@ -54,7 +55,7 @@ public class BicicletaController {
 		return bicicletaService.atualizarCompletamente(dto, id);
 	}
 	
-	@PutMapping("/{id}")
+	@PatchMapping("/{id}")
 	public BicicletaDto atualizarParcialmente(@PathVariable Long id, @RequestBody BicicletaDto dto) {
 		return bicicletaService.atualizarParcialmente(dto, id);
 	}
@@ -68,6 +69,6 @@ public class BicicletaController {
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deletarPorId(@PathVariable Long id) {
-		bicicletaService.deletarPorId(id);
+		produtoService.deletarPorId(id);
 	}
 }

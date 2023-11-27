@@ -38,7 +38,7 @@ public class PecaService {
 	@Transactional
 	public PecaDto atualizarParcialmente(PecaDto dto, Long id) {
 		Peca peca = pecaRepository.findById(id).orElseThrow(
-				() -> excecaoPorPessoaNaoEncontrada(id)); 
+				() -> excecaoPorPecaNaoEncontrada(id)); 
 		
 		atualizarParcialmente(peca, dto);
 		
@@ -52,7 +52,7 @@ public class PecaService {
 
 	public PecaDto buscarPorId(Long id) {
 		Peca peca = pecaRepository.findById(id).orElseThrow(
-				() -> excecaoPorPessoaNaoEncontrada(id));
+				() -> excecaoPorPecaNaoEncontrada(id));
 
 		return PecaDto.ofPeca(peca);
 	}
@@ -75,7 +75,7 @@ public class PecaService {
 	@Transactional
 	public void deletarPorId(Long id) {
 		if (!pecaRepository.existsById(id)) {
-			throw excecaoPorProdutoNaoEncontrado(id);
+			throw excecaoPorPecaNaoEncontrada(id);
 		}
 
 		pecaRepository.deleteById(id);
@@ -104,8 +104,8 @@ public class PecaService {
 		return new RecursoNaoEncontradoException("Pessoa com id=%d não encontrado.".formatted(id));
 	}
 
-	private RecursoNaoEncontradoException excecaoPorProdutoNaoEncontrado(Long id) {
-		return new RecursoNaoEncontradoException("Produto com id=%d não encontrado.".formatted(id));
+	private RecursoNaoEncontradoException excecaoPorPecaNaoEncontrada(Long id) {
+		return new RecursoNaoEncontradoException("Peca com id=%d não encontrado.".formatted(id));
 	}
 
 }

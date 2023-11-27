@@ -49,7 +49,7 @@ public class ProdutoService {
 
 	public ProdutoDto buscarPorId(Long id) {
 		Produto produto = produtoRepository.findById(id).orElseThrow(
-				() -> excecaoPorPessoaNaoEncontrada(id));
+				() -> excecaoPorProdutoNaoEncontrado(id));
 
 		return ProdutoDto.ofProduto(produto);
 	}

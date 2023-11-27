@@ -37,7 +37,7 @@ public class BicicletaService {
 
 	@Transactional
 	public BicicletaDto atualizarParcialmente(BicicletaDto dto, Long id) {
-		Bicicleta bicicleta = bicicletaRepository.findById(id).orElseThrow(() -> excecaoPorPessoaNaoEncontrada(id));
+		Bicicleta bicicleta = bicicletaRepository.findById(id).orElseThrow(() -> excecaoPorBicicletaNaoEncontrada(id));
 
 		atualizarParcialmente(bicicleta, dto);
 
@@ -50,7 +50,7 @@ public class BicicletaService {
 	}
 
 	public BicicletaDto buscarPorId(Long id) {
-		Bicicleta bicicleta = bicicletaRepository.findById(id).orElseThrow(() -> excecaoPorPessoaNaoEncontrada(id));
+		Bicicleta bicicleta = bicicletaRepository.findById(id).orElseThrow(() -> excecaoPorBicicletaNaoEncontrada(id));
 
 		return BicicletaDto.ofBicicleta(bicicleta);
 	}
@@ -68,15 +68,6 @@ public class BicicletaService {
 
 		List<Bicicleta> bicicletas = bicicletaRepository.findByDonoId(idDono);
 		return BicicletaDto.ofBicicletas(bicicletas);
-	}
-
-	@Transactional
-	public void deletarPorId(Long id) {
-		if (!bicicletaRepository.existsById(id)) {
-			throw excecaoPorProdutoNaoEncontrado(id);
-		}
-
-		bicicletaRepository.deleteById(id);
 	}
 
 	private void atualizarParcialmente(Bicicleta bicicleta, BicicletaDto dto) {
@@ -104,8 +95,8 @@ public class BicicletaService {
 		return new RecursoNaoEncontradoException("Pessoa com id=%d não encontrado.".formatted(id));
 	}
 
-	private RecursoNaoEncontradoException excecaoPorProdutoNaoEncontrado(Long id) {
-		return new RecursoNaoEncontradoException("Produto com id=%d não encontrado.".formatted(id));
+	private RecursoNaoEncontradoException excecaoPorBicicletaNaoEncontrada(Long id) {
+		return new RecursoNaoEncontradoException("Bicicleta com id=%d não encontrado.".formatted(id));
 	}
 
 }
