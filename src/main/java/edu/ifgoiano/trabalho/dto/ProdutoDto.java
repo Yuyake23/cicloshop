@@ -33,9 +33,9 @@ public abstract sealed class ProdutoDto permits PecaDto, BicicletaDto {
 
 	public static ProdutoDto ofProduto(Produto produto) {
 		if (produto instanceof Peca peca)
-			return new PecaDto(peca);
+			return PecaDto.ofPeca(peca);
 		else if (produto instanceof Bicicleta bicicleta)
-			return new BicicletaDto(bicicleta);
+			return BicicletaDto.ofBicicleta(bicicleta);
 		else
 			throw new IllegalStateException("Produto pode ser apenas Peca ou Bicicleta");
 	}
