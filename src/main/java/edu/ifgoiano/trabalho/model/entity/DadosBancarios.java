@@ -10,6 +10,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+/**
+ * Representa os dados bancários de um {@link ContratoFuncionario}.
+ */
 @Entity
 public class DadosBancarios implements Serializable {
 

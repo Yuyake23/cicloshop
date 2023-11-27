@@ -15,6 +15,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+/**
+ * Representa o preço de um {@link Produto} quando é comprado de um determinado {@link Fornecedor}.
+ */
 @Entity
 public class PrecoProduto implements Serializable {
 

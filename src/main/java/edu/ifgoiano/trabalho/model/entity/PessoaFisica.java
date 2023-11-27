@@ -7,6 +7,9 @@ import edu.ifgoiano.trabalho.model.enums.TipoPessoa;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
+/**
+ * Representa uma {@link Pessoa} física.
+ */
 @Entity
 @DiscriminatorValue("FISICA")
 public class PessoaFisica extends Pessoa {

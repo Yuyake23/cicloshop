@@ -6,6 +6,14 @@ import java.math.BigDecimal;
 
 import jakarta.persistence.Entity;
 
+/**
+ * Representa uma peça fungível, que pode ter como dono qualquer {@link PessoaFisica} ou
+ * {@link PessoaJuridica}.
+ * </br>
+ * Um mesmo tipo de peça pode ter preços de compra ({@link PrecoProduto}) diferentes dependendo de
+ * qual {@link Fornecedor} foram compradas. Contudo, peças de um mesmo tipo são vendidas com um
+ * preço único baseado na compra mais cara efetuada dentro desse tipo, e que ainda esteja em estoque.
+ */
 @Entity
 public class Peca extends Produto implements Serializable {
 

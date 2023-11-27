@@ -22,6 +22,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
+/**
+ * Representa um serviço feito sobre um ou mais {@link Produto}s dentro da oficina.
+ */
 @Entity
 public class Servico implements Serializable {
 
