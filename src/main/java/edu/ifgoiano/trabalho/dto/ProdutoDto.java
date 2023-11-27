@@ -40,7 +40,7 @@ public abstract sealed class ProdutoDto permits PecaDto, BicicletaDto {
 			throw new IllegalStateException("Produto pode ser apenas Peca ou Bicicleta");
 	}
 
-	public static List<ProdutoDto> ofProdutos(List<Produto> produtos) {
+	public static List<? extends ProdutoDto> ofProdutos(List<Produto> produtos) {
 		return produtos.stream().map(ProdutoDto::ofProduto).toList();
 	}
 

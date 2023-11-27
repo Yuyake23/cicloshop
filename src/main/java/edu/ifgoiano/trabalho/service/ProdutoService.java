@@ -22,23 +22,25 @@ public class ProdutoService {
 	@Autowired
 	private PessoaRepository pessoaRepository;
 
+	@SuppressWarnings("unchecked")
 	@Transactional
-	public ProdutoDto salvar(ProdutoDto dto) {
+	public <E extends ProdutoDto> E salvar(E dto) {
 		Pessoa dono = buscarDono(dto.donoId);
 
 		Produto produto = produtoRepository.save(dto.toEntity(dono));
-		return ProdutoDto.ofProduto(produto);
+		return (E) ProdutoDto.ofProduto(produto);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Transactional
-	public List<ProdutoDto> salvarTodos(Iterable<ProdutoDto> dtos) {
+	public <E extends ProdutoDto> List<E> salvarTodos(Iterable<E> dtos) {
 		List<Produto> produtos = StreamSupport.stream(dtos.spliterator(), true).map(dto -> {
 			Pessoa dono = ProdutoService.this.buscarDono(dto.donoId);
 			return dto.toEntity(dono);
 		}).toList();
 
 		produtos = produtoRepository.saveAll(produtos);
-		return ProdutoDto.ofProdutos(produtos);
+		return (List<E>) ProdutoDto.ofProdutos(produtos);
 	}
 	
 	public boolean existePorId(Long id) {
@@ -52,13 +54,13 @@ public class ProdutoService {
 		return ProdutoDto.ofProduto(produto);
 	}
 
-	public List<ProdutoDto> buscarTodos() {
+	public List<? extends ProdutoDto> buscarTodos() {
 		List<Produto> produtos = produtoRepository.findAll();
 		
 		return ProdutoDto.ofProdutos(produtos);
 	}
 
-	public List<ProdutoDto> buscarPorDono(Long idDono) {
+	public List<? extends ProdutoDto> buscarPorDono(Long idDono) {
 		if (!pessoaRepository.existsById(idDono)) {
 			throw excecaoPorPessoaNaoEncontrada(idDono);
 		}
