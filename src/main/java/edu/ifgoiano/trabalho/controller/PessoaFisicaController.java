@@ -15,54 +15,55 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.ifgoiano.trabalho.dto.PecaDto;
-import edu.ifgoiano.trabalho.service.PecaService;
-import edu.ifgoiano.trabalho.service.ProdutoService;
+import edu.ifgoiano.trabalho.dto.PessoaFisicaDto;
+import edu.ifgoiano.trabalho.service.PessoaFisicaService;
+import edu.ifgoiano.trabalho.service.PessoaService;
 
 @RestController
-@RequestMapping("/v1/peca")
-public class PecaController {
-
+@RequestMapping("/v1/pessoa_fisica")
+public class PessoaFisicaController {
+	
 	@Autowired
-	private ProdutoService produtoService;
+	private PessoaService pessoaService;
 	@Autowired
-	private PecaService pecaService;
+	private PessoaFisicaService pessoaFisicaService;
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public PecaDto salvar(@RequestBody PecaDto dto) {
-		return produtoService.salvar(dto);
+	public PessoaFisicaDto salvar(@RequestBody PessoaFisicaDto dto) {
+		return pessoaService.salvar(dto);
 	}
 	
 	@PostMapping("/varias")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Iterable<PecaDto> salvarTodos(@RequestBody Iterable<PecaDto> dtos) {
-		return produtoService.salvarTodos(dtos);
+	public List<PessoaFisicaDto> salvarTodos(@RequestBody List<PessoaFisicaDto> dtos) {
+		return pessoaService.salvarTodos(dtos);
 	}
 	
 	@GetMapping
-	public List<PecaDto> buscarTodos() {
-		return pecaService.buscarTodos();
+	public List<PessoaFisicaDto> buscarTodos() {
+		return pessoaFisicaService.buscarTodos();
 	}
 	
 	@GetMapping("/{id}")
-	public PecaDto buscarPorId(@PathVariable Long id) {
-		return pecaService.buscarPorId(id);
+	public PessoaFisicaDto buscarPorId(@PathVariable Long id) {
+		return pessoaFisicaService.buscarPorId(id);
 	}
 	
 	@PutMapping("/{id}")
-	public PecaDto atualizarCompletamente(@PathVariable Long id, @RequestBody PecaDto dto) {
-		return pecaService.atualizarCompletamente(dto, id);
+	public PessoaFisicaDto atualizarCompletamente(@PathVariable Long id, @RequestBody PessoaFisicaDto dto) {
+		return pessoaFisicaService.atualizarCompletamente(dto, id);
 	}
 	
 	@PatchMapping("/{id}")
-	public PecaDto atualizarParcialmente(@PathVariable Long id, @RequestBody PecaDto dto) {
-		return pecaService.atualizarParcialmente(dto, id);
+	public PessoaFisicaDto atualizarParcialmente(@PathVariable Long id, @RequestBody PessoaFisicaDto dto) {
+		return pessoaFisicaService.atualizarParcialmente(dto, id);
 	}
 	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deletarPorId(@PathVariable Long id) {
-		produtoService.deletarPorId(id);
+		pessoaService.deletarPorId(id);
 	}
+	
 }

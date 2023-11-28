@@ -15,54 +15,52 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.ifgoiano.trabalho.dto.PecaDto;
-import edu.ifgoiano.trabalho.service.PecaService;
-import edu.ifgoiano.trabalho.service.ProdutoService;
+import edu.ifgoiano.trabalho.dto.DadosBancariosDto;
+import edu.ifgoiano.trabalho.service.DadosBancariosService;
 
 @RestController
-@RequestMapping("/v1/peca")
-public class PecaController {
+@RequestMapping("/v1/dados_bancarios")
+public class DadosBancariosController {
 
 	@Autowired
-	private ProdutoService produtoService;
-	@Autowired
-	private PecaService pecaService;
+	private DadosBancariosService dadosBancariosService;
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public PecaDto salvar(@RequestBody PecaDto dto) {
-		return produtoService.salvar(dto);
+	public DadosBancariosDto salvar(@RequestBody DadosBancariosDto dto) {
+		return dadosBancariosService.salvar(dto);
 	}
-	
+
 	@PostMapping("/varias")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Iterable<PecaDto> salvarTodos(@RequestBody Iterable<PecaDto> dtos) {
-		return produtoService.salvarTodos(dtos);
+	public List<DadosBancariosDto> salvarTodos(@RequestBody List<DadosBancariosDto> dtos) {
+		return dadosBancariosService.salvarTodos(dtos);
 	}
-	
+
 	@GetMapping
-	public List<PecaDto> buscarTodos() {
-		return pecaService.buscarTodos();
+	public List<DadosBancariosDto> buscarTodos() {
+		return dadosBancariosService.buscarTodos();
 	}
-	
+
 	@GetMapping("/{id}")
-	public PecaDto buscarPorId(@PathVariable Long id) {
-		return pecaService.buscarPorId(id);
+	public DadosBancariosDto buscarPorId(@PathVariable Long id) {
+		return dadosBancariosService.buscarPorId(id);
 	}
-	
+
 	@PutMapping("/{id}")
-	public PecaDto atualizarCompletamente(@PathVariable Long id, @RequestBody PecaDto dto) {
-		return pecaService.atualizarCompletamente(dto, id);
+	public DadosBancariosDto atualizarCompletamente(@PathVariable Long id, @RequestBody DadosBancariosDto dto) {
+		return dadosBancariosService.atualizarCompletamente(dto, id);
 	}
-	
+
 	@PatchMapping("/{id}")
-	public PecaDto atualizarParcialmente(@PathVariable Long id, @RequestBody PecaDto dto) {
-		return pecaService.atualizarParcialmente(dto, id);
+	public DadosBancariosDto atualizarParcialmente(@PathVariable Long id, @RequestBody DadosBancariosDto dto) {
+		return dadosBancariosService.atualizarParcialmente(dto, id);
 	}
-	
+
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deletarPorId(@PathVariable Long id) {
-		produtoService.deletarPorId(id);
+		dadosBancariosService.deletarPorId(id);
 	}
+
 }

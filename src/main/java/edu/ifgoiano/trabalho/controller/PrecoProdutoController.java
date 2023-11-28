@@ -15,54 +15,52 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.ifgoiano.trabalho.dto.PecaDto;
-import edu.ifgoiano.trabalho.service.PecaService;
-import edu.ifgoiano.trabalho.service.ProdutoService;
+import edu.ifgoiano.trabalho.dto.PrecoProdutoDto;
+import edu.ifgoiano.trabalho.service.PrecoProdutoService;
 
 @RestController
-@RequestMapping("/v1/peca")
-public class PecaController {
+@RequestMapping("/v1/preco_produto")
+public class PrecoProdutoController {
 
 	@Autowired
-	private ProdutoService produtoService;
-	@Autowired
-	private PecaService pecaService;
+	private PrecoProdutoService precoProdutoService;
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public PecaDto salvar(@RequestBody PecaDto dto) {
-		return produtoService.salvar(dto);
+	public PrecoProdutoDto salvar(@RequestBody PrecoProdutoDto dto) {
+		return precoProdutoService.salvar(dto);
 	}
-	
+
 	@PostMapping("/varias")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Iterable<PecaDto> salvarTodos(@RequestBody Iterable<PecaDto> dtos) {
-		return produtoService.salvarTodos(dtos);
+	public List<PrecoProdutoDto> salvarTodos(@RequestBody List<PrecoProdutoDto> dtos) {
+		return precoProdutoService.salvarTodos(dtos);
 	}
-	
+
 	@GetMapping
-	public List<PecaDto> buscarTodos() {
-		return pecaService.buscarTodos();
+	public List<PrecoProdutoDto> buscarTodos() {
+		return precoProdutoService.buscarTodos();
 	}
-	
+
 	@GetMapping("/{id}")
-	public PecaDto buscarPorId(@PathVariable Long id) {
-		return pecaService.buscarPorId(id);
+	public PrecoProdutoDto buscarPorId(@PathVariable Long id) {
+		return precoProdutoService.buscarPorId(id);
 	}
-	
+
 	@PutMapping("/{id}")
-	public PecaDto atualizarCompletamente(@PathVariable Long id, @RequestBody PecaDto dto) {
-		return pecaService.atualizarCompletamente(dto, id);
+	public PrecoProdutoDto atualizarCompletamente(@PathVariable Long id, @RequestBody PrecoProdutoDto dto) {
+		return precoProdutoService.atualizarCompletamente(dto, id);
 	}
-	
+
 	@PatchMapping("/{id}")
-	public PecaDto atualizarParcialmente(@PathVariable Long id, @RequestBody PecaDto dto) {
-		return pecaService.atualizarParcialmente(dto, id);
+	public PrecoProdutoDto atualizarParcialmente(@PathVariable Long id, @RequestBody PrecoProdutoDto dto) {
+		return precoProdutoService.atualizarParcialmente(dto, id);
 	}
-	
+
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deletarPorId(@PathVariable Long id) {
-		produtoService.deletarPorId(id);
+		precoProdutoService.deletarPorId(id);
 	}
+
 }

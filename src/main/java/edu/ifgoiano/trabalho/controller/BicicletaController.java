@@ -27,6 +27,7 @@ public class BicicletaController {
 	private ProdutoService produtoService;
 	@Autowired
 	private BicicletaService bicicletaService;
+	
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -59,12 +60,6 @@ public class BicicletaController {
 	public BicicletaDto atualizarParcialmente(@PathVariable Long id, @RequestBody BicicletaDto dto) {
 		return bicicletaService.atualizarParcialmente(dto, id);
 	}
-	
-//	TODO
-//	@GetMapping("/{id}/dono")
-//	public PessoaDto buscarDonoDoProdutoComId(Long id){
-//		return pessoaService.buscarPorId(id);
-//	}
 	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
