@@ -2,6 +2,7 @@ package edu.ifgoiano.trabalho.dto;
 
 import java.util.List;
 
+import edu.ifgoiano.trabalho.model.entity.ContratoFuncionario;
 import edu.ifgoiano.trabalho.model.entity.DadosBancarios;
 
 public final class DadosBancariosDto {
@@ -12,15 +13,17 @@ public final class DadosBancariosDto {
 	public final String tipoConta;
 	public final String numeroConta;
 	public final String operacao;
+	public final Long contratoFuncionarioId;
 	
 	public DadosBancariosDto(Long id, String nomeBanco, String numeroAgencia, String tipoConta, String numeroConta,
-			String operacao) {
+			String operacao, Long contratoFuncionarioId) {
 		this.id = id;
 		this.nomeBanco = nomeBanco;
 		this.numeroAgencia = numeroAgencia;
 		this.tipoConta = tipoConta;
 		this.numeroConta = numeroConta;
 		this.operacao = operacao;
+		this.contratoFuncionarioId = contratoFuncionarioId;
 	}
 	
 	public DadosBancariosDto(DadosBancarios dadosBancarios) {
@@ -30,10 +33,12 @@ public final class DadosBancariosDto {
 		this.tipoConta = dadosBancarios.getTipoConta();
 		this.numeroConta = dadosBancarios.getNumeroConta();
 		this.operacao = dadosBancarios.getOperacao();
+		this.contratoFuncionarioId = dadosBancarios.getContratoFuncionario().getId();
 	}
 	
 	public DadosBancarios toEntity() {
-		return new DadosBancarios(id, nomeBanco, numeroAgencia, tipoConta, numeroConta, operacao);
+		return new DadosBancarios(id, nomeBanco, numeroAgencia, tipoConta, numeroConta, operacao,
+				new ContratoFuncionario(contratoFuncionarioId));
 	}
 	
 	public static DadosBancariosDto ofDadosBancarios(DadosBancarios dadosBancarios) {

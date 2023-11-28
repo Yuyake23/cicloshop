@@ -1,6 +1,5 @@
 package edu.ifgoiano.trabalho.service;
 
-import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorContratoFuncionarioNaoEncontrado;
 import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorDadosBancariosNaoEncontrados;
 
 import java.util.List;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import edu.ifgoiano.trabalho.dto.DadosBancariosDto;
 import edu.ifgoiano.trabalho.model.entity.DadosBancarios;
-import edu.ifgoiano.trabalho.model.repository.ContratoFuncionarioRepository;
 import edu.ifgoiano.trabalho.model.repository.DadosBancariosRepository;
 import jakarta.transaction.Transactional;
 
@@ -20,8 +18,6 @@ public class DadosBancariosService {
 
 	@Autowired
 	private DadosBancariosRepository dadosBancariosRepository;
-	@Autowired
-	private ContratoFuncionarioRepository contratoFuncionarioRepository;
 
 	@Transactional
 	public DadosBancariosDto salvar(DadosBancariosDto dto) {
@@ -76,16 +72,6 @@ public class DadosBancariosService {
 	public List<DadosBancariosDto> buscarTodos() {
 		List<DadosBancarios> dadosBancarios = dadosBancariosRepository.findAll();
 
-		return DadosBancariosDto.ofDadosBancarios(dadosBancarios);
-	}
-
-	public List<DadosBancariosDto> buscarPorContratoFuncionario(Long contratoFuncionarioId) {
-		if (!contratoFuncionarioRepository.existsById(contratoFuncionarioId)) {
-			throw excecaoPorContratoFuncionarioNaoEncontrado(contratoFuncionarioId);
-		}
-
-		List<DadosBancarios> dadosBancarios = dadosBancariosRepository
-				.findByContratoFuncionarioId(contratoFuncionarioId);
 		return DadosBancariosDto.ofDadosBancarios(dadosBancarios);
 	}
 

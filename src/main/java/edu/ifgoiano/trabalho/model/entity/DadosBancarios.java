@@ -9,8 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class DadosBancarios implements Serializable {
@@ -27,8 +26,7 @@ public class DadosBancarios implements Serializable {
 	private String tipoConta;
 	private String numeroConta;
 	private String operacao;
-	@ManyToOne
-	@JoinColumn(name = "contrato_funcinonario_id")
+	@OneToOne(mappedBy = "dadosBancarios")
 	private ContratoFuncionario contratoFuncionario;
 
 	public DadosBancarios() {
