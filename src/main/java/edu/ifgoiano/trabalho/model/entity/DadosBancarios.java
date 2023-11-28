@@ -26,6 +26,10 @@ public class DadosBancarios implements Serializable {
 	private String numeroConta;
 	private String operacao;
 
+	public DadosBancarios() {
+		super();
+	}
+
 	public DadosBancarios(Long id, String nomeBanco, String numeroAgencia, String tipoConta, String numeroConta,
 			String operacao) {
 		this.id = id;
