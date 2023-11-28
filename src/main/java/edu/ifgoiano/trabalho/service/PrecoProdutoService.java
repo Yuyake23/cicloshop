@@ -1,5 +1,9 @@
 package edu.ifgoiano.trabalho.service;
 
+import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorFornecedorNaoEncontrado;
+import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorPrecoProdutoNaoEncontrado;
+import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorProdutoNaoEncontrado;
+
 import java.util.List;
 import java.util.stream.StreamSupport;
 
@@ -7,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.ifgoiano.trabalho.dto.PrecoProdutoDto;
-import edu.ifgoiano.trabalho.exception.RecursoNaoEncontradoException;
 import edu.ifgoiano.trabalho.model.entity.Fornecedor;
 import edu.ifgoiano.trabalho.model.entity.PrecoProduto;
 import edu.ifgoiano.trabalho.model.entity.Produto;
@@ -126,18 +129,6 @@ public class PrecoProdutoService {
 	private Fornecedor buscarFornecedor(Long fornecedorId) {
 		return fornecedorRepository.findById(fornecedorId)
 				.orElseThrow(() -> excecaoPorFornecedorNaoEncontrado(fornecedorId));
-	}
-
-	private RecursoNaoEncontradoException excecaoPorPrecoProdutoNaoEncontrado(Long id) {
-		return new RecursoNaoEncontradoException("PrecoProduto com id=%d não encontrado.".formatted(id));
-	}
-
-	private RecursoNaoEncontradoException excecaoPorFornecedorNaoEncontrado(Long id) {
-		return new RecursoNaoEncontradoException("Fornecedor com id=%d não encontrado.".formatted(id));
-	}
-
-	private RecursoNaoEncontradoException excecaoPorProdutoNaoEncontrado(Long id) {
-		return new RecursoNaoEncontradoException("Produto com id=%d não encontrado.".formatted(id));
 	}
 
 }

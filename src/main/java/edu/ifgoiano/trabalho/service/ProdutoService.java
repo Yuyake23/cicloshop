@@ -1,5 +1,8 @@
 package edu.ifgoiano.trabalho.service;
 
+import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorPessoaNaoEncontrada;
+import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorProdutoNaoEncontrado;
+
 import java.util.List;
 import java.util.stream.StreamSupport;
 
@@ -7,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.ifgoiano.trabalho.dto.ProdutoDto;
-import edu.ifgoiano.trabalho.exception.RecursoNaoEncontradoException;
 import edu.ifgoiano.trabalho.model.entity.Pessoa;
 import edu.ifgoiano.trabalho.model.entity.Produto;
 import edu.ifgoiano.trabalho.model.repository.PessoaRepository;
@@ -42,21 +44,20 @@ public class ProdutoService {
 		produtos = produtoRepository.saveAll(produtos);
 		return (List<E>) ProdutoDto.ofProdutos(produtos);
 	}
-	
+
 	public boolean existePorId(Long id) {
 		return produtoRepository.existsById(id);
 	}
 
 	public ProdutoDto buscarPorId(Long id) {
-		Produto produto = produtoRepository.findById(id).orElseThrow(
-				() -> excecaoPorProdutoNaoEncontrado(id));
+		Produto produto = produtoRepository.findById(id).orElseThrow(() -> excecaoPorProdutoNaoEncontrado(id));
 
 		return ProdutoDto.ofProduto(produto);
 	}
 
 	public List<? extends ProdutoDto> buscarTodos() {
 		List<Produto> produtos = produtoRepository.findAll();
-		
+
 		return ProdutoDto.ofProdutos(produtos);
 	}
 
@@ -77,17 +78,9 @@ public class ProdutoService {
 
 		produtoRepository.deleteById(id);
 	}
-	
+
 	private Pessoa buscarDono(Long idDono) {
 		return pessoaRepository.findById(idDono).orElseThrow(() -> excecaoPorPessoaNaoEncontrada(idDono));
-	}
-
-	private RecursoNaoEncontradoException excecaoPorPessoaNaoEncontrada(Long id) {
-		return new RecursoNaoEncontradoException("Pessoa com id=%d não encontrado.".formatted(id));
-	}
-
-	private RecursoNaoEncontradoException excecaoPorProdutoNaoEncontrado(Long id) {
-		return new RecursoNaoEncontradoException("Produto com id=%d não encontrado.".formatted(id));
 	}
 
 }

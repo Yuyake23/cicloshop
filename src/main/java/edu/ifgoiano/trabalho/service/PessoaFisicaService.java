@@ -1,12 +1,13 @@
 package edu.ifgoiano.trabalho.service;
 
+import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorPessoaFisicaNaoEncontrada;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.ifgoiano.trabalho.dto.PessoaFisicaDto;
-import edu.ifgoiano.trabalho.exception.RecursoNaoEncontradoException;
 import edu.ifgoiano.trabalho.model.entity.PessoaFisica;
 import edu.ifgoiano.trabalho.model.repository.PessoaFisicaRepository;
 import jakarta.transaction.Transactional;
@@ -70,10 +71,6 @@ public class PessoaFisicaService {
 			pessoa.setDataGenese(dto.dataNascimento);
 		if (dto.observacoes != null)
 			pessoa.setObservacoes(dto.observacoes);
-	}
-
-	private RecursoNaoEncontradoException excecaoPorPessoaFisicaNaoEncontrada(Long id) {
-		return new RecursoNaoEncontradoException("PessoaFisica com id=%d não encontrado.".formatted(id));
 	}
 
 }

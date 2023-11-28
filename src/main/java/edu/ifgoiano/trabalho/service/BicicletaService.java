@@ -1,12 +1,14 @@
 package edu.ifgoiano.trabalho.service;
 
+import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorBicicletaNaoEncontrada;
+import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorPessoaNaoEncontrada;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.ifgoiano.trabalho.dto.BicicletaDto;
-import edu.ifgoiano.trabalho.exception.RecursoNaoEncontradoException;
 import edu.ifgoiano.trabalho.model.entity.Bicicleta;
 import edu.ifgoiano.trabalho.model.entity.Pessoa;
 import edu.ifgoiano.trabalho.model.repository.BicicletaRepository;
@@ -89,14 +91,6 @@ public class BicicletaService {
 
 	private Pessoa buscarDono(Long idDono) {
 		return pessoaRepository.findById(idDono).orElseThrow(() -> excecaoPorPessoaNaoEncontrada(idDono));
-	}
-
-	private RecursoNaoEncontradoException excecaoPorPessoaNaoEncontrada(Long id) {
-		return new RecursoNaoEncontradoException("Pessoa com id=%d não encontrado.".formatted(id));
-	}
-
-	private RecursoNaoEncontradoException excecaoPorBicicletaNaoEncontrada(Long id) {
-		return new RecursoNaoEncontradoException("Bicicleta com id=%d não encontrado.".formatted(id));
 	}
 
 }

@@ -1,5 +1,8 @@
 package edu.ifgoiano.trabalho.service;
 
+import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorContratoFuncionarioNaoEncontrado;
+import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorDadosBancariosNaoEncontrados;
+
 import java.util.List;
 import java.util.stream.StreamSupport;
 
@@ -7,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.ifgoiano.trabalho.dto.DadosBancariosDto;
-import edu.ifgoiano.trabalho.exception.RecursoNaoEncontradoException;
 import edu.ifgoiano.trabalho.model.entity.DadosBancarios;
 import edu.ifgoiano.trabalho.model.repository.ContratoFuncionarioRepository;
 import edu.ifgoiano.trabalho.model.repository.DadosBancariosRepository;
@@ -107,14 +109,6 @@ public class DadosBancariosService {
 			dadosBancarios.setNumeroConta(dto.numeroConta);
 		if (dto.operacao != null)
 			dadosBancarios.setOperacao(dto.operacao);
-	}
-
-	private RecursoNaoEncontradoException excecaoPorContratoFuncionarioNaoEncontrado(Long id) {
-		return new RecursoNaoEncontradoException("ContratoFuncionario com id=%d não encontrado.".formatted(id));
-	}
-
-	private RecursoNaoEncontradoException excecaoPorDadosBancariosNaoEncontrados(Long id) {
-		return new RecursoNaoEncontradoException("DadosBancarios com id=%d não encontrado.".formatted(id));
 	}
 
 }

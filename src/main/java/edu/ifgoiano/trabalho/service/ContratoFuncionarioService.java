@@ -1,5 +1,8 @@
 package edu.ifgoiano.trabalho.service;
 
+import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorContratoFuncionarioNaoEncontrado;
+import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorPessoaNaoEncontrada;
+
 import java.util.List;
 import java.util.stream.StreamSupport;
 
@@ -7,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.ifgoiano.trabalho.dto.ContratoFuncionarioDto;
-import edu.ifgoiano.trabalho.exception.RecursoNaoEncontradoException;
 import edu.ifgoiano.trabalho.model.entity.ContratoFuncionario;
 import edu.ifgoiano.trabalho.model.entity.Pessoa;
 import edu.ifgoiano.trabalho.model.repository.ContratoFuncionarioRepository;
@@ -21,11 +23,11 @@ public class ContratoFuncionarioService {
 	private ContratoFuncionarioRepository contratoFuncionarioRepository;
 	@Autowired
 	private PessoaRepository pessoaRepository;
-	
+
 	@Transactional
 	public ContratoFuncionarioDto salvar(ContratoFuncionarioDto dto) {
 		Pessoa funcionario = buscarPessoa(dto.funcionarioId);
-		
+
 		ContratoFuncionario contratoFuncionario = contratoFuncionarioRepository.save(dto.toEntity(funcionario));
 		return ContratoFuncionarioDto.ofContratoFuncionario(contratoFuncionario);
 	}
@@ -82,7 +84,7 @@ public class ContratoFuncionarioService {
 
 		return ContratoFuncionarioDto.ofContratosFuncionario(contratosFuncionario);
 	}
-	
+
 	@Transactional
 	public void deletarPorId(Long id) {
 		if (!contratoFuncionarioRepository.existsById(id)) {
@@ -109,14 +111,6 @@ public class ContratoFuncionarioService {
 
 	private Pessoa buscarPessoa(Long funcionarioId) {
 		return pessoaRepository.findById(funcionarioId).orElseThrow(() -> excecaoPorPessoaNaoEncontrada(funcionarioId));
-	}
-
-	private RecursoNaoEncontradoException excecaoPorContratoFuncionarioNaoEncontrado(Long id) {
-		return new RecursoNaoEncontradoException("ContratoFuncionario com id=%d não encontrado.".formatted(id));
-	}
-
-	private RecursoNaoEncontradoException excecaoPorPessoaNaoEncontrada(Long id) {
-		return new RecursoNaoEncontradoException("Pessoa com id=%d não encontrada.".formatted(id));
 	}
 
 }

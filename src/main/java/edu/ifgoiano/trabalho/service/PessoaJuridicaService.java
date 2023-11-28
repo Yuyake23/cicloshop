@@ -1,12 +1,13 @@
 package edu.ifgoiano.trabalho.service;
 
+import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorPessoaJuridicaNaoEncontrada;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.ifgoiano.trabalho.dto.PessoaJuridicaDto;
-import edu.ifgoiano.trabalho.exception.RecursoNaoEncontradoException;
 import edu.ifgoiano.trabalho.model.entity.PessoaJuridica;
 import edu.ifgoiano.trabalho.model.repository.PessoaJuridicaRepository;
 import jakarta.transaction.Transactional;
@@ -72,10 +73,6 @@ public class PessoaJuridicaService {
 			pessoa.setObservacoes(dto.observacoes);
 		if (dto.nomeFantasia != null)
 			pessoa.setNomeFantasia(dto.nomeFantasia);
-	}
-
-	private RecursoNaoEncontradoException excecaoPorPessoaJuridicaNaoEncontrada(Long id) {
-		return new RecursoNaoEncontradoException("PessoaJuridica com id=%d não encontrado.".formatted(id));
 	}
 
 }

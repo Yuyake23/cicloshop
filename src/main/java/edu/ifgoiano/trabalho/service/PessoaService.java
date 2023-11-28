@@ -1,5 +1,7 @@
 package edu.ifgoiano.trabalho.service;
 
+import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorPessoaNaoEncontrada;
+
 import java.util.List;
 import java.util.stream.StreamSupport;
 
@@ -7,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.ifgoiano.trabalho.dto.PessoaDto;
-import edu.ifgoiano.trabalho.exception.RecursoNaoEncontradoException;
 import edu.ifgoiano.trabalho.model.entity.Pessoa;
 import edu.ifgoiano.trabalho.model.repository.PessoaRepository;
 import jakarta.transaction.Transactional;
@@ -49,7 +50,7 @@ public class PessoaService {
 
 		return PessoaDto.ofPessoas(pessoas);
 	}
-	
+
 	@Transactional
 	public void deletarPorId(Long id) {
 		if (!pessoaRepository.existsById(id)) {
@@ -57,10 +58,6 @@ public class PessoaService {
 		}
 
 		pessoaRepository.deleteById(id);
-	}
-
-	private RecursoNaoEncontradoException excecaoPorPessoaNaoEncontrada(Long id) {
-		return new RecursoNaoEncontradoException("Pessoa com id=%d não encontrado.".formatted(id));
 	}
 
 }
