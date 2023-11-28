@@ -6,6 +6,10 @@ import java.math.BigDecimal;
 
 import jakarta.persistence.Entity;
 
+/**
+ * Representa uma bicicleta única e não-fungível no contexto de uma oficina.
+ * Uma bicicleta é diferenciada por seu {@link Bicicleta#codigoSerial}.
+ */
 @Entity
 public class Bicicleta extends Produto implements Serializable {
 

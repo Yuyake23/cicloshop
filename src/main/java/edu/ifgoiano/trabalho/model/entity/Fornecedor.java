@@ -10,6 +10,9 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 
+/**
+ * Representa um fornecedor de {@link Produto}s para a oficina de bicicletas.
+ */
 @Entity
 @DiscriminatorValue("FORNECEDOR")
 public class Fornecedor extends PessoaJuridica {

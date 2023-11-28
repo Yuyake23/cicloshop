@@ -19,6 +19,10 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.Transient;
 
+/**
+* Representa uma pessoa abstrata, que pode ser concretizada como {@link PessoaFisica}
+* ou uma {@link PessoaJuridica} bem como sua especialização, um {@link Fornecedor}.
+*/
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_pessoa", discriminatorType = DiscriminatorType.STRING)

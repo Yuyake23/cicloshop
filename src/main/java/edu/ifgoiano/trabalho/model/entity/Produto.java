@@ -15,6 +15,10 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+/**
+ * Representa um produto qualquer genérico e abstrato que pode ser comercializado dentro de uma oficina.
+ * Produtos podem ser comercializados apenas se pertencerem à oficina.
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Produto implements Serializable {

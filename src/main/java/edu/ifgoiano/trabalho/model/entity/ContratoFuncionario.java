@@ -17,6 +17,9 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
+/**
+ * Representa um contrato empregatício entre a oficina e uma pessoa, que se torna um funcionário.
+ */
 @Entity
 public class ContratoFuncionario implements Serializable {
 

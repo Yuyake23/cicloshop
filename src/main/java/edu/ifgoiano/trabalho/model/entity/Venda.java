@@ -20,6 +20,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
+/**
+ * Representa orçamentos de venda contendo um ou mais {@link Produto}.
+ */
 @Entity
 public class Venda implements Serializable {
 
