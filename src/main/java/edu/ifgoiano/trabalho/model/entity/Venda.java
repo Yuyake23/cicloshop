@@ -25,15 +25,14 @@ public class Venda implements Serializable {
 
 	@Serial
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "venda_id")
 	private Long id;
 	@ManyToMany
-	@JoinTable(name = "produto_venda",
-			joinColumns = {@JoinColumn(name = "venda_id")},
-			inverseJoinColumns = {@JoinColumn(name = "produto_id")})
+	@JoinTable(name = "produto_venda", joinColumns = { @JoinColumn(name = "venda_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "produto_id") })
 	private List<Produto> produtos;
 	@ManyToOne
 	@JoinColumn(name = "comprador_id")
@@ -45,9 +44,13 @@ public class Venda implements Serializable {
 	private LocalDate dataVenda;
 	private BigDecimal valor;
 	private String observacoes;
-	
+
 	public Venda() {
-		super();
+		this.produtos = new ArrayList<>();
+	}
+
+	public Venda(Long id) {
+		this.id = id;
 		this.produtos = new ArrayList<>();
 	}
 
@@ -61,9 +64,8 @@ public class Venda implements Serializable {
 		this.valor = valor;
 		this.observacoes = observacoes;
 	}
-	
-	public Venda(Long id, Pessoa comprador, ContratoFuncionario funcionario,
-			LocalDate dataVenda, String observacoes) {
+
+	public Venda(Long id, Pessoa comprador, ContratoFuncionario funcionario, LocalDate dataVenda, String observacoes) {
 		this.id = id;
 		this.produtos = new ArrayList<>();
 		this.comprador = comprador;
@@ -73,10 +75,9 @@ public class Venda implements Serializable {
 		calcularValor();
 	}
 
-	private void calcularValor() {
-		this.valor = produtos.stream()
-				.map(Produto::getValor)
-				.reduce(BigDecimal.ZERO, (a, b) -> a.add(b));
+	public void calcularValor() {
+		this.valor = produtos.stream().map(Produto::getValor).filter(valor -> valor != null).reduce(BigDecimal.ZERO,
+				(a, b) -> a.add(b));
 	}
 
 	public Long getId() {
@@ -95,7 +96,7 @@ public class Venda implements Serializable {
 		this.produtos = produtos;
 		calcularValor();
 	}
-	
+
 	public void setProdutos(List<Produto> produtos, BigDecimal valorTotal) {
 		this.produtos = produtos;
 		this.valor = valorTotal;
@@ -160,8 +161,8 @@ public class Venda implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Venda [id=" + id + ", produtos=" + produtos + ", comprador=" + comprador + ", funcionario="
-				+ funcionario + ", dataVenda=" + dataVenda + ", valor=" + valor + ", observacoes=" + observacoes + "]";
+		return "Venda [id=" + id + ", comprador=" + comprador + ", funcionario=" + funcionario + ", dataVenda="
+				+ dataVenda + ", valor=" + valor + ", observacoes=" + observacoes + "]";
 	}
-	
+
 }

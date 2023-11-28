@@ -21,13 +21,18 @@ public class Fornecedor extends PessoaJuridica {
 	private List<PrecoProduto> produtosFornecidos;
 
 	public Fornecedor() {
-		super();
 		this.tipoPessoa = TipoPessoa.FORNECEDOR;
 		this.produtosFornecidos = new ArrayList<>();
 	}
 
-	public Fornecedor(Long id, String cnpj, String razaoSocial, String nomeFantasia,
-			String telefone, String endereco, LocalDate dataFundacao, String observacoes) {
+	public Fornecedor(Long id) {
+		super.id = id;
+		this.tipoPessoa = TipoPessoa.FORNECEDOR;
+		this.produtosFornecidos = new ArrayList<>();
+	}
+
+	public Fornecedor(Long id, String cnpj, String razaoSocial, String nomeFantasia, String telefone, String endereco,
+			LocalDate dataFundacao, String observacoes) {
 		super(id, cnpj, razaoSocial, nomeFantasia, telefone, endereco, dataFundacao, observacoes);
 		this.tipoPessoa = TipoPessoa.FORNECEDOR;
 		this.produtosFornecidos = new ArrayList<>();
@@ -44,8 +49,8 @@ public class Fornecedor extends PessoaJuridica {
 	@Override
 	public String toString() {
 		return "Pessoa [id=" + getId() + ", tipoPessoa=" + getTipoPessoa() + ", razaoSocial=" + nome + ", nomeFantasia="
-				+ nomeFantasia + ", cnpj=" + documento + ", telefone=" + telefone + ", endereco=" + endereco + ", dataGenese="
-				+ dataGenese + ", observacoes=" + observacoes + "]";
+				+ nomeFantasia + ", cnpj=" + documento + ", telefone=" + telefone + ", endereco=" + endereco
+				+ ", dataGenese=" + dataGenese + ", observacoes=" + observacoes + "]";
 	}
 
 }

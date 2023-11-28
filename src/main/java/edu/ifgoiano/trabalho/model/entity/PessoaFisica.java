@@ -15,8 +15,11 @@ public class PessoaFisica extends Pessoa {
 	private static final long serialVersionUID = 1L;
 	
 	public PessoaFisica() {
-		super();
 		this.tipoPessoa = TipoPessoa.FISICA;
+	}
+	
+	public PessoaFisica(Long id) {
+		super(id);
 	}
 
 	public PessoaFisica(Long id, String nome, String cpf, String telefone, String endereco, LocalDate dataNascimento,

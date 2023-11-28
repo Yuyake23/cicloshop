@@ -16,11 +16,14 @@ public class Peca extends Produto implements Serializable {
 	private Integer quantidade;
 
 	public Peca() {
-		super();
+
 	}
 
-	public Peca(Long id, Pessoa dono, String marca, BigDecimal valor, String nome,
-			Integer quantidade) {
+	public Peca(Long id) {
+		super.id = id;
+	}
+
+	public Peca(Long id, Pessoa dono, String marca, BigDecimal valor, String nome, Integer quantidade) {
 		super(id, dono, marca, valor);
 		this.nome = nome;
 		this.quantidade = quantidade;
@@ -44,8 +47,8 @@ public class Peca extends Produto implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Peca [id=" + id + ", nome=" + nome + ", dono=" + dono + ", marca=" + marca + ", valor="
-				+ valor + ", quantidade=" + quantidade + "]";
+		return "Peca [id=" + id + ", nome=" + nome + ", dono=" + dono + ", marca=" + marca + ", valor=" + valor
+				+ ", quantidade=" + quantidade + "]";
 	}
 
 }

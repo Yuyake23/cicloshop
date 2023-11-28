@@ -36,16 +36,14 @@ public class Servico implements Serializable {
 	@JoinColumn(name = "cliente_id")
 	private Pessoa cliente;
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "funcionario_servico", 
-			joinColumns = {@JoinColumn(name = "servico_id")},
-			inverseJoinColumns = {@JoinColumn(name = "contrato_funcionario_id")})
+	@JoinTable(name = "funcionario_servico", joinColumns = { @JoinColumn(name = "servico_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "contrato_funcionario_id") })
 	private List<ContratoFuncionario> funcionarios;
 	@Enumerated
 	private StatusServico statusServico;
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "produto_servico", 
-			joinColumns = {@JoinColumn(name = "servico_id")},
-			inverseJoinColumns = {@JoinColumn(name = "contrato_funcionario_id")})
+	@JoinTable(name = "produto_servico", joinColumns = { @JoinColumn(name = "servico_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "contrato_funcionario_id") })
 	private List<Produto> produtos;
 	private BigDecimal custoMaoDeObra;
 	private BigDecimal custoProdutos;
@@ -57,7 +55,11 @@ public class Servico implements Serializable {
 	private LocalDate dataSaida;
 
 	public Servico() {
-		super();
+
+	}
+
+	public Servico(Long id) {
+		this.id = id;
 	}
 
 	public Servico(Long id, Pessoa cliente, List<ContratoFuncionario> funcionarios, StatusServico statusServico,

@@ -22,11 +22,11 @@ import jakarta.persistence.Transient;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_pessoa", discriminatorType = DiscriminatorType.STRING)
-public abstract class Pessoa implements Serializable {
+public class Pessoa implements Serializable {
 
 	@Serial
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "pessoa_id")
@@ -44,12 +44,17 @@ public abstract class Pessoa implements Serializable {
 	@Temporal(value = TemporalType.DATE)
 	protected LocalDate dataGenese;
 	protected String observacoes;
-	
+
 	protected Pessoa() {
-		super();
+
 	}
-	
-	protected Pessoa(Long id, String nome, String documento, String telefone, String endereco, LocalDate dataGenese, String observacoes) {
+
+	public Pessoa(Long id) {
+		this.id = id;
+	}
+
+	protected Pessoa(Long id, String nome, String documento, String telefone, String endereco, LocalDate dataGenese,
+			String observacoes) {
 		this.id = id;
 		this.nome = nome;
 		this.documento = documento;
@@ -66,7 +71,7 @@ public abstract class Pessoa implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public TipoPessoa getTipoPessoa() {
 		return tipoPessoa;
 	}
@@ -82,7 +87,7 @@ public abstract class Pessoa implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
 	public String getDocumento() {
 		return documento;
 	}
@@ -146,5 +151,5 @@ public abstract class Pessoa implements Serializable {
 				+ ", telefone=" + telefone + ", endereco=" + endereco + ", dataGenese=" + dataGenese + ", observacoes="
 				+ observacoes + "]";
 	}
-	
+
 }

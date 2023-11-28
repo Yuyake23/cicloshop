@@ -17,7 +17,7 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Produto implements Serializable {
+public class Produto implements Serializable {
 
 	@Serial
 	private static final long serialVersionUID = 1L;
@@ -32,11 +32,15 @@ public abstract class Produto implements Serializable {
 	protected String marca;
 	protected BigDecimal valor;
 
-	public Produto() {
+	protected Produto() {
 
 	}
 
-	public Produto(Long id, Pessoa dono, String marca, BigDecimal valor) {
+	public Produto(Long id) {
+		this.id = id;
+	}
+
+	protected Produto(Long id, Pessoa dono, String marca, BigDecimal valor) {
 		this.id = id;
 		this.dono = dono;
 		this.marca = marca;

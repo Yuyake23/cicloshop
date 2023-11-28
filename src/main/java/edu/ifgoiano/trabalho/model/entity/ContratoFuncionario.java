@@ -41,7 +41,11 @@ public class ContratoFuncionario implements Serializable {
 	private LocalDate dataSaida;
 
 	public ContratoFuncionario() {
-		super();
+
+	}
+
+	public ContratoFuncionario(Long id) {
+		this.id = id;
 	}
 
 	public ContratoFuncionario(Long id, Pessoa funcionario, String cargo, BigDecimal salario,

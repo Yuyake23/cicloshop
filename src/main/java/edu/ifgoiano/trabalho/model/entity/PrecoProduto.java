@@ -20,7 +20,7 @@ public class PrecoProduto implements Serializable {
 
 	@Serial
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "preco_produto_id")
@@ -36,7 +36,11 @@ public class PrecoProduto implements Serializable {
 	private Float porcentagemLucro;
 
 	public PrecoProduto() {
-		super();
+
+	}
+
+	public PrecoProduto(Long id) {
+		this.id = id;
 	}
 
 	public PrecoProduto(Long id, Produto produto, Fornecedor fornecedor, BigDecimal preco, Float porcentagemLucro) {

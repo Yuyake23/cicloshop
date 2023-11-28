@@ -17,7 +17,11 @@ public class Bicicleta extends Produto implements Serializable {
 	private String cor;
 
 	public Bicicleta() {
-		super();
+
+	}
+
+	public Bicicleta(Long id) {
+		this.id = id;
 	}
 
 	public Bicicleta(Long id, Pessoa dono, String marca, BigDecimal valor, String codigoSerial, String modelo,
@@ -54,8 +58,8 @@ public class Bicicleta extends Produto implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Bicicleta [id=" + id + ", dono=" + dono + ", marca=" + marca + ", valor=" + valor
-				+ ", codigoSerial=" + codigoSerial + ", modelo=" + modelo + ", cor=" + cor + "]";
+		return "Bicicleta [id=" + id + ", dono=" + dono + ", marca=" + marca + ", valor=" + valor + ", codigoSerial="
+				+ codigoSerial + ", modelo=" + modelo + ", cor=" + cor + "]";
 	}
 
 }
