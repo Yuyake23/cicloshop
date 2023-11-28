@@ -13,7 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
@@ -32,7 +32,7 @@ public class ContratoFuncionario implements Serializable {
 	private Pessoa funcionario;
 	private String cargo;
 	private BigDecimal salario;
-	@OneToOne
+	@OneToMany
 	@JoinColumn(name = "dados_bancarios_id")
 	private DadosBancarios dadosBancarios;
 	@Temporal(TemporalType.DATE)

@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class DadosBancarios implements Serializable {
@@ -25,6 +27,9 @@ public class DadosBancarios implements Serializable {
 	private String tipoConta;
 	private String numeroConta;
 	private String operacao;
+	@ManyToOne
+	@JoinColumn(name = "contrato_funcinonario_id")
+	private ContratoFuncionario contratoFuncionario;
 
 	public DadosBancarios() {
 
@@ -35,13 +40,14 @@ public class DadosBancarios implements Serializable {
 	}
 
 	public DadosBancarios(Long id, String nomeBanco, String numeroAgencia, String tipoConta, String numeroConta,
-			String operacao) {
+			String operacao, ContratoFuncionario contratoFuncionario) {
 		this.id = id;
 		this.nomeBanco = nomeBanco;
 		this.numeroAgencia = numeroAgencia;
 		this.tipoConta = tipoConta;
 		this.numeroConta = numeroConta;
 		this.operacao = operacao;
+		this.contratoFuncionario = contratoFuncionario;
 	}
 
 	public Long getId() {
@@ -90,6 +96,14 @@ public class DadosBancarios implements Serializable {
 
 	public void setOperacao(String operacao) {
 		this.operacao = operacao;
+	}
+	
+	public ContratoFuncionario getContratoFuncionario() {
+		return contratoFuncionario;
+	}
+
+	public void setContratoFuncionario(ContratoFuncionario contratoFuncionario) {
+		this.contratoFuncionario = contratoFuncionario;
 	}
 
 	@Override
