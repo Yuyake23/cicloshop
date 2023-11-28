@@ -72,15 +72,6 @@ public class PecaService {
 		return PecaDto.ofPecas(pecas);
 	}
 
-	@Transactional
-	public void deletarPorId(Long id) {
-		if (!pecaRepository.existsById(id)) {
-			throw excecaoPorPecaNaoEncontrada(id);
-		}
-
-		pecaRepository.deleteById(id);
-	}
-	
 	private void atualizarParcialmente(Peca peca, PecaDto dto) {
 		if(dto.marca != null)
 			peca.setMarca(dto.marca);

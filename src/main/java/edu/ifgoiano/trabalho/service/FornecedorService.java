@@ -57,15 +57,6 @@ public class FornecedorService {
 		return FornecedorDto.ofFornecedores(fornecedores);
 	}
 
-	@Transactional
-	public void deletarPorId(Long id) {
-		if (!fornecedorRepository.existsById(id)) {
-			throw excecaoPorFornecedorNaoEncontrado(id);
-		}
-
-		fornecedorRepository.deleteById(id);
-	}
-
 	private void atualizarParcialmente(Fornecedor fornecedor, FornecedorDto dto) {
 		if (dto.razaoSocial != null)
 			fornecedor.setNome(dto.razaoSocial);

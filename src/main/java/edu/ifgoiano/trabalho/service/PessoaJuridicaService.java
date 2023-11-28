@@ -57,15 +57,6 @@ public class PessoaJuridicaService {
 		return PessoaJuridicaDto.ofPessoasJuridicas(pessoaJuridicas);
 	}
 
-	@Transactional
-	public void deletarPorId(Long id) {
-		if (!pessoaJuridicaRepository.existsById(id)) {
-			throw excecaoPorPessoaJuridicaNaoEncontrada(id);
-		}
-
-		pessoaJuridicaRepository.deleteById(id);
-	}
-
 	private void atualizarParcialmente(PessoaJuridica pessoa, PessoaJuridicaDto dto) {
 		if (dto.razaoSocial != null)
 			pessoa.setNome(dto.razaoSocial);

@@ -50,13 +50,6 @@ public class PessoaService {
 		return PessoaDto.ofPessoas(pessoas);
 	}
 	
-	// TODO: /{id}/compras
-	// TODO: /{id}/servicos
-	// TODO: /{id}/produtos
-	// TODO: /{id}/bicicletas
-	// TODO: /{id}/pecas
-	// TODO: /{id}/contratos
-
 	@Transactional
 	public void deletarPorId(Long id) {
 		if (!pessoaRepository.existsById(id)) {

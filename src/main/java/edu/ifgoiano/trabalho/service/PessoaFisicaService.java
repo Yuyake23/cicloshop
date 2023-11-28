@@ -57,15 +57,6 @@ public class PessoaFisicaService {
 		return PessoaFisicaDto.ofPessoasFisicas(pessoaFisicas);
 	}
 
-	@Transactional
-	public void deletarPorId(Long id) {
-		if (!pessoaFisicaRepository.existsById(id)) {
-			throw excecaoPorPessoaFisicaNaoEncontrada(id);
-		}
-
-		pessoaFisicaRepository.deleteById(id);
-	}
-
 	private void atualizarParcialmente(PessoaFisica pessoa, PessoaFisicaDto dto) {
 		if (dto.nome != null)
 			pessoa.setNome(dto.nome);
