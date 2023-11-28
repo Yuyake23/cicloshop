@@ -28,8 +28,8 @@ public final class BicicletaDto extends ProdutoDto {
 	}
 
 	@Override
-	public Bicicleta toEntity(Pessoa dono) {
-		return new Bicicleta(donoId, dono, marca, valor, codigoSerial, modelo, cor);
+	public Bicicleta toEntity() {
+		return new Bicicleta(donoId, new Pessoa(donoId), marca, valor, codigoSerial, modelo, cor);
 	}
 	
 	public static BicicletaDto ofBicicleta(Bicicleta bicicleta) {

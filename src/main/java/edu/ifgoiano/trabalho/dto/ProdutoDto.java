@@ -5,7 +5,6 @@ import java.util.List;
 
 import edu.ifgoiano.trabalho.model.entity.Bicicleta;
 import edu.ifgoiano.trabalho.model.entity.Peca;
-import edu.ifgoiano.trabalho.model.entity.Pessoa;
 import edu.ifgoiano.trabalho.model.entity.Produto;
 
 public abstract sealed class ProdutoDto permits PecaDto, BicicletaDto {
@@ -29,7 +28,7 @@ public abstract sealed class ProdutoDto permits PecaDto, BicicletaDto {
 		this.valor = produto.getValor();
 	}
 
-	public abstract Produto toEntity(Pessoa dono);
+	public abstract Produto toEntity();
 
 	public static ProdutoDto ofProduto(Produto produto) {
 		if (produto instanceof Peca peca)

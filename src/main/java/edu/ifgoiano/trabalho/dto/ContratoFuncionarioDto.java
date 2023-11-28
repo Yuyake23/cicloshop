@@ -39,8 +39,8 @@ public final class ContratoFuncionarioDto {
 		this.dataSaida = contratoFuncionario.getDataSaida();
 	}
 
-	public ContratoFuncionario toEntity(Pessoa funcionario) {
-		return new ContratoFuncionario(funcionarioId, funcionario, cargo, salario, dadosBancarios.toEntity(),
+	public ContratoFuncionario toEntity() {
+		return new ContratoFuncionario(id, new Pessoa(funcionarioId), cargo, salario, dadosBancarios.toEntity(),
 				dataEntrada, dataSaida);
 	}
 	

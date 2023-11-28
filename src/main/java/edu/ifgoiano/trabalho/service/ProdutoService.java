@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.ifgoiano.trabalho.dto.ProdutoDto;
-import edu.ifgoiano.trabalho.model.entity.Pessoa;
 import edu.ifgoiano.trabalho.model.entity.Produto;
 import edu.ifgoiano.trabalho.model.repository.PessoaRepository;
 import edu.ifgoiano.trabalho.model.repository.ProdutoRepository;
@@ -27,19 +26,14 @@ public class ProdutoService {
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public <E extends ProdutoDto> E salvar(E dto) {
-		Pessoa dono = buscarDono(dto.donoId);
-
-		Produto produto = produtoRepository.save(dto.toEntity(dono));
+		Produto produto = produtoRepository.save(dto.toEntity());
 		return (E) ProdutoDto.ofProduto(produto);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public <E extends ProdutoDto> List<E> salvarTodos(Iterable<E> dtos) {
-		List<Produto> produtos = StreamSupport.stream(dtos.spliterator(), true).map(dto -> {
-			Pessoa dono = ProdutoService.this.buscarDono(dto.donoId);
-			return dto.toEntity(dono);
-		}).toList();
+		List<Produto> produtos = StreamSupport.stream(dtos.spliterator(), true).map(ProdutoDto::toEntity).toList();
 
 		produtos = produtoRepository.saveAll(produtos);
 		return (List<E>) ProdutoDto.ofProdutos(produtos);
@@ -77,10 +71,6 @@ public class ProdutoService {
 		}
 
 		produtoRepository.deleteById(id);
-	}
-
-	private Pessoa buscarDono(Long idDono) {
-		return pessoaRepository.findById(idDono).orElseThrow(() -> excecaoPorPessoaNaoEncontrada(idDono));
 	}
 
 }

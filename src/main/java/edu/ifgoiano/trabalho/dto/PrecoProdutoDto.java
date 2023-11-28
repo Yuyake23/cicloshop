@@ -31,8 +31,8 @@ public final class PrecoProdutoDto {
 		this.porcentagemLucro = a.getPorcentagemLucro();
 	}
 
-	public PrecoProduto toEntity(Produto produto, Fornecedor fornecedor) {
-		return new PrecoProduto(id, produto, fornecedor, preco, porcentagemLucro);
+	public PrecoProduto toEntity() {
+		return new PrecoProduto(id, new Produto(produtoId), new Fornecedor(fornecedorId), preco, porcentagemLucro);
 	}
 
 	public static PrecoProdutoDto ofPrecoProduto(PrecoProduto precoProduto) {

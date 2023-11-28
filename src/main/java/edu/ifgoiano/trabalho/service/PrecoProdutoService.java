@@ -31,20 +31,14 @@ public class PrecoProdutoService {
 
 	@Transactional
 	public PrecoProdutoDto salvar(PrecoProdutoDto dto) {
-		Produto produto = buscarProduto(dto.produtoId);
-		Fornecedor pessoa = buscarFornecedor(dto.fornecedorId);
-
-		PrecoProduto precoProduto = precoProdutoRepository.save(dto.toEntity(produto, pessoa));
+		PrecoProduto precoProduto = precoProdutoRepository.save(dto.toEntity());
 		return PrecoProdutoDto.ofPrecoProduto(precoProduto);
 	}
 
 	@Transactional
 	public List<PrecoProdutoDto> salvarTodos(Iterable<PrecoProdutoDto> dtos) {
-		List<PrecoProduto> precosProduto = StreamSupport.stream(dtos.spliterator(), true).map(dto -> {
-			Produto produto = buscarProduto(dto.produtoId);
-			Fornecedor pessoa = buscarFornecedor(dto.fornecedorId);
-			return dto.toEntity(produto, pessoa);
-		}).toList();
+		List<PrecoProduto> precosProduto = StreamSupport.stream(dtos.spliterator(), true).map(PrecoProdutoDto::toEntity)
+				.toList();
 
 		precosProduto = precoProdutoRepository.saveAll(precosProduto);
 		return PrecoProdutoDto.ofPrecosProdutos(precosProduto);
@@ -55,10 +49,8 @@ public class PrecoProdutoService {
 		if (!precoProdutoRepository.existsById(id)) {
 			throw excecaoPorPrecoProdutoNaoEncontrado(id);
 		}
-		Produto produto = buscarProduto(dto.produtoId);
-		Fornecedor fornecedor = buscarFornecedor(dto.fornecedorId);
 
-		PrecoProduto precoProduto = dto.toEntity(produto, fornecedor);
+		PrecoProduto precoProduto = dto.toEntity();
 		precoProduto.setId(id);
 
 		precoProduto = precoProdutoRepository.save(precoProduto);

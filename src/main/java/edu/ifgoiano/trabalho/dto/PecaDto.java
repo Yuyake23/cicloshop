@@ -24,8 +24,8 @@ public final class PecaDto extends ProdutoDto {
 	}
 
 	@Override
-	public Peca toEntity(Pessoa dono) {
-		return new Peca(id, dono, marca, valor, nome, quantidade);
+	public Peca toEntity() {
+		return new Peca(id, new Pessoa(donoId), marca, valor, nome, quantidade);
 	}
 
 	public static PecaDto ofPeca(Peca peca) {

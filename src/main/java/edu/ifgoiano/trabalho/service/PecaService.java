@@ -28,9 +28,8 @@ public class PecaService {
 		if (!pessoaRepository.existsById(id)) {
 			throw excecaoPorPessoaNaoEncontrada(id);
 		}
-		Pessoa dono = buscarDono(dto.donoId);
 
-		Peca peca = dto.toEntity(dono);
+		Peca peca = dto.toEntity();
 		peca.setId(id);
 
 		peca = pecaRepository.save(peca);

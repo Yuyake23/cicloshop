@@ -26,18 +26,14 @@ public class ContratoFuncionarioService {
 
 	@Transactional
 	public ContratoFuncionarioDto salvar(ContratoFuncionarioDto dto) {
-		Pessoa funcionario = buscarPessoa(dto.funcionarioId);
-
-		ContratoFuncionario contratoFuncionario = contratoFuncionarioRepository.save(dto.toEntity(funcionario));
+		ContratoFuncionario contratoFuncionario = contratoFuncionarioRepository.save(dto.toEntity());
 		return ContratoFuncionarioDto.ofContratoFuncionario(contratoFuncionario);
 	}
 
 	@Transactional
 	public List<ContratoFuncionarioDto> salvarTodos(Iterable<ContratoFuncionarioDto> dtos) {
-		List<ContratoFuncionario> contratosFuncionario = StreamSupport.stream(dtos.spliterator(), true).map(dto -> {
-			Pessoa funcionario = buscarPessoa(dto.funcionarioId);
-			return dto.toEntity(funcionario);
-		}).toList();
+		List<ContratoFuncionario> contratosFuncionario = StreamSupport.stream(dtos.spliterator(), true)
+				.map(ContratoFuncionarioDto::toEntity).toList();
 
 		contratosFuncionario = contratoFuncionarioRepository.saveAll(contratosFuncionario);
 		return ContratoFuncionarioDto.ofContratosFuncionario(contratosFuncionario);
@@ -48,9 +44,8 @@ public class ContratoFuncionarioService {
 		if (!contratoFuncionarioRepository.existsById(id)) {
 			throw excecaoPorContratoFuncionarioNaoEncontrado(id);
 		}
-		Pessoa funcionario = buscarPessoa(dto.funcionarioId);
 
-		ContratoFuncionario contratoFuncionario = dto.toEntity(funcionario);
+		ContratoFuncionario contratoFuncionario = dto.toEntity();
 		contratoFuncionario.setId(id);
 
 		contratoFuncionario = contratoFuncionarioRepository.save(contratoFuncionario);

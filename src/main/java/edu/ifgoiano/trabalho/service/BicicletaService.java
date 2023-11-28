@@ -28,9 +28,8 @@ public class BicicletaService {
 		if (!pessoaRepository.existsById(id)) {
 			throw excecaoPorPessoaNaoEncontrada(id);
 		}
-		Pessoa dono = buscarDono(dto.donoId);
 
-		Bicicleta bicicleta = dto.toEntity(dono);
+		Bicicleta bicicleta = dto.toEntity();
 		bicicleta.setId(id);
 
 		bicicleta = bicicletaRepository.save(bicicleta);
