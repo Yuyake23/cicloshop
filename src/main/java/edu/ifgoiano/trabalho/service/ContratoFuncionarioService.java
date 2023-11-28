@@ -1,6 +1,7 @@
 package edu.ifgoiano.trabalho.service;
 
 import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorContratoFuncionarioNaoEncontrado;
+import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorDadosBancariosNaoEncontrados;
 import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorPessoaNaoEncontrada;
 
 import java.util.List;
@@ -11,8 +12,10 @@ import org.springframework.stereotype.Service;
 
 import edu.ifgoiano.trabalho.dto.ContratoFuncionarioDto;
 import edu.ifgoiano.trabalho.model.entity.ContratoFuncionario;
+import edu.ifgoiano.trabalho.model.entity.DadosBancarios;
 import edu.ifgoiano.trabalho.model.entity.Pessoa;
 import edu.ifgoiano.trabalho.model.repository.ContratoFuncionarioRepository;
+import edu.ifgoiano.trabalho.model.repository.DadosBancariosRepository;
 import edu.ifgoiano.trabalho.model.repository.PessoaRepository;
 import jakarta.transaction.Transactional;
 
@@ -22,11 +25,20 @@ public class ContratoFuncionarioService {
 	@Autowired
 	private ContratoFuncionarioRepository contratoFuncionarioRepository;
 	@Autowired
+	private DadosBancariosRepository dadosBancariosRepository;
+	@Autowired
 	private PessoaRepository pessoaRepository;
 
 	@Transactional
 	public ContratoFuncionarioDto salvar(ContratoFuncionarioDto dto) {
 		ContratoFuncionario contratoFuncionario = contratoFuncionarioRepository.save(dto.toEntity());
+		if (dto.dadosBancarios.id == null) {
+			dadosBancariosRepository.save(dto.dadosBancarios.toEntity());
+		} else {
+			DadosBancarios dadosBancarios = dadosBancariosRepository.findById(dto.dadosBancarios.id)
+					.orElseThrow(() -> excecaoPorDadosBancariosNaoEncontrados(dto.dadosBancarios.id));
+			contratoFuncionario.setDadosBancarios(dadosBancarios);
+		}
 		return ContratoFuncionarioDto.ofContratoFuncionario(contratoFuncionario);
 	}
 
