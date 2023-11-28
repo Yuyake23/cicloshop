@@ -1,66 +1,98 @@
 package edu.ifgoiano.trabalho.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
 import edu.ifgoiano.trabalho.dto.VendaDto;
 import edu.ifgoiano.trabalho.service.VendaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/venda")
 public class VendaController {
 
-	@Autowired
-	private VendaService vendaService;
+    @Autowired
+    private VendaService vendaService;
 
-	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-	public VendaDto salvar(@RequestBody VendaDto dto) {
-		return vendaService.salvar(dto);
-	}
+    /**
+     * Registra uma venda na base de dados.
+     *
+     * @param dto Um objeto representando a venda a ser registrada.
+     * @return A venda registrado na base de dados.
+     */
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public VendaDto salvar(@RequestBody VendaDto dto) {
+        return vendaService.salvar(dto);
+    }
 
-	@PostMapping("/varias")
-	@ResponseStatus(HttpStatus.CREATED)
-	public List<VendaDto> salvarTodos(@RequestBody List<VendaDto> dtos) {
-		return vendaService.salvarTodos(dtos);
-	}
+    /**
+     * Registra várias vendas na base de dados.
+     *
+     * @param dtos Uma lista de vendas para serem registradas.
+     * @return A lista das vendas registradas.
+     */
+    @PostMapping("/varias")
+    @ResponseStatus(HttpStatus.CREATED)
+    public List<VendaDto> salvarTodos(@RequestBody List<VendaDto> dtos) {
+        return vendaService.salvarTodos(dtos);
+    }
 
-	@GetMapping
-	public List<VendaDto> buscarTodos() {
-		return vendaService.buscarTodos();
-	}
+    /**
+     * Retorna todas as vendas registradas.
+     *
+     * @return Uma lista de todas as vendas registradas.
+     */
+    @GetMapping
+    public List<VendaDto> buscarTodos() {
+        return vendaService.buscarTodos();
+    }
 
-	@GetMapping("/{id}")
-	public VendaDto buscarPorId(@PathVariable Long id) {
-		return vendaService.buscarPorId(id);
-	}
+    /**
+     * Busca uma venda por seu id na base de dados.
+     *
+     * @param id O id da venda a ser buscada.
+     * @return A venda, caso esteja registrada.
+     */
+    @GetMapping("/{id}")
+    public VendaDto buscarPorId(@PathVariable Long id) {
+        return vendaService.buscarPorId(id);
+    }
 
-	@PutMapping("/{id}")
-	public VendaDto atualizarCompletamente(@PathVariable Long id, @RequestBody VendaDto dto) {
-		return vendaService.atualizarCompletamente(dto, id);
-	}
+    /**
+     * Atualiza uma venda com dados novos, sobrescrevendo-a.
+     *
+     * @param id  O id da venda a ser sobrescrita.
+     * @param dto A venda que sobrescreverá a antiga.
+     * @return A venda entrada na base de dados.
+     */
+    @PutMapping("/{id}")
+    public VendaDto atualizarCompletamente(@PathVariable Long id, @RequestBody VendaDto dto) {
+        return vendaService.atualizarCompletamente(dto, id);
+    }
 
-	@PatchMapping("/{id}")
-	public VendaDto atualizarParcialmente(@PathVariable Long id, @RequestBody VendaDto dto) {
-		return vendaService.atualizarParcialmente(dto, id);
-	}
+    /**
+     * Modifica os dados de uma venda sem sobrescrevê-la.
+     *
+     * @param id  O id da venda a ser atualizada.
+     * @param dto Um objeto contendo os dados a serem modificados.
+     * @return Os dados da venda que foi atualizada.
+     */
+    @PatchMapping("/{id}")
+    public VendaDto atualizarParcialmente(@PathVariable Long id, @RequestBody VendaDto dto) {
+        return vendaService.atualizarParcialmente(dto, id);
+    }
 
-	@DeleteMapping("/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deletarPorId(@PathVariable Long id) {
-		vendaService.deletarPorId(id);
-	}
+    /**
+     * Deleta uma venda do banco de dados por meio de seu id.
+     *
+     * @param id O id da venda a ser deletada.
+     */
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletarPorId(@PathVariable Long id) {
+        vendaService.deletarPorId(id);
+    }
 
 }
