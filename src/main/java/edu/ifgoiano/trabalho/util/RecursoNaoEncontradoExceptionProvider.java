@@ -43,5 +43,9 @@ public class RecursoNaoEncontradoExceptionProvider {
 	public static RecursoNaoEncontradoException excecaoPorDadosBancariosNaoEncontrados(Long id) {
 		return new RecursoNaoEncontradoException("DadosBancarios com id=%d não encontrado.".formatted(id));
 	}
+	
+	public static RecursoNaoEncontradoException excecaoPorVendaNaoEncontrada(Long id) {
+		return new RecursoNaoEncontradoException("Venda com id=%d não encontrada.".formatted(id));
+	}
 
 }
