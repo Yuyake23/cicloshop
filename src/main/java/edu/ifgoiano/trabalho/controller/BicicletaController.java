@@ -34,11 +34,11 @@ public class BicicletaController {
 		return produtoService.salvar(dto);
 	}
 	
-//	@PostMapping
-//	@ResponseStatus(HttpStatus.CREATED)
-//	public Iterable<BicicletaDto> salvarTodos(@RequestBody Iterable<BicicletaDto> dtos) {
-//		return produtoService.salvarTodos(dtos);
-//	}
+	@PostMapping("/varias")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Iterable<BicicletaDto> salvarTodos(@RequestBody Iterable<BicicletaDto> dtos) {
+		return produtoService.salvarTodos(dtos);
+	}
 	
 	@GetMapping
 	public List<BicicletaDto> buscarTodos() {

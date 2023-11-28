@@ -34,7 +34,7 @@ public class PecaController {
 		return produtoService.salvar(dto);
 	}
 	
-	@PostMapping
+	@PostMapping("/varias")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Iterable<PecaDto> salvarTodos(@RequestBody Iterable<PecaDto> dtos) {
 		return produtoService.salvarTodos(dtos);
