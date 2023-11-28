@@ -47,5 +47,9 @@ public class RecursoNaoEncontradoExceptionProvider {
 	public static RecursoNaoEncontradoException excecaoPorVendaNaoEncontrada(Long id) {
 		return new RecursoNaoEncontradoException("Venda com id=%d não encontrada.".formatted(id));
 	}
+	
+	public static RecursoNaoEncontradoException excecaoPorServicoNaoEncontrado(Long id) {
+		return new RecursoNaoEncontradoException("Servico com id=%d não encontrado.".formatted(id));
+	}
 
 }
