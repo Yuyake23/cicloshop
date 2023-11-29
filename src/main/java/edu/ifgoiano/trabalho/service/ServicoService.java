@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import edu.ifgoiano.trabalho.dto.ServicoDto;
 import edu.ifgoiano.trabalho.model.entity.ContratoFuncionario;
+import edu.ifgoiano.trabalho.model.entity.Peca;
 import edu.ifgoiano.trabalho.model.entity.Pessoa;
-import edu.ifgoiano.trabalho.model.entity.Produto;
 import edu.ifgoiano.trabalho.model.entity.Servico;
 import edu.ifgoiano.trabalho.model.repository.ServicoRepository;
 import jakarta.transaction.Transactional;
@@ -25,6 +25,7 @@ public class ServicoService {
 	@Transactional
 	public ServicoDto salvar(ServicoDto dto) {
 		Servico servico = servicoRepository.save(dto.toEntity());
+
 		return ServicoDto.ofServico(servico);
 	}
 
@@ -91,8 +92,8 @@ public class ServicoService {
 			servico.setFuncionarios(dto.funcionariosId.stream().map(ContratoFuncionario::new).toList());
 		if (dto.statusServico != null)
 			servico.setStatusServico(dto.statusServico);
-		if (dto.produtosId != null)
-			servico.setProdutos(dto.produtosId.stream().map(Produto::new).toList());
+		if (dto.pecasId != null)
+			servico.setPecas(dto.pecasId.stream().map(Peca::new).toList());
 		if (dto.custoMaoDeObra != null)
 			servico.setCustoMaoDeObra(dto.custoMaoDeObra);
 		if (dto.custoProdutos != null)

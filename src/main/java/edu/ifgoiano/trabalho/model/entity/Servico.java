@@ -47,7 +47,7 @@ public class Servico implements Serializable {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "produto_servico", joinColumns = { @JoinColumn(name = "servico_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "contrato_funcionario_id") })
-	private List<Produto> produtos;
+	private List<Peca> pecas;
 	private BigDecimal custoMaoDeObra;
 	private BigDecimal custoProdutos;
 	private String descricao;
@@ -66,13 +66,13 @@ public class Servico implements Serializable {
 	}
 
 	public Servico(Long id, Pessoa cliente, List<ContratoFuncionario> funcionarios, StatusServico statusServico,
-			List<Produto> produtos, BigDecimal custoMaoDeObra, BigDecimal custoProdutos, String descricao,
+			List<Peca> pecas, BigDecimal custoMaoDeObra, BigDecimal custoProdutos, String descricao,
 			String observacoes, LocalDate dataEntrada, LocalDate dataSaida) {
 		this.id = id;
 		this.cliente = cliente;
 		this.funcionarios = funcionarios;
 		this.statusServico = statusServico;
-		this.produtos = produtos;
+		this.pecas = pecas;
 		this.custoMaoDeObra = custoMaoDeObra;
 		this.custoProdutos = custoProdutos;
 		this.descricao = descricao;
@@ -117,12 +117,12 @@ public class Servico implements Serializable {
 		this.statusServico = statusServico;
 	}
 
-	public List<Produto> getProdutos() {
-		return produtos;
+	public List<Peca> getPecas() {
+		return pecas;
 	}
 
-	public void setProdutos(List<Produto> produtos) {
-		this.produtos = produtos;
+	public void setPecas(List<Peca> pecas) {
+		this.pecas = pecas;
 	}
 
 	public BigDecimal getCustoMaoDeObra() {
@@ -193,7 +193,7 @@ public class Servico implements Serializable {
 	@Override
 	public String toString() {
 		return "Servico [id=" + id + ", cliente=" + cliente + ", funcionarios=" + funcionarios + ", statusServico="
-				+ statusServico + ", produtos=" + produtos + ", custoMaoDeObra=" + custoMaoDeObra + ", custoProdutos="
+				+ statusServico + ", pecas=" + pecas + ", custoMaoDeObra=" + custoMaoDeObra + ", custoProdutos="
 				+ custoProdutos + ", descricao=" + descricao + ", observacoes=" + observacoes + ", dataEntrada="
 				+ dataEntrada + ", dataSaida=" + dataSaida + "]";
 	}
