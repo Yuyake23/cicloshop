@@ -1,10 +1,5 @@
 package edu.ifgoiano.trabalho.model.entity;
 
-import java.io.Serial;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Objects;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,95 +9,94 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.io.Serial;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
- * Representa um produto qualquer genérico e abstrato que pode ser comercializado dentro de uma oficina.
- * Produtos podem ser comercializados apenas se pertencerem à oficina.
+ * Representa um produto qualquer genérico e abstrato que pode ser comercializado dentro de uma
+ * oficina. Produtos podem ser comercializados apenas se pertencerem à oficina.
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Produto implements Serializable {
 
-	@Serial
-	private static final long serialVersionUID = 1L;
+  @Serial private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "produto_id")
-	protected Long id;
-	@ManyToOne
-	@JoinColumn(name = "dono_id")
-	protected Pessoa dono;
-	protected String marca;
-	protected BigDecimal valor;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "produto_id")
+  protected Long id;
 
-	protected Produto() {
+  @ManyToOne
+  @JoinColumn(name = "dono_id")
+  protected Pessoa dono;
 
-	}
+  protected String marca;
+  protected BigDecimal valor;
 
-	public Produto(Long id) {
-		this.id = id;
-	}
+  protected Produto() {}
 
-	protected Produto(Long id, Pessoa dono, String marca, BigDecimal valor) {
-		this.id = id;
-		this.dono = dono;
-		this.marca = marca;
-		this.valor = valor;
-	}
+  public Produto(Long id) {
+    this.id = id;
+  }
 
-	public Long getId() {
-		return id;
-	}
+  protected Produto(Long id, Pessoa dono, String marca, BigDecimal valor) {
+    this.id = id;
+    this.dono = dono;
+    this.marca = marca;
+    this.valor = valor;
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return id;
+  }
 
-	public Pessoa getDono() {
-		return dono;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setDono(Pessoa dono) {
-		this.dono = dono;
-	}
+  public Pessoa getDono() {
+    return dono;
+  }
 
-	public String getMarca() {
-		return marca;
-	}
+  public void setDono(Pessoa dono) {
+    this.dono = dono;
+  }
 
-	public void setMarca(String marca) {
-		this.marca = marca;
-	}
+  public String getMarca() {
+    return marca;
+  }
 
-	public BigDecimal getValor() {
-		return valor;
-	}
+  public void setMarca(String marca) {
+    this.marca = marca;
+  }
 
-	public void setValor(BigDecimal valor) {
-		this.valor = valor;
-	}
+  public BigDecimal getValor() {
+    return valor;
+  }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
+  public void setValor(BigDecimal valor) {
+    this.valor = valor;
+  }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Produto other = (Produto) obj;
-		return Objects.equals(id, other.id);
-	}
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
 
-	@Override
-	public String toString() {
-		return "Produto [id=" + id + ", dono=" + dono + ", marca=" + marca + ", valor=" + valor + "]";
-	}
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    Produto other = (Produto) obj;
+    return Objects.equals(id, other.id);
+  }
 
+  @Override
+  public String toString() {
+    return "Produto [id=" + id + ", dono=" + dono + ", marca=" + marca + ", valor=" + valor + "]";
+  }
 }

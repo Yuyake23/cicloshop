@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class CicloshopApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(CicloshopApplication.class, args);
-	}
-
+  public static void main(String[] args) {
+    SpringApplication.run(CicloshopApplication.class, args);
+  }
 }

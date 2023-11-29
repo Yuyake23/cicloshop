@@ -1,10 +1,5 @@
 package edu.ifgoiano.trabalho.model.entity;
 
-import java.io.Serial;
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.Objects;
-
 import edu.ifgoiano.trabalho.model.enums.TipoPessoa;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
@@ -18,142 +13,161 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.Transient;
+import java.io.Serial;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Objects;
 
 /**
-* Representa uma pessoa abstrata, que pode ser concretizada como {@link PessoaFisica}
-* ou uma {@link PessoaJuridica} bem como sua especialização, um {@link Fornecedor}.
-*/
+ * Representa uma pessoa abstrata, que pode ser concretizada como {@link PessoaFisica} ou uma {@link
+ * PessoaJuridica} bem como sua especialização, um {@link Fornecedor}.
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_pessoa", discriminatorType = DiscriminatorType.STRING)
 public class Pessoa implements Serializable {
 
-	@Serial
-	private static final long serialVersionUID = 1L;
+  @Serial private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "pessoa_id")
-	protected Long id;
-	@Transient
-	protected TipoPessoa tipoPessoa;
-	// nome se pessoa física
-	// razão social se pessoa jurídica
-	protected String nome;
-	// cpf se pessoa física
-	// cnpj se pessoa jurídica
-	protected String documento;
-	protected String telefone;
-	protected String endereco;
-	@Temporal(value = TemporalType.DATE)
-	protected LocalDate dataGenese;
-	protected String observacoes;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "pessoa_id")
+  protected Long id;
 
-	protected Pessoa() {
+  @Transient protected TipoPessoa tipoPessoa;
+  // nome se pessoa física
+  // razão social se pessoa jurídica
+  protected String nome;
+  // cpf se pessoa física
+  // cnpj se pessoa jurídica
+  protected String documento;
+  protected String telefone;
+  protected String endereco;
 
-	}
+  @Temporal(value = TemporalType.DATE)
+  protected LocalDate dataGenese;
 
-	public Pessoa(Long id) {
-		this.id = id;
-	}
+  protected String observacoes;
 
-	protected Pessoa(Long id, String nome, String documento, String telefone, String endereco, LocalDate dataGenese,
-			String observacoes) {
-		this.id = id;
-		this.nome = nome;
-		this.documento = documento;
-		this.telefone = telefone;
-		this.endereco = endereco;
-		this.dataGenese = dataGenese;
-		this.observacoes = observacoes;
-	}
+  protected Pessoa() {}
 
-	public Long getId() {
-		return id;
-	}
+  public Pessoa(Long id) {
+    this.id = id;
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  protected Pessoa(
+      Long id,
+      String nome,
+      String documento,
+      String telefone,
+      String endereco,
+      LocalDate dataGenese,
+      String observacoes) {
+    this.id = id;
+    this.nome = nome;
+    this.documento = documento;
+    this.telefone = telefone;
+    this.endereco = endereco;
+    this.dataGenese = dataGenese;
+    this.observacoes = observacoes;
+  }
 
-	public TipoPessoa getTipoPessoa() {
-		return tipoPessoa;
-	}
+  public Long getId() {
+    return id;
+  }
 
-	public void setTipoPessoa(TipoPessoa tipoPessoa) {
-		this.tipoPessoa = tipoPessoa;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public String getNome() {
-		return nome;
-	}
+  public TipoPessoa getTipoPessoa() {
+    return tipoPessoa;
+  }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+  public void setTipoPessoa(TipoPessoa tipoPessoa) {
+    this.tipoPessoa = tipoPessoa;
+  }
 
-	public String getDocumento() {
-		return documento;
-	}
+  public String getNome() {
+    return nome;
+  }
 
-	public void setDocumento(String documento) {
-		this.documento = documento;
-	}
+  public void setNome(String nome) {
+    this.nome = nome;
+  }
 
-	public String getTelefone() {
-		return telefone;
-	}
+  public String getDocumento() {
+    return documento;
+  }
 
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
-	}
+  public void setDocumento(String documento) {
+    this.documento = documento;
+  }
 
-	public String getEndereco() {
-		return endereco;
-	}
+  public String getTelefone() {
+    return telefone;
+  }
 
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
-	}
+  public void setTelefone(String telefone) {
+    this.telefone = telefone;
+  }
 
-	public LocalDate getDataGenese() {
-		return dataGenese;
-	}
+  public String getEndereco() {
+    return endereco;
+  }
 
-	public void setDataGenese(LocalDate dataGenese) {
-		this.dataGenese = dataGenese;
-	}
+  public void setEndereco(String endereco) {
+    this.endereco = endereco;
+  }
 
-	public String getObservacoes() {
-		return observacoes;
-	}
+  public LocalDate getDataGenese() {
+    return dataGenese;
+  }
 
-	public void setObservacoes(String observacoes) {
-		this.observacoes = observacoes;
-	}
+  public void setDataGenese(LocalDate dataGenese) {
+    this.dataGenese = dataGenese;
+  }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
+  public String getObservacoes() {
+    return observacoes;
+  }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Pessoa other = (Pessoa) obj;
-		return Objects.equals(id, other.id);
-	}
+  public void setObservacoes(String observacoes) {
+    this.observacoes = observacoes;
+  }
 
-	@Override
-	public String toString() {
-		return "Pessoa [id=" + id + ", tipoPessoa=" + tipoPessoa + ", nome=" + nome + ", documento=" + documento
-				+ ", telefone=" + telefone + ", endereco=" + endereco + ", dataGenese=" + dataGenese + ", observacoes="
-				+ observacoes + "]";
-	}
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
 
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    Pessoa other = (Pessoa) obj;
+    return Objects.equals(id, other.id);
+  }
+
+  @Override
+  public String toString() {
+    return "Pessoa [id="
+        + id
+        + ", tipoPessoa="
+        + tipoPessoa
+        + ", nome="
+        + nome
+        + ", documento="
+        + documento
+        + ", telefone="
+        + telefone
+        + ", endereco="
+        + endereco
+        + ", dataGenese="
+        + dataGenese
+        + ", observacoes="
+        + observacoes
+        + "]";
+  }
 }

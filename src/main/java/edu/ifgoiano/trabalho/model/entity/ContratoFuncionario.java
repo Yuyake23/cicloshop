@@ -1,11 +1,5 @@
 package edu.ifgoiano.trabalho.model.entity;
 
-import java.io.Serial;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.Objects;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,6 +10,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import java.io.Serial;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * Representa um contrato empregatício entre a oficina e uma pessoa, que se torna um funcionário.
@@ -23,123 +22,139 @@ import jakarta.persistence.TemporalType;
 @Entity
 public class ContratoFuncionario implements Serializable {
 
-	@Serial
-	private static final long serialVersionUID = 1L;
+  @Serial private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "contrato_funcionario_id")
-	private Long id;
-	@ManyToOne
-	@JoinColumn(name = "funcionario_id")
-	private Pessoa funcionario;
-	private String cargo;
-	private BigDecimal salario;
-	@OneToOne
-	@JoinColumn(name = "contrato_funcinonario_id")
-	private DadosBancarios dadosBancarios;
-	@Temporal(TemporalType.DATE)
-	private LocalDate dataEntrada;
-	@Temporal(TemporalType.DATE)
-	private LocalDate dataSaida;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "contrato_funcionario_id")
+  private Long id;
 
-	public ContratoFuncionario() {
+  @ManyToOne
+  @JoinColumn(name = "funcionario_id")
+  private Pessoa funcionario;
 
-	}
+  private String cargo;
+  private BigDecimal salario;
 
-	public ContratoFuncionario(Long id) {
-		this.id = id;
-	}
+  @OneToOne
+  @JoinColumn(name = "contrato_funcinonario_id")
+  private DadosBancarios dadosBancarios;
 
-	public ContratoFuncionario(Long id, Pessoa funcionario, String cargo, BigDecimal salario,
-			DadosBancarios dadosBancarios, LocalDate dataEntrada, LocalDate dataSaida) {
-		this.id = id;
-		this.funcionario = funcionario;
-		this.cargo = cargo;
-		this.salario = salario;
-		this.dadosBancarios = dadosBancarios;
-		this.dataEntrada = dataEntrada;
-		this.dataSaida = dataSaida;
-	}
+  @Temporal(TemporalType.DATE)
+  private LocalDate dataEntrada;
 
-	public Long getId() {
-		return id;
-	}
+  @Temporal(TemporalType.DATE)
+  private LocalDate dataSaida;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public ContratoFuncionario() {}
 
-	public Pessoa getFuncionario() {
-		return funcionario;
-	}
+  public ContratoFuncionario(Long id) {
+    this.id = id;
+  }
 
-	public void setFuncionario(Pessoa funcionario) {
-		this.funcionario = funcionario;
-	}
+  public ContratoFuncionario(
+      Long id,
+      Pessoa funcionario,
+      String cargo,
+      BigDecimal salario,
+      DadosBancarios dadosBancarios,
+      LocalDate dataEntrada,
+      LocalDate dataSaida) {
+    this.id = id;
+    this.funcionario = funcionario;
+    this.cargo = cargo;
+    this.salario = salario;
+    this.dadosBancarios = dadosBancarios;
+    this.dataEntrada = dataEntrada;
+    this.dataSaida = dataSaida;
+  }
 
-	public String getCargo() {
-		return cargo;
-	}
+  public Long getId() {
+    return id;
+  }
 
-	public void setCargo(String cargo) {
-		this.cargo = cargo;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public BigDecimal getSalario() {
-		return salario;
-	}
+  public Pessoa getFuncionario() {
+    return funcionario;
+  }
 
-	public void setSalario(BigDecimal salario) {
-		this.salario = salario;
-	}
+  public void setFuncionario(Pessoa funcionario) {
+    this.funcionario = funcionario;
+  }
 
-	public DadosBancarios getDadosBancarios() {
-		return dadosBancarios;
-	}
+  public String getCargo() {
+    return cargo;
+  }
 
-	public void setDadosBancarios(DadosBancarios dadosBancarios) {
-		this.dadosBancarios = dadosBancarios;
-	}
+  public void setCargo(String cargo) {
+    this.cargo = cargo;
+  }
 
-	public LocalDate getDataEntrada() {
-		return dataEntrada;
-	}
+  public BigDecimal getSalario() {
+    return salario;
+  }
 
-	public void setDataEntrada(LocalDate dataEntrada) {
-		this.dataEntrada = dataEntrada;
-	}
+  public void setSalario(BigDecimal salario) {
+    this.salario = salario;
+  }
 
-	public LocalDate getDataSaida() {
-		return dataSaida;
-	}
+  public DadosBancarios getDadosBancarios() {
+    return dadosBancarios;
+  }
 
-	public void setDataSaida(LocalDate dataSaida) {
-		this.dataSaida = dataSaida;
-	}
+  public void setDadosBancarios(DadosBancarios dadosBancarios) {
+    this.dadosBancarios = dadosBancarios;
+  }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
+  public LocalDate getDataEntrada() {
+    return dataEntrada;
+  }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ContratoFuncionario other = (ContratoFuncionario) obj;
-		return Objects.equals(id, other.id);
-	}
+  public void setDataEntrada(LocalDate dataEntrada) {
+    this.dataEntrada = dataEntrada;
+  }
 
-	@Override
-	public String toString() {
-		return "ContratoFuncionario [id=" + id + ", funcionario=" + funcionario + ", cargo=" + cargo + ", salario="
-				+ salario + ", dadosBancarios=" + dadosBancarios + ", dataEntrada=" + dataEntrada + ", dataSaida="
-				+ dataSaida + "]";
-	}
+  public LocalDate getDataSaida() {
+    return dataSaida;
+  }
 
+  public void setDataSaida(LocalDate dataSaida) {
+    this.dataSaida = dataSaida;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    ContratoFuncionario other = (ContratoFuncionario) obj;
+    return Objects.equals(id, other.id);
+  }
+
+  @Override
+  public String toString() {
+    return "ContratoFuncionario [id="
+        + id
+        + ", funcionario="
+        + funcionario
+        + ", cargo="
+        + cargo
+        + ", salario="
+        + salario
+        + ", dadosBancarios="
+        + dadosBancarios
+        + ", dataEntrada="
+        + dataEntrada
+        + ", dataSaida="
+        + dataSaida
+        + "]";
+  }
 }
