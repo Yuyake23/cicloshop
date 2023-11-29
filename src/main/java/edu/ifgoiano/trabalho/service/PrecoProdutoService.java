@@ -4,12 +4,6 @@ import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.e
 import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorPrecoProdutoNaoEncontrado;
 import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorProdutoNaoEncontrado;
 
-import java.util.List;
-import java.util.stream.StreamSupport;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import edu.ifgoiano.trabalho.dto.PrecoProdutoDto;
 import edu.ifgoiano.trabalho.model.entity.Fornecedor;
 import edu.ifgoiano.trabalho.model.entity.PrecoProduto;
@@ -18,109 +12,112 @@ import edu.ifgoiano.trabalho.model.repository.FornecedorRepository;
 import edu.ifgoiano.trabalho.model.repository.PrecoProdutoRepository;
 import edu.ifgoiano.trabalho.model.repository.ProdutoRepository;
 import jakarta.transaction.Transactional;
+import java.util.List;
+import java.util.stream.StreamSupport;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class PrecoProdutoService {
 
-	@Autowired
-	private PrecoProdutoRepository precoProdutoRepository;
-	@Autowired
-	private ProdutoRepository produtoRepository;
-	@Autowired
-	private FornecedorRepository fornecedorRepository;
+  @Autowired private PrecoProdutoRepository precoProdutoRepository;
+  @Autowired private ProdutoRepository produtoRepository;
+  @Autowired private FornecedorRepository fornecedorRepository;
 
-	@Transactional
-	public PrecoProdutoDto salvar(PrecoProdutoDto dto) {
-		PrecoProduto precoProduto = precoProdutoRepository.save(dto.toEntity());
-		return PrecoProdutoDto.ofPrecoProduto(precoProduto);
-	}
+  @Transactional
+  public PrecoProdutoDto salvar(PrecoProdutoDto dto) {
+    PrecoProduto precoProduto = precoProdutoRepository.save(dto.toEntity());
+    return PrecoProdutoDto.ofPrecoProduto(precoProduto);
+  }
 
-	@Transactional
-	public List<PrecoProdutoDto> salvarTodos(Iterable<PrecoProdutoDto> dtos) {
-		List<PrecoProduto> precosProduto = StreamSupport.stream(dtos.spliterator(), true).map(PrecoProdutoDto::toEntity)
-				.toList();
+  @Transactional
+  public List<PrecoProdutoDto> salvarTodos(Iterable<PrecoProdutoDto> dtos) {
+    List<PrecoProduto> precosProduto =
+        StreamSupport.stream(dtos.spliterator(), true).map(PrecoProdutoDto::toEntity).toList();
 
-		precosProduto = precoProdutoRepository.saveAll(precosProduto);
-		return PrecoProdutoDto.ofPrecosProdutos(precosProduto);
-	}
+    precosProduto = precoProdutoRepository.saveAll(precosProduto);
+    return PrecoProdutoDto.ofPrecosProdutos(precosProduto);
+  }
 
-	@Transactional
-	public PrecoProdutoDto atualizarCompletamente(PrecoProdutoDto dto, Long id) {
-		if (!precoProdutoRepository.existsById(id)) {
-			throw excecaoPorPrecoProdutoNaoEncontrado(id);
-		}
+  @Transactional
+  public PrecoProdutoDto atualizarCompletamente(PrecoProdutoDto dto, Long id) {
+    if (!precoProdutoRepository.existsById(id)) {
+      throw excecaoPorPrecoProdutoNaoEncontrado(id);
+    }
 
-		PrecoProduto precoProduto = dto.toEntity();
-		precoProduto.setId(id);
+    PrecoProduto precoProduto = dto.toEntity();
+    precoProduto.setId(id);
 
-		precoProduto = precoProdutoRepository.save(precoProduto);
-		return PrecoProdutoDto.ofPrecoProduto(precoProduto);
-	}
+    precoProduto = precoProdutoRepository.save(precoProduto);
+    return PrecoProdutoDto.ofPrecoProduto(precoProduto);
+  }
 
-	@Transactional
-	public PrecoProdutoDto atualizarParcialmente(PrecoProdutoDto dto, Long id) {
-		PrecoProduto precoProduto = precoProdutoRepository.findById(id)
-				.orElseThrow(() -> excecaoPorPrecoProdutoNaoEncontrado(id));
+  @Transactional
+  public PrecoProdutoDto atualizarParcialmente(PrecoProdutoDto dto, Long id) {
+    PrecoProduto precoProduto =
+        precoProdutoRepository
+            .findById(id)
+            .orElseThrow(() -> excecaoPorPrecoProdutoNaoEncontrado(id));
 
-		atualizarParcialmente(precoProduto, dto);
+    atualizarParcialmente(precoProduto, dto);
 
-		precoProduto = precoProdutoRepository.save(precoProduto);
-		return PrecoProdutoDto.ofPrecoProduto(precoProduto);
-	}
+    precoProduto = precoProdutoRepository.save(precoProduto);
+    return PrecoProdutoDto.ofPrecoProduto(precoProduto);
+  }
 
-	public boolean existePorId(Long id) {
-		return precoProdutoRepository.existsById(id);
-	}
+  public boolean existePorId(Long id) {
+    return precoProdutoRepository.existsById(id);
+  }
 
-	public PrecoProdutoDto buscarPorId(Long id) {
-		PrecoProduto precoProduto = precoProdutoRepository.findById(id)
-				.orElseThrow(() -> excecaoPorPrecoProdutoNaoEncontrado(id));
+  public PrecoProdutoDto buscarPorId(Long id) {
+    PrecoProduto precoProduto =
+        precoProdutoRepository
+            .findById(id)
+            .orElseThrow(() -> excecaoPorPrecoProdutoNaoEncontrado(id));
 
-		return PrecoProdutoDto.ofPrecoProduto(precoProduto);
-	}
+    return PrecoProdutoDto.ofPrecoProduto(precoProduto);
+  }
 
-	public List<PrecoProdutoDto> buscarTodos() {
-		List<PrecoProduto> precoProduto = precoProdutoRepository.findAll();
+  public List<PrecoProdutoDto> buscarTodos() {
+    List<PrecoProduto> precoProduto = precoProdutoRepository.findAll();
 
-		return PrecoProdutoDto.ofPrecosProdutos(precoProduto);
-	}
+    return PrecoProdutoDto.ofPrecosProdutos(precoProduto);
+  }
 
-	public List<PrecoProdutoDto> buscarPorProduto(Long produtoId) {
-		if (!produtoRepository.existsById(produtoId)) {
-			throw excecaoPorProdutoNaoEncontrado(produtoId);
-		}
+  public List<PrecoProdutoDto> buscarPorProduto(Long produtoId) {
+    if (!produtoRepository.existsById(produtoId)) {
+      throw excecaoPorProdutoNaoEncontrado(produtoId);
+    }
 
-		List<PrecoProduto> precosProdutos = precoProdutoRepository.findByProdutoId(produtoId);
-		return PrecoProdutoDto.ofPrecosProdutos(precosProdutos);
-	}
+    List<PrecoProduto> precosProdutos = precoProdutoRepository.findByProdutoId(produtoId);
+    return PrecoProdutoDto.ofPrecosProdutos(precosProdutos);
+  }
 
-	@Transactional
-	public void deletarPorId(Long id) {
-		if (!precoProdutoRepository.existsById(id)) {
-			throw excecaoPorPrecoProdutoNaoEncontrado(id);
-		}
+  @Transactional
+  public void deletarPorId(Long id) {
+    if (!precoProdutoRepository.existsById(id)) {
+      throw excecaoPorPrecoProdutoNaoEncontrado(id);
+    }
 
-		precoProdutoRepository.deleteById(id);
-	}
+    precoProdutoRepository.deleteById(id);
+  }
 
-	private void atualizarParcialmente(PrecoProduto precoProduto, PrecoProdutoDto dto) {
-		if (dto.produtoId != null)
-			precoProduto.setProduto(buscarProduto(dto.produtoId));
-		if (dto.fornecedorId != null)
-			precoProduto.setFornecedor(buscarFornecedor(dto.fornecedorId));
-		if (dto.preco != null)
-			precoProduto.setPreco(dto.preco);
-		if (dto.porcentagemLucro != null)
-			precoProduto.setPorcentagemLucro(dto.porcentagemLucro);
-	}
+  private void atualizarParcialmente(PrecoProduto precoProduto, PrecoProdutoDto dto) {
+    if (dto.produtoId != null) precoProduto.setProduto(buscarProduto(dto.produtoId));
+    if (dto.fornecedorId != null) precoProduto.setFornecedor(buscarFornecedor(dto.fornecedorId));
+    if (dto.preco != null) precoProduto.setPreco(dto.preco);
+    if (dto.porcentagemLucro != null) precoProduto.setPorcentagemLucro(dto.porcentagemLucro);
+  }
 
-	private Produto buscarProduto(Long produtoId) {
-		return produtoRepository.findById(produtoId).orElseThrow(() -> excecaoPorProdutoNaoEncontrado(produtoId));
-	}
+  private Produto buscarProduto(Long produtoId) {
+    return produtoRepository
+        .findById(produtoId)
+        .orElseThrow(() -> excecaoPorProdutoNaoEncontrado(produtoId));
+  }
 
-	private Fornecedor buscarFornecedor(Long fornecedorId) {
-		return fornecedorRepository.findById(fornecedorId)
-				.orElseThrow(() -> excecaoPorFornecedorNaoEncontrado(fornecedorId));
-	}
-
+  private Fornecedor buscarFornecedor(Long fornecedorId) {
+    return fornecedorRepository
+        .findById(fornecedorId)
+        .orElseThrow(() -> excecaoPorFornecedorNaoEncontrado(fornecedorId));
+  }
 }

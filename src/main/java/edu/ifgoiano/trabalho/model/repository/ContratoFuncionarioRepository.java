@@ -6,6 +6,4 @@ import org.springframework.stereotype.Repository;
 import edu.ifgoiano.trabalho.model.entity.ContratoFuncionario;
 
 @Repository
-public interface ContratoFuncionarioRepository extends JpaRepository<ContratoFuncionario, Long> {
-
-}
+public interface ContratoFuncionarioRepository extends JpaRepository<ContratoFuncionario, Long> {}

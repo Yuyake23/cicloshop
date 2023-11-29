@@ -1,12 +1,5 @@
 package edu.ifgoiano.trabalho.model.entity;
 
-import java.io.Serial;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
-
 import edu.ifgoiano.trabalho.model.enums.StatusServico;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,181 +14,216 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import java.io.Serial;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
 
-/**
- * Representa um serviço feito sobre um ou mais {@link Produto}s dentro da oficina.
- */
+/** Representa um serviço feito sobre um ou mais {@link Produto}s dentro da oficina. */
 @Entity
 public class Servico implements Serializable {
 
-	@Serial
-	private static final long serialVersionUID = 1L;
+  @Serial private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "servico_id")
-	private Long id;
-	@ManyToOne
-	@JoinColumn(name = "cliente_id")
-	private Pessoa cliente;
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "funcionario_servico", joinColumns = { @JoinColumn(name = "servico_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "contrato_funcionario_id") })
-	private List<ContratoFuncionario> funcionarios;
-	@Enumerated
-	private StatusServico statusServico;
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "produto_servico", joinColumns = { @JoinColumn(name = "servico_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "contrato_funcionario_id") })
-	private List<Peca> pecas;
-	private BigDecimal custoMaoDeObra;
-	private BigDecimal custoProdutos;
-	private String descricao;
-	private String observacoes;
-	@Temporal(TemporalType.DATE)
-	private LocalDate dataEntrada;
-	@Temporal(TemporalType.DATE)
-	private LocalDate dataSaida;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "servico_id")
+  private Long id;
 
-	public Servico() {
+  @ManyToOne
+  @JoinColumn(name = "cliente_id")
+  private Pessoa cliente;
 
-	}
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(
+      name = "funcionario_servico",
+      joinColumns = {@JoinColumn(name = "servico_id")},
+      inverseJoinColumns = {@JoinColumn(name = "contrato_funcionario_id")})
+  private List<ContratoFuncionario> funcionarios;
 
-	public Servico(Long id) {
-		this.id = id;
-	}
+  @Enumerated private StatusServico statusServico;
 
-	public Servico(Long id, Pessoa cliente, List<ContratoFuncionario> funcionarios, StatusServico statusServico,
-			List<Peca> pecas, BigDecimal custoMaoDeObra, BigDecimal custoProdutos, String descricao,
-			String observacoes, LocalDate dataEntrada, LocalDate dataSaida) {
-		this.id = id;
-		this.cliente = cliente;
-		this.funcionarios = funcionarios;
-		this.statusServico = statusServico;
-		this.pecas = pecas;
-		this.custoMaoDeObra = custoMaoDeObra;
-		this.custoProdutos = custoProdutos;
-		this.descricao = descricao;
-		this.observacoes = observacoes;
-		this.dataEntrada = dataEntrada;
-		this.dataSaida = dataSaida;
-	}
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(
+      name = "produto_servico",
+      joinColumns = {@JoinColumn(name = "servico_id")},
+      inverseJoinColumns = {@JoinColumn(name = "contrato_funcionario_id")})
+  private List<Peca> pecas;
 
-	public BigDecimal calcularCustoTotal() {
-		return custoMaoDeObra.add(custoProdutos);
-	}
+  private BigDecimal custoMaoDeObra;
+  private BigDecimal custoProdutos;
+  private String descricao;
+  private String observacoes;
 
-	public Long getId() {
-		return id;
-	}
+  @Temporal(TemporalType.DATE)
+  private LocalDate dataEntrada;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  @Temporal(TemporalType.DATE)
+  private LocalDate dataSaida;
 
-	public Pessoa getCliente() {
-		return cliente;
-	}
+  public Servico() {}
 
-	public void setCliente(Pessoa cliente) {
-		this.cliente = cliente;
-	}
+  public Servico(Long id) {
+    this.id = id;
+  }
 
-	public List<ContratoFuncionario> getFuncionarios() {
-		return funcionarios;
-	}
+  public Servico(
+      Long id,
+      Pessoa cliente,
+      List<ContratoFuncionario> funcionarios,
+      StatusServico statusServico,
+      List<Peca> pecas,
+      BigDecimal custoMaoDeObra,
+      BigDecimal custoProdutos,
+      String descricao,
+      String observacoes,
+      LocalDate dataEntrada,
+      LocalDate dataSaida) {
+    this.id = id;
+    this.cliente = cliente;
+    this.funcionarios = funcionarios;
+    this.statusServico = statusServico;
+    this.pecas = pecas;
+    this.custoMaoDeObra = custoMaoDeObra;
+    this.custoProdutos = custoProdutos;
+    this.descricao = descricao;
+    this.observacoes = observacoes;
+    this.dataEntrada = dataEntrada;
+    this.dataSaida = dataSaida;
+  }
 
-	public void setFuncionarios(List<ContratoFuncionario> funcionarios) {
-		this.funcionarios = funcionarios;
-	}
+  public BigDecimal calcularCustoTotal() {
+    return custoMaoDeObra.add(custoProdutos);
+  }
 
-	public StatusServico getStatusServico() {
-		return statusServico;
-	}
+  public Long getId() {
+    return id;
+  }
 
-	public void setStatusServico(StatusServico statusServico) {
-		this.statusServico = statusServico;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public List<Peca> getPecas() {
-		return pecas;
-	}
+  public Pessoa getCliente() {
+    return cliente;
+  }
 
-	public void setPecas(List<Peca> pecas) {
-		this.pecas = pecas;
-	}
+  public void setCliente(Pessoa cliente) {
+    this.cliente = cliente;
+  }
 
-	public BigDecimal getCustoMaoDeObra() {
-		return custoMaoDeObra;
-	}
+  public List<ContratoFuncionario> getFuncionarios() {
+    return funcionarios;
+  }
 
-	public void setCustoMaoDeObra(BigDecimal custoMaoDeObra) {
-		this.custoMaoDeObra = custoMaoDeObra;
-	}
+  public void setFuncionarios(List<ContratoFuncionario> funcionarios) {
+    this.funcionarios = funcionarios;
+  }
 
-	public BigDecimal getCustoProdutos() {
-		return custoProdutos;
-	}
+  public StatusServico getStatusServico() {
+    return statusServico;
+  }
 
-	public void setCustoProdutos(BigDecimal custoProdutos) {
-		this.custoProdutos = custoProdutos;
-	}
+  public void setStatusServico(StatusServico statusServico) {
+    this.statusServico = statusServico;
+  }
 
-	public String getDescricao() {
-		return descricao;
-	}
+  public List<Peca> getPecas() {
+    return pecas;
+  }
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
+  public void setPecas(List<Peca> pecas) {
+    this.pecas = pecas;
+  }
 
-	public String getObservacoes() {
-		return observacoes;
-	}
+  public BigDecimal getCustoMaoDeObra() {
+    return custoMaoDeObra;
+  }
 
-	public void setObservacoes(String observacoes) {
-		this.observacoes = observacoes;
-	}
+  public void setCustoMaoDeObra(BigDecimal custoMaoDeObra) {
+    this.custoMaoDeObra = custoMaoDeObra;
+  }
 
-	public LocalDate getDataEntrada() {
-		return dataEntrada;
-	}
+  public BigDecimal getCustoProdutos() {
+    return custoProdutos;
+  }
 
-	public void setDataEntrada(LocalDate dataEntrada) {
-		this.dataEntrada = dataEntrada;
-	}
+  public void setCustoProdutos(BigDecimal custoProdutos) {
+    this.custoProdutos = custoProdutos;
+  }
 
-	public LocalDate getDataSaida() {
-		return dataSaida;
-	}
+  public String getDescricao() {
+    return descricao;
+  }
 
-	public void setDataSaida(LocalDate dataSaida) {
-		this.dataSaida = dataSaida;
-	}
+  public void setDescricao(String descricao) {
+    this.descricao = descricao;
+  }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
+  public String getObservacoes() {
+    return observacoes;
+  }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Servico other = (Servico) obj;
-		return Objects.equals(id, other.id);
-	}
+  public void setObservacoes(String observacoes) {
+    this.observacoes = observacoes;
+  }
 
-	@Override
-	public String toString() {
-		return "Servico [id=" + id + ", cliente=" + cliente + ", funcionarios=" + funcionarios + ", statusServico="
-				+ statusServico + ", pecas=" + pecas + ", custoMaoDeObra=" + custoMaoDeObra + ", custoProdutos="
-				+ custoProdutos + ", descricao=" + descricao + ", observacoes=" + observacoes + ", dataEntrada="
-				+ dataEntrada + ", dataSaida=" + dataSaida + "]";
-	}
+  public LocalDate getDataEntrada() {
+    return dataEntrada;
+  }
 
+  public void setDataEntrada(LocalDate dataEntrada) {
+    this.dataEntrada = dataEntrada;
+  }
+
+  public LocalDate getDataSaida() {
+    return dataSaida;
+  }
+
+  public void setDataSaida(LocalDate dataSaida) {
+    this.dataSaida = dataSaida;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    Servico other = (Servico) obj;
+    return Objects.equals(id, other.id);
+  }
+
+  @Override
+  public String toString() {
+    return "Servico [id="
+        + id
+        + ", cliente="
+        + cliente
+        + ", funcionarios="
+        + funcionarios
+        + ", statusServico="
+        + statusServico
+        + ", pecas="
+        + pecas
+        + ", custoMaoDeObra="
+        + custoMaoDeObra
+        + ", custoProdutos="
+        + custoProdutos
+        + ", descricao="
+        + descricao
+        + ", observacoes="
+        + observacoes
+        + ", dataEntrada="
+        + dataEntrada
+        + ", dataSaida="
+        + dataSaida
+        + "]";
+  }
 }
