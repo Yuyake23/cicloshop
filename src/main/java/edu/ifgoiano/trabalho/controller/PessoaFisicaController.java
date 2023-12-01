@@ -3,8 +3,11 @@ package edu.ifgoiano.trabalho.controller;
 import edu.ifgoiano.trabalho.dto.PessoaFisicaDto;
 import edu.ifgoiano.trabalho.service.PessoaFisicaService;
 import edu.ifgoiano.trabalho.service.PessoaService;
+import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,8 +48,9 @@ public class PessoaFisicaController {
    * @return Uma lista de todas as pessoas físicas registradas.
    */
   @GetMapping
-  public List<PessoaFisicaDto> buscarTodos() {
-    return pessoaFisicaService.buscarTodos();
+  public CollectionModel<List<EntityModel<PessoaFisicaDto>>> buscarTodos() {
+    return CollectionModel.of(
+            Collections.singleton(pessoaFisicaService.buscarTodos().stream().map(EntityModel::of).toList()));
   }
 
   /**
@@ -56,8 +60,8 @@ public class PessoaFisicaController {
    * @return A pessoa, caso esteja registrada.
    */
   @GetMapping("/{id}")
-  public PessoaFisicaDto buscarPorId(@PathVariable Long id) {
-    return pessoaFisicaService.buscarPorId(id);
+  public EntityModel<PessoaFisicaDto> buscarPorId(@PathVariable Long id) {
+    return EntityModel.of(pessoaFisicaService.buscarPorId(id));
   }
 
   /**
