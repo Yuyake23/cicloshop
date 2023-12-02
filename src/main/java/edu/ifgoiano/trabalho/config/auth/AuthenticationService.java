@@ -27,8 +27,10 @@ public class AuthenticationService {
         Usuario.builder()
             .username(request.getUsername())
             .password(passwordEncoder.encode(request.getPassword()))
-            // TODO implementar pessoa
-            .pessoa(null)
+            .pessoa(
+                pessoaRepository
+                    .findById(request.getPessoa().getId())
+                    .orElseThrow(excecao -> Pessoa))
             .permissao(Permissao.CLIENTE)
             .build();
 
