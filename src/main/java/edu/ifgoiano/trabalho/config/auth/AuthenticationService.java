@@ -1,5 +1,6 @@
 package edu.ifgoiano.trabalho.config.auth;
 
+import edu.ifgoiano.trabalho.exception.RecursoNaoEncontradoException;
 import edu.ifgoiano.trabalho.model.entity.Usuario;
 import edu.ifgoiano.trabalho.model.enums.Permissao;
 import edu.ifgoiano.trabalho.model.repository.PessoaRepository;
@@ -29,8 +30,8 @@ public class AuthenticationService {
             .password(passwordEncoder.encode(request.getPassword()))
             .pessoa(
                 pessoaRepository
-                    .findById(request.getPessoa().getId())
-                    .orElseThrow(excecao -> Pessoa))
+                    .findByDocumento(request.getDocumento())
+                    .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa não encontrada.")))
             .permissao(Permissao.CLIENTE)
             .build();
 
