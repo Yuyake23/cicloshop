@@ -1,6 +1,5 @@
 package edu.ifgoiano.trabalho.config;
 
-import edu.ifgoiano.trabalho.model.enums.Permissao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +26,7 @@ public class SecurityConfig {
             (requests) ->
                 requests
                     .requestMatchers(
-                        "/v1/auth/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**")
+                        "/v1/auth/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/error")
                     .permitAll()
                     .anyRequest()
                     .authenticated())
