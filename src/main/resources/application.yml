@@ -10,7 +10,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
-    showSql: true
+    showSql: false
   output:
     ansi:
       enabled: ALWAYS
