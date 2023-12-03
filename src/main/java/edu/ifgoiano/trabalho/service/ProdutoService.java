@@ -40,7 +40,7 @@ public class ProdutoService {
 
     produtos = produtoRepository.saveAll(produtos);
 
-    log.info("Produtos  \"" + produtos.stream().map(Produto::getId) + "\" criados.");
+    log.info("Produtos  \"" + produtos.stream().map(Produto::getId).toList() + "\" criados.");
 
     return (Iterable<E>) ProdutoDto.ofProdutos(produtos);
   }

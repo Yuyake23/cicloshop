@@ -37,7 +37,7 @@ public class VendaService {
 
     vendas = vendaRepository.saveAll(vendas);
 
-    log.info("Vendas \"" + vendas.stream().map(Venda::getId) + "\" registradas.");
+    log.info("Vendas \"" + vendas.stream().map(Venda::getId).toList() + "\" registradas.");
 
     return VendaDto.ofVendas(vendas);
   }

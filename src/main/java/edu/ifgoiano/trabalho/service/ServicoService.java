@@ -37,7 +37,7 @@ public class ServicoService {
 
     servicos = servicoRepository.saveAll(servicos);
 
-    log.info("Serviços \"" + servicos.stream().map(Servico::getId) + "\" criados.");
+    log.info("Serviços \"" + servicos.stream().map(Servico::getId).toList() + "\" criados.");
 
     return ServicoDto.ofServicos(servicos);
   }

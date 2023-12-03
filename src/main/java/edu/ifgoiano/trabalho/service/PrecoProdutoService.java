@@ -47,7 +47,7 @@ public class PrecoProdutoService {
 
     precosProduto = precoProdutoRepository.saveAll(precosProduto);
 
-    log.info("Preços \"" + precosProduto.stream().map(PrecoProduto::getId) + "\" salvos.");
+    log.info("Preços \"" + precosProduto.stream().map(PrecoProduto::getId).toList() + "\" salvos.");
 
     return PrecoProdutoDto.ofPrecosProdutos(precosProduto);
   }

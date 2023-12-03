@@ -36,7 +36,7 @@ public class PessoaService {
 
     pessoas = pessoaRepository.saveAll(pessoas);
 
-    log.info("Pessoas  \"" + pessoas.stream().map(Pessoa::getId) + "\" criadas.");
+    log.info("Pessoas  \"" + pessoas.stream().map(Pessoa::getId).toList() + "\" criadas.");
 
     return (Iterable<E>) PessoaDto.ofPessoas(pessoas);
   }
