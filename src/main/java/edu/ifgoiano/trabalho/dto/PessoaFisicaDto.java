@@ -18,14 +18,13 @@ public class PessoaFisicaDto extends PessoaDto {
 
   public PessoaFisicaDto(
       Long id,
-      TipoPessoa tipoPessoa,
       String telefone,
       String endereco,
       String observacoes,
       String nome,
       String cpf,
       LocalDate dataNascimento) {
-    super(id, tipoPessoa, telefone, endereco, observacoes);
+    super(id, TipoPessoa.FISICA, telefone, endereco, observacoes);
     this.nome = nome;
     this.cpf = cpf;
     this.dataNascimento = dataNascimento;

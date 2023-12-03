@@ -16,7 +16,6 @@ public class FornecedorDto extends PessoaJuridicaDto {
 
   public FornecedorDto(
       Long id,
-      TipoPessoa tipoPessoa,
       String telefone,
       String endereco,
       String observacoes,
@@ -27,7 +26,7 @@ public class FornecedorDto extends PessoaJuridicaDto {
       List<PrecoProduto> produtosFornecidos) {
     super(
         id,
-        tipoPessoa,
+        TipoPessoa.FORNECEDOR,
         telefone,
         endereco,
         observacoes,
