@@ -10,9 +10,11 @@ import edu.ifgoiano.trabalho.model.repository.BicicletaRepository;
 import edu.ifgoiano.trabalho.model.repository.PessoaRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class BicicletaService {
 
@@ -29,6 +31,9 @@ public class BicicletaService {
     bicicleta.setId(id);
 
     bicicleta = bicicletaRepository.save(bicicleta);
+
+    log.info("Bicicleta \"" + bicicleta.getId() + "\" atualizada.");
+
     return BicicletaDto.ofBicicleta(bicicleta);
   }
 
@@ -40,6 +45,9 @@ public class BicicletaService {
     atualizarParcialmente(bicicleta, dto);
 
     bicicleta = bicicletaRepository.save(bicicleta);
+
+    log.info("Bicicleta \"" + bicicleta.getId() + "\" atualizada.");
+
     return BicicletaDto.ofBicicleta(bicicleta);
   }
 

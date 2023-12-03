@@ -48,7 +48,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     username = jwtService.extrairUsername(token);
 
     // Checando se usuário já está logado
-    // FIXME Contexto não está segurando autorização, retorna 403 mesmo se usar token
     SecurityContext securityContext = SecurityContextHolder.getContext();
     if (username != null && securityContext.getAuthentication() == null) {
 

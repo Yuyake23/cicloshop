@@ -7,9 +7,11 @@ import edu.ifgoiano.trabalho.model.entity.PessoaFisica;
 import edu.ifgoiano.trabalho.model.repository.PessoaFisicaRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class PessoaFisicaService {
 
@@ -24,6 +26,9 @@ public class PessoaFisicaService {
     PessoaFisica pessoa = dto.toEntity();
 
     pessoa = pessoaFisicaRepository.save(pessoa);
+
+    log.info("Pessoa física \"" + pessoa.getId() + "\" atualizada.");
+
     return PessoaFisicaDto.ofPessoaFisica(pessoa);
   }
 
@@ -37,6 +42,9 @@ public class PessoaFisicaService {
     atualizarParcialmente(pessoa, dto);
 
     pessoa = pessoaFisicaRepository.save(pessoa);
+
+    log.info("Pessoa física \"" + pessoa.getId() + "\" atualizada.");
+
     return PessoaFisicaDto.ofPessoaFisica(pessoa);
   }
 
@@ -53,8 +61,7 @@ public class PessoaFisicaService {
     return PessoaFisicaDto.ofPessoaFisica(pessoaFisica);
   }
 
-  public Iterable
-  <PessoaFisicaDto> buscarTodos() {
+  public Iterable<PessoaFisicaDto> buscarTodos() {
     List<PessoaFisica> pessoaFisicas = pessoaFisicaRepository.findAll();
 
     return PessoaFisicaDto.ofPessoasFisicas(pessoaFisicas);

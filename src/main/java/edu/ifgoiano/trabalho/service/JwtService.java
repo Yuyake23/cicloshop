@@ -10,9 +10,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class JwtService {
   private static final String CHAVE =
@@ -28,10 +30,14 @@ public class JwtService {
   }
 
   public String gerarToken(UserDetails userDetails) {
+
     return gerarToken(new HashMap<>(), userDetails);
   }
 
   public String gerarToken(Map<String, Object> claimsExtras, UserDetails userDetails) {
+
+    log.info("Token gerado para \"" + userDetails.getUsername() + "\".");
+
     return Jwts.builder()
         .setClaims(claimsExtras)
         .setSubject(userDetails.getUsername())

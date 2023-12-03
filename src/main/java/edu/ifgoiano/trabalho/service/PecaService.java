@@ -10,9 +10,11 @@ import edu.ifgoiano.trabalho.model.repository.PecaRepository;
 import edu.ifgoiano.trabalho.model.repository.PessoaRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class PecaService {
 
@@ -29,6 +31,9 @@ public class PecaService {
     peca.setId(id);
 
     peca = pecaRepository.save(peca);
+
+    log.info("Peça \"" + peca.getId() + "\" atualizada.");
+
     return PecaDto.ofPeca(peca);
   }
 
@@ -39,6 +44,9 @@ public class PecaService {
     atualizarParcialmente(peca, dto);
 
     peca = pecaRepository.save(peca);
+
+    log.info("Peça \"" + peca.getId() + "\" atualizada.");
+
     return PecaDto.ofPeca(peca);
   }
 

@@ -10,9 +10,11 @@ import edu.ifgoiano.trabalho.model.repository.ProdutoRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.stream.StreamSupport;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class ProdutoService {
 
@@ -23,6 +25,10 @@ public class ProdutoService {
   @Transactional
   public <E extends ProdutoDto> E salvar(E dto) {
     Produto produto = produtoRepository.save(dto.toEntity());
+
+    log.info(
+        "Produto de tipo " + produto.getClass() + " com id \"" + produto.getId() + "\" criado.");
+
     return (E) ProdutoDto.ofProduto(produto);
   }
 
@@ -33,6 +39,9 @@ public class ProdutoService {
         StreamSupport.stream(dtos.spliterator(), true).map(ProdutoDto::toEntity).toList();
 
     produtos = produtoRepository.saveAll(produtos);
+
+    log.info("Produtos  \"" + produtos.stream().map(Produto::getId).toList() + "\" criados.");
+
     return (Iterable<E>) ProdutoDto.ofProdutos(produtos);
   }
 
@@ -69,5 +78,7 @@ public class ProdutoService {
     }
 
     produtoRepository.deleteById(id);
+
+    log.info("Produto \"" + id + "\" deletado.");
   }
 }

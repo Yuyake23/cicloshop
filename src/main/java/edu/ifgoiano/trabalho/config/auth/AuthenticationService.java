@@ -1,12 +1,14 @@
 package edu.ifgoiano.trabalho.config.auth;
 
 import edu.ifgoiano.trabalho.exception.RecursoNaoEncontradoException;
+import edu.ifgoiano.trabalho.exception.SenhaInvalidaException;
 import edu.ifgoiano.trabalho.model.entity.Usuario;
 import edu.ifgoiano.trabalho.model.enums.Permissao;
 import edu.ifgoiano.trabalho.model.repository.PessoaRepository;
 import edu.ifgoiano.trabalho.model.repository.UsuarioRepository;
 import edu.ifgoiano.trabalho.service.JwtService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -25,6 +28,14 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
 
   public AuthenticationResponse registrar(RegisterRequest request) {
+
+    // Checar se a senha é válida
+    if (!request
+        .getPassword()
+        .matches("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*[^A-Za-z0-9]).{8,}$"))
+      throw new SenhaInvalidaException(
+          "Senha inválida. Deve ser maior que 8 caracteres e deve incluir pelo menos um caractere maiúsculo, um minúsculo, um número, e um caractere especial.");
+
     Usuario usuario =
         Usuario.builder()
             .username(request.getUsername())
@@ -43,6 +54,9 @@ public class AuthenticationService {
     }
 
     String token = jwtService.gerarToken(usuario);
+
+    log.info("Usuário \"" + usuario.getUsername() + "\" criado.");
+
     return AuthenticationResponse.builder().token(token).build();
   }
 
@@ -54,6 +68,9 @@ public class AuthenticationService {
     Usuario usuario = (Usuario) autenticacao.getPrincipal();
 
     String token = jwtService.gerarToken(usuario);
+
+    log.info("Usuário \"" + usuario.getUsername() + "\" autenticado.");
+
     return AuthenticationResponse.builder().token(token).build();
   }
 }

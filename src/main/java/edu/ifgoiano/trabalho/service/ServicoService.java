@@ -11,9 +11,11 @@ import edu.ifgoiano.trabalho.model.repository.ServicoRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.stream.StreamSupport;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class ServicoService {
 
@@ -22,6 +24,8 @@ public class ServicoService {
   @Transactional
   public ServicoDto salvar(ServicoDto dto) {
     Servico servico = servicoRepository.save(dto.toEntity());
+
+    log.info("Serviço \"" + servico.getId() + "\" criado.");
 
     return ServicoDto.ofServico(servico);
   }
@@ -32,6 +36,9 @@ public class ServicoService {
         StreamSupport.stream(dtos.spliterator(), true).map(ServicoDto::toEntity).toList();
 
     servicos = servicoRepository.saveAll(servicos);
+
+    log.info("Serviços \"" + servicos.stream().map(Servico::getId).toList() + "\" criados.");
+
     return ServicoDto.ofServicos(servicos);
   }
 
@@ -45,6 +52,9 @@ public class ServicoService {
     servico.setId(id);
 
     servico = servicoRepository.save(servico);
+
+    log.info("Serviço \"" + servico.getId() + "\" atualizado.");
+
     return ServicoDto.ofServico(servico);
   }
 
@@ -56,6 +66,9 @@ public class ServicoService {
     atualizarParcialmente(servico, dto);
 
     servico = servicoRepository.save(servico);
+
+    log.info("Serviço \"" + servico.getId() + "\" atualizado.");
+
     return ServicoDto.ofServico(servico);
   }
 
@@ -83,6 +96,8 @@ public class ServicoService {
     }
 
     servicoRepository.deleteById(id);
+
+    log.info("Serviço \"" + id + "\" atualizado.");
   }
 
   private void atualizarParcialmente(Servico servico, ServicoDto dto) {

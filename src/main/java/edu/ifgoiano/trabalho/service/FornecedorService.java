@@ -7,9 +7,11 @@ import edu.ifgoiano.trabalho.model.entity.Fornecedor;
 import edu.ifgoiano.trabalho.model.repository.FornecedorRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class FornecedorService {
 
@@ -24,6 +26,9 @@ public class FornecedorService {
     Fornecedor fornecedor = dto.toEntity();
 
     fornecedor = fornecedorRepository.save(fornecedor);
+
+    log.info("Fornecedor \"" + fornecedor.getId() + "\" atualizado.");
+
     return FornecedorDto.ofFornecedor(fornecedor);
   }
 
@@ -35,6 +40,9 @@ public class FornecedorService {
     atualizarParcialmente(fornecedor, dto);
 
     fornecedor = fornecedorRepository.save(fornecedor);
+
+    log.info("Fornecedor \"" + fornecedor.getId() + "\" atualizado.");
+
     return FornecedorDto.ofFornecedor(fornecedor);
   }
 
