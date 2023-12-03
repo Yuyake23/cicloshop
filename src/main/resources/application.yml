@@ -17,3 +17,11 @@ spring:
 server:
   error:
     include-stacktrace: NEVER
+
+logging:
+  level:
+    root: info
+    org:
+      springframework:
+        web: warn
+      hibernate: warn
