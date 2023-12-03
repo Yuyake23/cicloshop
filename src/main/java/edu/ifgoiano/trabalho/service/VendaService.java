@@ -11,9 +11,11 @@ import edu.ifgoiano.trabalho.model.repository.VendaRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.stream.StreamSupport;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class VendaService {
 
@@ -22,16 +24,22 @@ public class VendaService {
   @Transactional
   public VendaDto salvar(VendaDto dto) {
     Venda venda = vendaRepository.save(dto.toEntity());
+
+    log.info("Venda \"" + venda.getId() + "\" registrada.");
+
     return VendaDto.ofVenda(venda);
   }
 
   @Transactional
   public Iterable<VendaDto> salvarTodos(Iterable<VendaDto> dtos) {
-    List<Venda> contratosFuncionario =
+    List<Venda> vendas =
         StreamSupport.stream(dtos.spliterator(), true).map(VendaDto::toEntity).toList();
 
-    contratosFuncionario = vendaRepository.saveAll(contratosFuncionario);
-    return VendaDto.ofVendas(contratosFuncionario);
+    vendas = vendaRepository.saveAll(vendas);
+
+    log.info("Vendas \"" + vendas.stream().map(Venda::getId) + "\" registradas.");
+
+    return VendaDto.ofVendas(vendas);
   }
 
   @Transactional
@@ -44,6 +52,9 @@ public class VendaService {
     venda.setId(id);
 
     venda = vendaRepository.save(venda);
+
+    log.info("Venda \"" + venda.getId() + "\" atualizada.");
+
     return VendaDto.ofVenda(venda);
   }
 
@@ -54,6 +65,9 @@ public class VendaService {
     atualizarParcialmente(venda, dto);
 
     venda = vendaRepository.save(venda);
+
+    log.info("Venda \"" + venda.getId() + "\" atualizada.");
+
     return VendaDto.ofVenda(venda);
   }
 
@@ -80,6 +94,8 @@ public class VendaService {
     }
 
     vendaRepository.deleteById(id);
+
+    log.info("Venda \"" + id + "\" deletada.");
   }
 
   private void atualizarParcialmente(Venda venda, VendaDto dto) {

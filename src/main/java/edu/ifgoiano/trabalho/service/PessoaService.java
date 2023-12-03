@@ -8,9 +8,11 @@ import edu.ifgoiano.trabalho.model.repository.PessoaRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.stream.StreamSupport;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class PessoaService {
 
@@ -20,6 +22,9 @@ public class PessoaService {
   @Transactional
   public <E extends PessoaDto> E salvar(E dto) {
     Pessoa pessoa = pessoaRepository.save(dto.toEntity());
+
+    log.info("Pessoa " + pessoa.getTipoPessoa() + " \"" + pessoa.getId() + "\" criada.");
+
     return (E) PessoaDto.ofPessoa(pessoa);
   }
 
@@ -30,6 +35,9 @@ public class PessoaService {
         StreamSupport.stream(dtos.spliterator(), true).map(PessoaDto::toEntity).toList();
 
     pessoas = pessoaRepository.saveAll(pessoas);
+
+    log.info("Pessoas  \"" + pessoas.stream().map(Pessoa::getId) + "\" criadas.");
+
     return (Iterable<E>) PessoaDto.ofPessoas(pessoas);
   }
 
@@ -57,5 +65,7 @@ public class PessoaService {
     }
 
     pessoaRepository.deleteById(id);
+
+    log.info("Pessoa \"" + id + "\" deletada.");
   }
 }

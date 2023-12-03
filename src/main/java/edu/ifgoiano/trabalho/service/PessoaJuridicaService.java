@@ -7,9 +7,11 @@ import edu.ifgoiano.trabalho.model.entity.PessoaJuridica;
 import edu.ifgoiano.trabalho.model.repository.PessoaJuridicaRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class PessoaJuridicaService {
 
@@ -24,6 +26,9 @@ public class PessoaJuridicaService {
     PessoaJuridica pessoa = dto.toEntity();
 
     pessoa = pessoaJuridicaRepository.save(pessoa);
+
+    log.info("Pessoa jurídica \"" + pessoa.getId() + "\" atualizada.");
+
     return PessoaJuridicaDto.ofPessoaJuridica(pessoa);
   }
 
@@ -37,6 +42,9 @@ public class PessoaJuridicaService {
     atualizarParcialmente(pessoa, dto);
 
     pessoa = pessoaJuridicaRepository.save(pessoa);
+
+    log.info("Pessoa jurídica \"" + pessoa.getId() + "\" atualizada.");
+
     return PessoaJuridicaDto.ofPessoaJuridica(pessoa);
   }
 

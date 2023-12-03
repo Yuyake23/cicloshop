@@ -14,9 +14,11 @@ import edu.ifgoiano.trabalho.model.repository.PessoaRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.stream.StreamSupport;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class ContratoFuncionarioService {
 
@@ -36,6 +38,9 @@ public class ContratoFuncionarioService {
               .orElseThrow(() -> excecaoPorDadosBancariosNaoEncontrados(dto.dadosBancarios.id));
       contratoFuncionario.setDadosBancarios(dadosBancarios);
     }
+
+    log.info("Funcionário \"" + contratoFuncionario.getId() + "\" criado.");
+
     return ContratoFuncionarioDto.ofContratoFuncionario(contratoFuncionario);
   }
 
@@ -47,6 +52,12 @@ public class ContratoFuncionarioService {
             .toList();
 
     contratosFuncionario = contratoFuncionarioRepository.saveAll(contratosFuncionario);
+
+    log.info(
+        "Funcionários \""
+            + contratosFuncionario.stream().map(ContratoFuncionario::getId)
+            + "\" criados.");
+
     return ContratoFuncionarioDto.ofContratosFuncionario(contratosFuncionario);
   }
 
@@ -60,6 +71,9 @@ public class ContratoFuncionarioService {
     contratoFuncionario.setId(id);
 
     contratoFuncionario = contratoFuncionarioRepository.save(contratoFuncionario);
+
+    log.info("Contrato \"" + contratoFuncionario.getId() + "\" atualizado.");
+
     return ContratoFuncionarioDto.ofContratoFuncionario(contratoFuncionario);
   }
 
@@ -73,6 +87,9 @@ public class ContratoFuncionarioService {
     atualizarParcialmente(contratoFuncionario, dto);
 
     contratoFuncionario = contratoFuncionarioRepository.save(contratoFuncionario);
+
+    log.info("Contrato \"" + contratoFuncionario.getId() + "\" atualizado.");
+
     return ContratoFuncionarioDto.ofContratoFuncionario(contratoFuncionario);
   }
 
@@ -102,6 +119,8 @@ public class ContratoFuncionarioService {
     }
 
     contratoFuncionarioRepository.deleteById(id);
+
+    log.info("Funcionário \"" + id + "\" deletado.");
   }
 
   private void atualizarParcialmente(

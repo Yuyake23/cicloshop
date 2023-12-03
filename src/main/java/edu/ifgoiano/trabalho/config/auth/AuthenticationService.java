@@ -8,6 +8,7 @@ import edu.ifgoiano.trabalho.model.repository.PessoaRepository;
 import edu.ifgoiano.trabalho.model.repository.UsuarioRepository;
 import edu.ifgoiano.trabalho.service.JwtService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -52,6 +54,9 @@ public class AuthenticationService {
     }
 
     String token = jwtService.gerarToken(usuario);
+
+    log.info("Usuário \"" + usuario.getUsername() + "\" criado.");
+
     return AuthenticationResponse.builder().token(token).build();
   }
 
@@ -63,6 +68,9 @@ public class AuthenticationService {
     Usuario usuario = (Usuario) autenticacao.getPrincipal();
 
     String token = jwtService.gerarToken(usuario);
+
+    log.info("Usuário \"" + usuario.getUsername() + "\" autenticado.");
+
     return AuthenticationResponse.builder().token(token).build();
   }
 }

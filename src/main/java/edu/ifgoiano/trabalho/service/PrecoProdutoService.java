@@ -14,9 +14,11 @@ import edu.ifgoiano.trabalho.model.repository.ProdutoRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.stream.StreamSupport;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class PrecoProdutoService {
 
@@ -27,6 +29,14 @@ public class PrecoProdutoService {
   @Transactional
   public PrecoProdutoDto salvar(PrecoProdutoDto dto) {
     PrecoProduto precoProduto = precoProdutoRepository.save(dto.toEntity());
+
+    log.info(
+        "Preço \""
+            + precoProduto.getId()
+            + "\" do produto \""
+            + precoProduto.getProduto().getId()
+            + "\" atualizada.");
+
     return PrecoProdutoDto.ofPrecoProduto(precoProduto);
   }
 
@@ -36,6 +46,9 @@ public class PrecoProdutoService {
         StreamSupport.stream(dtos.spliterator(), true).map(PrecoProdutoDto::toEntity).toList();
 
     precosProduto = precoProdutoRepository.saveAll(precosProduto);
+
+    log.info("Preços \"" + precosProduto.stream().map(PrecoProduto::getId) + "\" salvos.");
+
     return PrecoProdutoDto.ofPrecosProdutos(precosProduto);
   }
 

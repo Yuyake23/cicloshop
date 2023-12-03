@@ -8,9 +8,11 @@ import edu.ifgoiano.trabalho.model.repository.DadosBancariosRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.stream.StreamSupport;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class DadosBancariosService {
 
@@ -19,6 +21,14 @@ public class DadosBancariosService {
   @Transactional
   public DadosBancariosDto salvar(DadosBancariosDto dto) {
     DadosBancarios dadosBancarios = dadosBancariosRepository.save(dto.toEntity());
+
+    log.info(
+        "Dados bancários \""
+            + dadosBancarios.getId()
+            + "\" do funcionário "
+            + dadosBancarios.getContratoFuncionario().getId()
+            + " criados.");
+
     return DadosBancariosDto.ofDadosBancarios(dadosBancarios);
   }
 
@@ -28,6 +38,10 @@ public class DadosBancariosService {
         StreamSupport.stream(dtos.spliterator(), true).map(DadosBancariosDto::toEntity).toList();
 
     dadosBancarios = dadosBancariosRepository.saveAll(dadosBancarios);
+
+    log.info(
+        "Dados bancários \"" + dadosBancarios.stream().map(DadosBancarios::getId) + "\" criados.");
+
     return DadosBancariosDto.ofDadosBancarios(dadosBancarios);
   }
 
@@ -41,6 +55,14 @@ public class DadosBancariosService {
     dadosBancarios.setId(id);
 
     dadosBancarios = dadosBancariosRepository.save(dadosBancarios);
+
+    log.info(
+        "Dados bancários \""
+            + dadosBancarios.getId()
+            + "\" do funcionário "
+            + dadosBancarios.getContratoFuncionario().getId()
+            + " atualizados.");
+
     return DadosBancariosDto.ofDadosBancarios(dadosBancarios);
   }
 
@@ -54,6 +76,14 @@ public class DadosBancariosService {
     atualizarParcialmente(dadosBancarios, dto);
 
     dadosBancarios = dadosBancariosRepository.save(dadosBancarios);
+
+    log.info(
+        "Dados bancários \""
+            + dadosBancarios.getId()
+            + "\" do funcionário "
+            + dadosBancarios.getContratoFuncionario().getId()
+            + " atualizados.");
+
     return DadosBancariosDto.ofDadosBancarios(dadosBancarios);
   }
 
@@ -83,6 +113,8 @@ public class DadosBancariosService {
     }
 
     dadosBancariosRepository.deleteById(id);
+
+    log.info("Dados bancários \"" + id + "\" deletados.");
   }
 
   private void atualizarParcialmente(DadosBancarios dadosBancarios, DadosBancariosDto dto) {
