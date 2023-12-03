@@ -19,7 +19,7 @@ public abstract class PessoaDto extends RepresentationModel<PessoaDto> {
   public final String endereco;
   public final String observacoes;
 
-  public PessoaDto(
+  protected PessoaDto(
       Long id, TipoPessoa tipoPessoa, String telefone, String endereco, String observacoes) {
     this.id = id;
     this.tipoPessoa = tipoPessoa;
@@ -29,7 +29,7 @@ public abstract class PessoaDto extends RepresentationModel<PessoaDto> {
     addLinks();
   }
 
-  public PessoaDto(Pessoa pessoa) {
+  protected PessoaDto(Pessoa pessoa) {
     this.id = pessoa.getId();
     this.tipoPessoa = pessoa.getTipoPessoa();
     this.telefone = pessoa.getTelefone();

@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import edu.ifgoiano.trabalho.controller.PessoaJuridicaController;
 import edu.ifgoiano.trabalho.model.entity.Fornecedor;
 import edu.ifgoiano.trabalho.model.entity.PessoaJuridica;
@@ -18,7 +19,32 @@ public class PessoaJuridicaDto extends PessoaDto {
   public final String nomeFantasia;
   public final LocalDate dataCriacao;
 
+  @JsonCreator
   public PessoaJuridicaDto(
+      Long id,
+      String telefone,
+      String endereco,
+      String observacoes,
+      String cnpj,
+      String razaoSocial,
+      String nomeFantasia,
+      LocalDate dataCriacao) {
+    super(id, TipoPessoa.JURIDICA, telefone, endereco, observacoes);
+    this.cnpj = cnpj;
+    this.razaoSocial = razaoSocial;
+    this.nomeFantasia = nomeFantasia;
+    this.dataCriacao = dataCriacao;
+  }
+
+  public PessoaJuridicaDto(PessoaJuridica pessoaJuridica) {
+    super(pessoaJuridica);
+    this.cnpj = pessoaJuridica.getDocumento();
+    this.razaoSocial = pessoaJuridica.getNome();
+    this.nomeFantasia = pessoaJuridica.getNomeFantasia();
+    this.dataCriacao = pessoaJuridica.getDataGenese();
+  }
+  
+  protected PessoaJuridicaDto(
       Long id,
       TipoPessoa tipoPessoa,
       String telefone,
@@ -33,14 +59,6 @@ public class PessoaJuridicaDto extends PessoaDto {
     this.razaoSocial = razaoSocial;
     this.nomeFantasia = nomeFantasia;
     this.dataCriacao = dataCriacao;
-  }
-
-  public PessoaJuridicaDto(PessoaJuridica pessoaJuridica) {
-    super(pessoaJuridica);
-    this.cnpj = pessoaJuridica.getDocumento();
-    this.razaoSocial = pessoaJuridica.getNome();
-    this.nomeFantasia = pessoaJuridica.getNomeFantasia();
-    this.dataCriacao = pessoaJuridica.getDataGenese();
   }
 
   @Override
