@@ -3,7 +3,6 @@ package edu.ifgoiano.trabalho.controller;
 import edu.ifgoiano.trabalho.dto.PecaDto;
 import edu.ifgoiano.trabalho.service.PecaService;
 import edu.ifgoiano.trabalho.service.ProdutoService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +44,7 @@ public class PecaController {
    * @return Uma lista de todas as peças registradas.
    */
   @GetMapping
-  public List<PecaDto> buscarTodos() {
+  public Iterable<PecaDto> buscarTodos() {
     return pecaService.buscarTodos();
   }
 

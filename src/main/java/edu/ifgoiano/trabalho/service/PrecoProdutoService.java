@@ -31,7 +31,7 @@ public class PrecoProdutoService {
   }
 
   @Transactional
-  public List<PrecoProdutoDto> salvarTodos(Iterable<PrecoProdutoDto> dtos) {
+  public Iterable<PrecoProdutoDto> salvarTodos(Iterable<PrecoProdutoDto> dtos) {
     List<PrecoProduto> precosProduto =
         StreamSupport.stream(dtos.spliterator(), true).map(PrecoProdutoDto::toEntity).toList();
 
@@ -78,13 +78,13 @@ public class PrecoProdutoService {
     return PrecoProdutoDto.ofPrecoProduto(precoProduto);
   }
 
-  public List<PrecoProdutoDto> buscarTodos() {
+  public Iterable<PrecoProdutoDto> buscarTodos() {
     List<PrecoProduto> precoProduto = precoProdutoRepository.findAll();
 
     return PrecoProdutoDto.ofPrecosProdutos(precoProduto);
   }
 
-  public List<PrecoProdutoDto> buscarPorProduto(Long produtoId) {
+  public Iterable<PrecoProdutoDto> buscarPorProduto(Long produtoId) {
     if (!produtoRepository.existsById(produtoId)) {
       throw excecaoPorProdutoNaoEncontrado(produtoId);
     }

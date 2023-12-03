@@ -4,7 +4,6 @@ import edu.ifgoiano.trabalho.dto.PessoaDto;
 import edu.ifgoiano.trabalho.dto.ProdutoDto;
 import edu.ifgoiano.trabalho.service.PessoaService;
 import edu.ifgoiano.trabalho.service.ProdutoService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +21,7 @@ public class PessoaController {
    * @return Uma lista de todas as pessoas registradas.
    */
   @GetMapping
-  public List<? extends PessoaDto> buscarTodos() {
+  public Iterable<? extends PessoaDto> buscarTodos() {
     return pessoaService.buscarTodos();
   }
 
@@ -44,7 +43,7 @@ public class PessoaController {
    * @return Uma lista contendo os produtos da pessoa.
    */
   @GetMapping("/{id}/produtos")
-  public List<? extends ProdutoDto> buscarPorDono(@PathVariable Long id) {
+  public Iterable<? extends ProdutoDto> buscarPorDono(@PathVariable Long id) {
     return produtoService.buscarPorDono(id);
   }
 

@@ -2,7 +2,6 @@ package edu.ifgoiano.trabalho.controller;
 
 import edu.ifgoiano.trabalho.dto.DadosBancariosDto;
 import edu.ifgoiano.trabalho.service.DadosBancariosService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +32,7 @@ public class DadosBancariosController {
    */
   @PostMapping("/varias")
   @ResponseStatus(HttpStatus.CREATED)
-  public List<DadosBancariosDto> salvarTodos(@RequestBody List<DadosBancariosDto> dtos) {
+  public Iterable<DadosBancariosDto> salvarTodos(@RequestBody Iterable<DadosBancariosDto> dtos) {
     return dadosBancariosService.salvarTodos(dtos);
   }
 
@@ -43,7 +42,7 @@ public class DadosBancariosController {
    * @return Uma lista de todos os dados bancários registrados.
    */
   @GetMapping
-  public List<DadosBancariosDto> buscarTodos() {
+  public Iterable<DadosBancariosDto> buscarTodos() {
     return dadosBancariosService.buscarTodos();
   }
 

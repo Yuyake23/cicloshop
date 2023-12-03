@@ -1,12 +1,17 @@
 package edu.ifgoiano.trabalho.dto;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import java.time.LocalDate;
+import java.util.List;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
+import edu.ifgoiano.trabalho.controller.PessoaJuridicaController;
 import edu.ifgoiano.trabalho.model.entity.Fornecedor;
 import edu.ifgoiano.trabalho.model.entity.PessoaJuridica;
 import edu.ifgoiano.trabalho.model.enums.TipoPessoa;
-import java.time.LocalDate;
-import java.util.List;
 
-public sealed class PessoaJuridicaDto extends PessoaDto permits FornecedorDto {
+public class PessoaJuridicaDto extends PessoaDto {
 
   public final String cnpj;
   public final String razaoSocial;
@@ -52,8 +57,15 @@ public sealed class PessoaJuridicaDto extends PessoaDto permits FornecedorDto {
     }
   }
 
-  public static List<? extends PessoaJuridicaDto> ofPessoasJuridicas(
+  public static CollectionModel<? extends PessoaJuridicaDto> ofPessoasJuridicas(
       List<PessoaJuridica> pessoasJuridicas) {
-    return pessoasJuridicas.stream().map(PessoaJuridicaDto::ofPessoaJuridica).toList();
+    Link selfLink = linkTo(
+        methodOn(PessoaJuridicaController.class).buscarTodos())
+        .withSelfRel()
+        .withType("GET");
+    return CollectionModel.of(
+        pessoasJuridicas.stream()
+          .map(PessoaJuridicaDto::ofPessoaJuridica)
+          .toList(), selfLink);
   }
 }

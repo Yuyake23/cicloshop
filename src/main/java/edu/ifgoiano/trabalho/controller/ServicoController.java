@@ -2,7 +2,6 @@ package edu.ifgoiano.trabalho.controller;
 
 import edu.ifgoiano.trabalho.dto.ServicoDto;
 import edu.ifgoiano.trabalho.service.ServicoService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +32,7 @@ public class ServicoController {
    */
   @PostMapping("/varias")
   @ResponseStatus(HttpStatus.CREATED)
-  public List<ServicoDto> salvarTodos(@RequestBody List<ServicoDto> dtos) {
+  public Iterable<ServicoDto> salvarTodos(@RequestBody Iterable<ServicoDto> dtos) {
     return servicoService.salvarTodos(dtos);
   }
 
@@ -43,7 +42,7 @@ public class ServicoController {
    * @return Uma lista de todos os serviços registrados.
    */
   @GetMapping
-  public List<ServicoDto> buscarTodos() {
+  public Iterable<ServicoDto> buscarTodos() {
     return servicoService.buscarTodos();
   }
 

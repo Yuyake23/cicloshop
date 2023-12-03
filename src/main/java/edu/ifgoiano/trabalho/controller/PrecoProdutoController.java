@@ -2,7 +2,6 @@ package edu.ifgoiano.trabalho.controller;
 
 import edu.ifgoiano.trabalho.dto.PrecoProdutoDto;
 import edu.ifgoiano.trabalho.service.PrecoProdutoService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +32,7 @@ public class PrecoProdutoController {
    */
   @PostMapping("/varias")
   @ResponseStatus(HttpStatus.CREATED)
-  public List<PrecoProdutoDto> salvarTodos(@RequestBody List<PrecoProdutoDto> dtos) {
+  public Iterable<PrecoProdutoDto> salvarTodos(@RequestBody Iterable<PrecoProdutoDto> dtos) {
     return precoProdutoService.salvarTodos(dtos);
   }
 
@@ -43,7 +42,7 @@ public class PrecoProdutoController {
    * @return Uma lista de todos os preços de produtos registrados.
    */
   @GetMapping
-  public List<PrecoProdutoDto> buscarTodos() {
+  public Iterable<PrecoProdutoDto> buscarTodos() {
     return precoProdutoService.buscarTodos();
   }
 

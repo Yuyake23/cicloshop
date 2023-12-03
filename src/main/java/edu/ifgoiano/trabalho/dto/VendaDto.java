@@ -1,14 +1,20 @@
 package edu.ifgoiano.trabalho.dto;
-
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.RepresentationModel;
+import edu.ifgoiano.trabalho.controller.PessoaController;
+import edu.ifgoiano.trabalho.controller.VendaController;
 import edu.ifgoiano.trabalho.model.entity.ContratoFuncionario;
 import edu.ifgoiano.trabalho.model.entity.Pessoa;
 import edu.ifgoiano.trabalho.model.entity.Produto;
 import edu.ifgoiano.trabalho.model.entity.Venda;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
 
-public final class VendaDto {
+public class VendaDto extends RepresentationModel<VendaDto> {
 
   public final Long id;
   public final List<Long> produtosId;
@@ -33,6 +39,7 @@ public final class VendaDto {
     this.dataVenda = dataVenda;
     this.valor = valor;
     this.observacoes = observacoes;
+    addLinks();
   }
 
   public VendaDto(Venda venda) {
@@ -43,6 +50,20 @@ public final class VendaDto {
     this.dataVenda = venda.getDataVenda();
     this.valor = venda.getValor();
     this.observacoes = venda.getObservacoes();
+    addLinks();
+  }
+  
+  private void addLinks() {
+    Link selfLink = linkTo(
+        methodOn(VendaController.class).buscarPorId(id))
+        .withSelfRel()
+        .withType("GET");
+    Link clienteLink = linkTo(
+        methodOn(PessoaController.class).buscarPorId(compradorId))
+        .withRel("cliente")
+        .withType("GET");
+    
+    super.add(selfLink, clienteLink);
   }
 
   public Venda toEntity() {
@@ -61,7 +82,14 @@ public final class VendaDto {
     return new VendaDto(venda);
   }
 
-  public static List<VendaDto> ofVendas(List<Venda> vendas) {
-    return vendas.stream().map(VendaDto::ofVenda).toList();
+  public static CollectionModel<VendaDto> ofVendas(List<Venda> vendas) {
+    Link selfLink = linkTo(
+        methodOn(VendaController.class).buscarTodos())
+        .withSelfRel()
+        .withType("GET");
+    return CollectionModel.of(
+        vendas.stream()
+          .map(VendaDto::ofVenda)
+          .toList(), selfLink);
   }
 }

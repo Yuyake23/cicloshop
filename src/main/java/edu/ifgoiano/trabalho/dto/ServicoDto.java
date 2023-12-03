@@ -1,16 +1,22 @@
 package edu.ifgoiano.trabalho.dto;
-
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.RepresentationModel;
+import edu.ifgoiano.trabalho.controller.PessoaController;
+import edu.ifgoiano.trabalho.controller.ServicoController;
 import edu.ifgoiano.trabalho.model.entity.ContratoFuncionario;
 import edu.ifgoiano.trabalho.model.entity.Peca;
 import edu.ifgoiano.trabalho.model.entity.Pessoa;
 import edu.ifgoiano.trabalho.model.entity.Produto;
 import edu.ifgoiano.trabalho.model.entity.Servico;
 import edu.ifgoiano.trabalho.model.enums.StatusServico;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
 
-public class ServicoDto {
+public class ServicoDto extends RepresentationModel<ServicoDto> {
 
   public final Long id;
   public final Long clienteId;
@@ -47,6 +53,7 @@ public class ServicoDto {
     this.observacoes = observacoes;
     this.dataEntrada = dataEntrada;
     this.dataSaida = dataSaida;
+    addLinks();
   }
 
   public ServicoDto(Servico servico) {
@@ -62,6 +69,20 @@ public class ServicoDto {
     this.observacoes = servico.getObservacoes();
     this.dataEntrada = servico.getDataEntrada();
     this.dataSaida = servico.getDataSaida();
+    addLinks();
+  }
+  
+  private void addLinks() {
+    Link selfLink = linkTo(
+        methodOn(ServicoController.class).buscarPorId(id))
+        .withSelfRel()
+        .withType("GET");
+    Link clienteLink = linkTo(
+        methodOn(PessoaController.class).buscarPorId(clienteId))
+        .withRel("cliente")
+        .withType("GET");
+    
+    super.add(selfLink, clienteLink);
   }
 
   public Servico toEntity() {
@@ -83,7 +104,14 @@ public class ServicoDto {
     return new ServicoDto(servico);
   }
 
-  public static List<ServicoDto> ofServicos(List<Servico> servicos) {
-    return servicos.stream().map(ServicoDto::ofServico).toList();
+  public static CollectionModel<ServicoDto> ofServicos(List<Servico> servicos) {
+    Link selfLink = linkTo(
+        methodOn(ServicoController.class).buscarTodos())
+        .withSelfRel()
+        .withType("GET");
+    return CollectionModel.of(
+        servicos.stream()
+          .map(ServicoDto::ofServico)
+          .toList(), selfLink);
   }
 }

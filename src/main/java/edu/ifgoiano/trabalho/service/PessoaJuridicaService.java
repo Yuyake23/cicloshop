@@ -53,7 +53,7 @@ public class PessoaJuridicaService {
     return PessoaJuridicaDto.ofPessoaJuridica(pessoaJuridica);
   }
 
-  public List<? extends PessoaJuridicaDto> buscarTodos() {
+  public Iterable<? extends PessoaJuridicaDto> buscarTodos() {
     List<PessoaJuridica> pessoaJuridicas = pessoaJuridicaRepository.findAll();
 
     return PessoaJuridicaDto.ofPessoasJuridicas(pessoaJuridicas);

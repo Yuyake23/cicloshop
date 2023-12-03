@@ -1,11 +1,16 @@
 package edu.ifgoiano.trabalho.dto;
 
-import edu.ifgoiano.trabalho.model.entity.PessoaFisica;
-import edu.ifgoiano.trabalho.model.enums.TipoPessoa;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import java.time.LocalDate;
 import java.util.List;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
+import edu.ifgoiano.trabalho.controller.PessoaFisicaController;
+import edu.ifgoiano.trabalho.model.entity.PessoaFisica;
+import edu.ifgoiano.trabalho.model.enums.TipoPessoa;
 
-public final class PessoaFisicaDto extends PessoaDto {
+public class PessoaFisicaDto extends PessoaDto {
 
   public final String nome;
   public final String cpf;
@@ -42,7 +47,14 @@ public final class PessoaFisicaDto extends PessoaDto {
     return new PessoaFisicaDto(pessoaFisica);
   }
 
-  public static List<PessoaFisicaDto> ofPessoasFisicas(List<PessoaFisica> pessoasFisicas) {
-    return pessoasFisicas.stream().map(PessoaFisicaDto::ofPessoaFisica).toList();
+  public static CollectionModel<PessoaFisicaDto> ofPessoasFisicas(List<PessoaFisica> pessoasFisicas) {
+    Link selfLink = linkTo(
+        methodOn(PessoaFisicaController.class).buscarTodos())
+        .withSelfRel()
+        .withType("GET");
+    return CollectionModel.of(
+        pessoasFisicas.stream()
+          .map(PessoaFisicaDto::ofPessoaFisica)
+          .toList(), selfLink);
   }
 }

@@ -40,7 +40,7 @@ public class ContratoFuncionarioService {
   }
 
   @Transactional
-  public List<ContratoFuncionarioDto> salvarTodos(Iterable<ContratoFuncionarioDto> dtos) {
+  public Iterable<ContratoFuncionarioDto> salvarTodos(Iterable<ContratoFuncionarioDto> dtos) {
     List<ContratoFuncionario> contratosFuncionario =
         StreamSupport.stream(dtos.spliterator(), true)
             .map(ContratoFuncionarioDto::toEntity)
@@ -89,7 +89,7 @@ public class ContratoFuncionarioService {
     return ContratoFuncionarioDto.ofContratoFuncionario(contratoFuncionario);
   }
 
-  public List<ContratoFuncionarioDto> buscarTodos() {
+  public Iterable<ContratoFuncionarioDto> buscarTodos() {
     List<ContratoFuncionario> contratosFuncionario = contratoFuncionarioRepository.findAll();
 
     return ContratoFuncionarioDto.ofContratosFuncionario(contratosFuncionario);

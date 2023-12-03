@@ -3,7 +3,6 @@ package edu.ifgoiano.trabalho.controller;
 import edu.ifgoiano.trabalho.dto.FornecedorDto;
 import edu.ifgoiano.trabalho.service.FornecedorService;
 import edu.ifgoiano.trabalho.service.PessoaService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +34,7 @@ public class FornecedorController {
    */
   @PostMapping("/varias")
   @ResponseStatus(HttpStatus.CREATED)
-  public List<FornecedorDto> salvarTodos(@RequestBody List<FornecedorDto> dtos) {
+  public Iterable<FornecedorDto> salvarTodos(@RequestBody Iterable<FornecedorDto> dtos) {
     return pessoaService.salvarTodos(dtos);
   }
 
@@ -45,7 +44,7 @@ public class FornecedorController {
    * @return Uma lista de todos os fornecedores registrados.
    */
   @GetMapping
-  public List<FornecedorDto> buscarTodos() {
+  public Iterable<FornecedorDto> buscarTodos() {
     return fornecedorService.buscarTodos();
   }
 

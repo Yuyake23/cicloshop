@@ -47,13 +47,13 @@ public class ProdutoService {
     return ProdutoDto.ofProduto(produto);
   }
 
-  public List<? extends ProdutoDto> buscarTodos() {
+  public Iterable<? extends ProdutoDto> buscarTodos() {
     List<Produto> produtos = produtoRepository.findAll();
 
     return ProdutoDto.ofProdutos(produtos);
   }
 
-  public List<? extends ProdutoDto> buscarPorDono(Long idDono) {
+  public Iterable<? extends ProdutoDto> buscarPorDono(Long idDono) {
     if (!pessoaRepository.existsById(idDono)) {
       throw excecaoPorPessoaNaoEncontrada(idDono);
     }

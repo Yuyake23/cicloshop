@@ -1,11 +1,16 @@
 package edu.ifgoiano.trabalho.dto;
 
-import edu.ifgoiano.trabalho.model.entity.Peca;
-import edu.ifgoiano.trabalho.model.entity.Pessoa;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import java.math.BigDecimal;
 import java.util.List;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
+import edu.ifgoiano.trabalho.controller.PecaController;
+import edu.ifgoiano.trabalho.model.entity.Peca;
+import edu.ifgoiano.trabalho.model.entity.Pessoa;
 
-public final class PecaDto extends ProdutoDto {
+public class PecaDto extends ProdutoDto {
 
   public final String nome;
   public final Integer quantidade;
@@ -32,7 +37,14 @@ public final class PecaDto extends ProdutoDto {
     return new PecaDto(peca);
   }
 
-  public static List<PecaDto> ofPecas(List<Peca> pecas) {
-    return pecas.stream().map(PecaDto::ofPeca).toList();
+  public static CollectionModel<PecaDto> ofPecas(List<Peca> pecas) {
+    Link selfLink = linkTo(
+        methodOn(PecaController.class).buscarTodos())
+        .withSelfRel()
+        .withType("GET");
+    return CollectionModel.of(
+        pecas.stream()
+          .map(PecaDto::ofPeca)
+          .toList(), selfLink);
   }
 }

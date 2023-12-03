@@ -1,11 +1,15 @@
 package edu.ifgoiano.trabalho.dto;
-
-import edu.ifgoiano.trabalho.model.entity.Bicicleta;
-import edu.ifgoiano.trabalho.model.entity.Pessoa;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import java.math.BigDecimal;
 import java.util.List;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
+import edu.ifgoiano.trabalho.controller.BicicletaController;
+import edu.ifgoiano.trabalho.model.entity.Bicicleta;
+import edu.ifgoiano.trabalho.model.entity.Pessoa;
 
-public final class BicicletaDto extends ProdutoDto {
+public class BicicletaDto extends ProdutoDto {
 
   public final String codigoSerial;
   public final String modelo;
@@ -41,7 +45,11 @@ public final class BicicletaDto extends ProdutoDto {
     return new BicicletaDto(bicicleta);
   }
 
-  public static List<BicicletaDto> ofBicicletas(List<Bicicleta> pecas) {
-    return pecas.stream().map(BicicletaDto::ofBicicleta).toList();
+  public static CollectionModel<BicicletaDto> ofBicicletas(List<Bicicleta> pecas) {
+    Link selfLink = linkTo(
+        methodOn(BicicletaController.class).buscarTodos())
+        .withSelfRel()
+        .withType("GET");
+    return CollectionModel.of(pecas.stream().map(BicicletaDto::ofBicicleta).toList(), selfLink);
   }
 }

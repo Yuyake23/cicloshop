@@ -49,7 +49,7 @@ public class FornecedorService {
     return FornecedorDto.ofFornecedor(fornecedor);
   }
 
-  public List<FornecedorDto> buscarTodos() {
+  public Iterable<FornecedorDto> buscarTodos() {
     List<Fornecedor> fornecedores = fornecedorRepository.findAll();
 
     return FornecedorDto.ofFornecedores(fornecedores);

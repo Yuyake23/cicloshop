@@ -3,7 +3,6 @@ package edu.ifgoiano.trabalho.controller;
 import edu.ifgoiano.trabalho.dto.BicicletaDto;
 import edu.ifgoiano.trabalho.service.BicicletaService;
 import edu.ifgoiano.trabalho.service.ProdutoService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +45,7 @@ public class BicicletaController {
    * @return Todas as bicicletas na base de dados da oficina.
    */
   @GetMapping
-  public List<BicicletaDto> buscarTodos() {
+  public Iterable<BicicletaDto> buscarTodos() {
     return bicicletaService.buscarTodos();
   }
 

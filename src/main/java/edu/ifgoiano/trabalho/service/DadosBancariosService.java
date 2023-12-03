@@ -23,7 +23,7 @@ public class DadosBancariosService {
   }
 
   @Transactional
-  public List<DadosBancariosDto> salvarTodos(Iterable<DadosBancariosDto> dtos) {
+  public Iterable<DadosBancariosDto> salvarTodos(Iterable<DadosBancariosDto> dtos) {
     List<DadosBancarios> dadosBancarios =
         StreamSupport.stream(dtos.spliterator(), true).map(DadosBancariosDto::toEntity).toList();
 
@@ -70,7 +70,7 @@ public class DadosBancariosService {
     return DadosBancariosDto.ofDadosBancarios(dadosBancarios);
   }
 
-  public List<DadosBancariosDto> buscarTodos() {
+  public Iterable<DadosBancariosDto> buscarTodos() {
     List<DadosBancarios> dadosBancarios = dadosBancariosRepository.findAll();
 
     return DadosBancariosDto.ofDadosBancarios(dadosBancarios);

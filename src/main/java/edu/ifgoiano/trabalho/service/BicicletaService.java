@@ -54,13 +54,13 @@ public class BicicletaService {
     return BicicletaDto.ofBicicleta(bicicleta);
   }
 
-  public List<BicicletaDto> buscarTodos() {
+  public Iterable<BicicletaDto> buscarTodos() {
     List<Bicicleta> bicicletas = bicicletaRepository.findAll();
 
     return BicicletaDto.ofBicicletas(bicicletas);
   }
 
-  public List<BicicletaDto> buscarPorDono(Long idDono) {
+  public Iterable<BicicletaDto> buscarPorDono(Long idDono) {
     if (!pessoaRepository.existsById(idDono)) {
       throw excecaoPorPessoaNaoEncontrada(idDono);
     }

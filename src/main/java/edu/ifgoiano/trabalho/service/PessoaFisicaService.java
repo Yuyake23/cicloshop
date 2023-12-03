@@ -53,7 +53,8 @@ public class PessoaFisicaService {
     return PessoaFisicaDto.ofPessoaFisica(pessoaFisica);
   }
 
-  public List<PessoaFisicaDto> buscarTodos() {
+  public Iterable
+  <PessoaFisicaDto> buscarTodos() {
     List<PessoaFisica> pessoaFisicas = pessoaFisicaRepository.findAll();
 
     return PessoaFisicaDto.ofPessoasFisicas(pessoaFisicas);
