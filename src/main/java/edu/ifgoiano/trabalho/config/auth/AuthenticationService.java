@@ -1,6 +1,7 @@
 package edu.ifgoiano.trabalho.config.auth;
 
 import edu.ifgoiano.trabalho.exception.RecursoNaoEncontradoException;
+import edu.ifgoiano.trabalho.exception.SenhaInvalidaException;
 import edu.ifgoiano.trabalho.model.entity.Usuario;
 import edu.ifgoiano.trabalho.model.enums.Permissao;
 import edu.ifgoiano.trabalho.model.repository.PessoaRepository;
@@ -25,6 +26,14 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
 
   public AuthenticationResponse registrar(RegisterRequest request) {
+
+    // Checar se a senha é válida
+    if (!request
+        .getPassword()
+        .matches("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*[^A-Za-z0-9]).{8,}$"))
+      throw new SenhaInvalidaException(
+          "Senha inválida. Deve ser maior que 8 caracteres e deve incluir pelo menos um caractere maiúsculo, um minúsculo, um número, e um caractere especial.");
+
     Usuario usuario =
         Usuario.builder()
             .username(request.getUsername())
