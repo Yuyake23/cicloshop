@@ -28,6 +28,11 @@ public class Usuario implements UserDetails, Serializable {
 
   private String username;
   private String password;
+
+  // TODO migration v1: criação classe usuario
+  // TODO migration v2: criação coluna pessoa OneToOne
+  @OneToOne
+  @JoinColumn(name = "usuario_pessoa_id")
   public Pessoa pessoa;
 
   @Enumerated(EnumType.STRING)

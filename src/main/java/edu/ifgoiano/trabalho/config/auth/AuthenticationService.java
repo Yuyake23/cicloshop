@@ -1,11 +1,13 @@
 package edu.ifgoiano.trabalho.config.auth;
 
+import edu.ifgoiano.trabalho.exception.RecursoNaoEncontradoException;
 import edu.ifgoiano.trabalho.model.entity.Usuario;
 import edu.ifgoiano.trabalho.model.enums.Permissao;
 import edu.ifgoiano.trabalho.model.repository.PessoaRepository;
 import edu.ifgoiano.trabalho.model.repository.UsuarioRepository;
 import edu.ifgoiano.trabalho.service.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,12 +29,18 @@ public class AuthenticationService {
         Usuario.builder()
             .username(request.getUsername())
             .password(passwordEncoder.encode(request.getPassword()))
-            // TODO implementar pessoa
-            .pessoa(null)
+            .pessoa(
+                pessoaRepository
+                    .findByDocumento(request.getDocumento())
+                    .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa não encontrada.")))
             .permissao(Permissao.CLIENTE)
             .build();
 
-    usuarioRepository.save(usuario);
+    try {
+      usuarioRepository.save(usuario);
+    } catch (DataIntegrityViolationException e) {
+      throw new DataIntegrityViolationException("Usuário já registrado.");
+    }
 
     String token = jwtService.gerarToken(usuario);
     return AuthenticationResponse.builder().token(token).build();

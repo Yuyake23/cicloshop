@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RegisterRequest {
   private String username;
-  // TODO Usar algo como "private Long codigoPessoa;" ?
+  private String documento;
   private String password;
 }
