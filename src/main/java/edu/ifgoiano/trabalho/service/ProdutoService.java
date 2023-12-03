@@ -28,12 +28,12 @@ public class ProdutoService {
 
   @SuppressWarnings("unchecked")
   @Transactional
-  public <E extends ProdutoDto> List<E> salvarTodos(Iterable<E> dtos) {
+  public <E extends ProdutoDto> Iterable<E> salvarTodos(Iterable<E> dtos) {
     List<Produto> produtos =
         StreamSupport.stream(dtos.spliterator(), true).map(ProdutoDto::toEntity).toList();
 
     produtos = produtoRepository.saveAll(produtos);
-    return (List<E>) ProdutoDto.ofProdutos(produtos);
+    return (Iterable<E>) ProdutoDto.ofProdutos(produtos);
   }
 
   public boolean existePorId(Long id) {
