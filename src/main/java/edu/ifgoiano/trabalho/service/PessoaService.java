@@ -44,7 +44,7 @@ public class PessoaService {
     return PessoaDto.ofPessoa(pessoa);
   }
 
-  public List<? extends PessoaDto> buscarTodos() {
+  public Iterable<? extends PessoaDto> buscarTodos() {
     List<Pessoa> pessoas = pessoaRepository.findAll();
 
     return PessoaDto.ofPessoas(pessoas);

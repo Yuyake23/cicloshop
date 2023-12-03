@@ -1,9 +1,15 @@
 package edu.ifgoiano.trabalho.dto;
 
-import edu.ifgoiano.trabalho.model.entity.DadosBancarios;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import java.util.List;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.RepresentationModel;
+import edu.ifgoiano.trabalho.controller.DadosBancariosController;
+import edu.ifgoiano.trabalho.model.entity.DadosBancarios;
 
-public final class DadosBancariosDto {
+public class DadosBancariosDto extends RepresentationModel<DadosBancariosDto> {
 
   public final Long id;
   public final String nomeBanco;
@@ -26,6 +32,7 @@ public final class DadosBancariosDto {
     this.tipoConta = tipoConta;
     this.numeroConta = numeroConta;
     this.operacao = operacao;
+    addLinks();
   }
 
   public DadosBancariosDto(DadosBancarios dadosBancarios) {
@@ -35,6 +42,16 @@ public final class DadosBancariosDto {
     this.tipoConta = dadosBancarios.getTipoConta();
     this.numeroConta = dadosBancarios.getNumeroConta();
     this.operacao = dadosBancarios.getOperacao();
+    addLinks();
+  }
+  
+  private void addLinks() {
+    Link selfLink = linkTo(
+        methodOn(DadosBancariosController.class).buscarPorId(id))
+        .withSelfRel()
+        .withType("GET");
+    
+    super.add(selfLink);
   }
 
   public DadosBancarios toEntity() {
@@ -45,7 +62,14 @@ public final class DadosBancariosDto {
     return new DadosBancariosDto(dadosBancarios);
   }
 
-  public static List<DadosBancariosDto> ofDadosBancarios(List<DadosBancarios> dadosBancarios) {
-    return dadosBancarios.stream().map(DadosBancariosDto::ofDadosBancarios).toList();
+  public static CollectionModel<DadosBancariosDto> ofDadosBancarios(List<DadosBancarios> dadosBancarios) {
+    Link selfLink = linkTo(
+        methodOn(DadosBancariosController.class).buscarTodos())
+        .withSelfRel()
+        .withType("GET");
+    return CollectionModel.of(
+        dadosBancarios.stream()
+          .map(DadosBancariosDto::ofDadosBancarios)
+          .toList(), selfLink);
   }
 }

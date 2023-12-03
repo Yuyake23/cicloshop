@@ -3,7 +3,6 @@ package edu.ifgoiano.trabalho.controller;
 import edu.ifgoiano.trabalho.dto.PessoaFisicaDto;
 import edu.ifgoiano.trabalho.service.PessoaFisicaService;
 import edu.ifgoiano.trabalho.service.PessoaService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +34,7 @@ public class PessoaFisicaController {
    */
   @PostMapping("/varias")
   @ResponseStatus(HttpStatus.CREATED)
-  public List<PessoaFisicaDto> salvarTodos(@RequestBody List<PessoaFisicaDto> dtos) {
+  public Iterable<PessoaFisicaDto> salvarTodos(@RequestBody Iterable<PessoaFisicaDto> dtos) {
     return pessoaService.salvarTodos(dtos);
   }
 
@@ -45,7 +44,7 @@ public class PessoaFisicaController {
    * @return Uma lista de todas as pessoas físicas registradas.
    */
   @GetMapping
-  public List<PessoaFisicaDto> buscarTodos() {
+  public Iterable<PessoaFisicaDto> buscarTodos() {
     return pessoaFisicaService.buscarTodos();
   }
 

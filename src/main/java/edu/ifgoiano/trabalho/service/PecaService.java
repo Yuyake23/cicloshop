@@ -52,13 +52,13 @@ public class PecaService {
     return PecaDto.ofPeca(peca);
   }
 
-  public List<PecaDto> buscarTodos() {
+  public Iterable<PecaDto> buscarTodos() {
     List<Peca> pecas = pecaRepository.findAll();
 
     return PecaDto.ofPecas(pecas);
   }
 
-  public List<PecaDto> buscarPorDono(Long idDono) {
+  public Iterable<PecaDto> buscarPorDono(Long idDono) {
     if (!pessoaRepository.existsById(idDono)) {
       throw excecaoPorPessoaNaoEncontrada(idDono);
     }

@@ -1,14 +1,18 @@
 package edu.ifgoiano.trabalho.dto;
-
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import java.time.LocalDate;
+import java.util.List;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
+import edu.ifgoiano.trabalho.controller.FornecedorController;
 import edu.ifgoiano.trabalho.model.entity.Fornecedor;
 import edu.ifgoiano.trabalho.model.entity.PrecoProduto;
 import edu.ifgoiano.trabalho.model.enums.TipoPessoa;
-import java.time.LocalDate;
-import java.util.List;
 
-public final class FornecedorDto extends PessoaJuridicaDto {
+public class FornecedorDto extends PessoaJuridicaDto {
 
-  public final List<PrecoProdutoDto> produtosFornecidos;
+  public final CollectionModel<PrecoProdutoDto> produtosFornecidos;
 
   public FornecedorDto(
       Long id,
@@ -51,7 +55,14 @@ public final class FornecedorDto extends PessoaJuridicaDto {
     return new FornecedorDto(fornecedor);
   }
 
-  public static List<FornecedorDto> ofFornecedores(List<Fornecedor> fornecedores) {
-    return fornecedores.stream().map(FornecedorDto::ofFornecedor).toList();
+  public static CollectionModel<FornecedorDto> ofFornecedores(List<Fornecedor> fornecedores) {
+    Link selfLink = linkTo(
+        methodOn(FornecedorController.class).buscarTodos())
+        .withSelfRel()
+        .withType("GET");
+    return CollectionModel.of(
+        fornecedores.stream()
+          .map(FornecedorDto::ofFornecedor)
+          .toList(), selfLink);
   }
 }

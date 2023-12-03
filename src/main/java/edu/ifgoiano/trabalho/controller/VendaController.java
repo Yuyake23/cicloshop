@@ -2,7 +2,6 @@ package edu.ifgoiano.trabalho.controller;
 
 import edu.ifgoiano.trabalho.dto.VendaDto;
 import edu.ifgoiano.trabalho.service.VendaService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +32,7 @@ public class VendaController {
    */
   @PostMapping("/varias")
   @ResponseStatus(HttpStatus.CREATED)
-  public List<VendaDto> salvarTodos(@RequestBody List<VendaDto> dtos) {
+  public Iterable<VendaDto> salvarTodos(@RequestBody Iterable<VendaDto> dtos) {
     return vendaService.salvarTodos(dtos);
   }
 
@@ -43,7 +42,7 @@ public class VendaController {
    * @return Uma lista de todas as vendas registradas.
    */
   @GetMapping
-  public List<VendaDto> buscarTodos() {
+  public Iterable<VendaDto> buscarTodos() {
     return vendaService.buscarTodos();
   }
 

@@ -1,13 +1,21 @@
 package edu.ifgoiano.trabalho.dto;
 
-import edu.ifgoiano.trabalho.model.entity.ContratoFuncionario;
-import edu.ifgoiano.trabalho.model.entity.DadosBancarios;
-import edu.ifgoiano.trabalho.model.entity.Pessoa;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.RepresentationModel;
+import edu.ifgoiano.trabalho.controller.ContratoFuncionarioController;
+import edu.ifgoiano.trabalho.controller.DadosBancariosController;
+import edu.ifgoiano.trabalho.controller.PessoaController;
+import edu.ifgoiano.trabalho.model.entity.ContratoFuncionario;
+import edu.ifgoiano.trabalho.model.entity.DadosBancarios;
+import edu.ifgoiano.trabalho.model.entity.Pessoa;
 
-public final class ContratoFuncionarioDto {
+public class ContratoFuncionarioDto extends RepresentationModel<ContratoFuncionarioDto> {
 
   public final Long id;
   public final Long funcionarioId;
@@ -32,6 +40,7 @@ public final class ContratoFuncionarioDto {
     this.dadosBancarios = DadosBancariosDto.ofDadosBancarios(dadosBancarios);
     this.dataEntrada = dataEntrada;
     this.dataSaida = dataSaida;
+    addLinks();
   }
 
   public ContratoFuncionarioDto(ContratoFuncionario contratoFuncionario) {
@@ -43,6 +52,24 @@ public final class ContratoFuncionarioDto {
         DadosBancariosDto.ofDadosBancarios(contratoFuncionario.getDadosBancarios());
     this.dataEntrada = contratoFuncionario.getDataEntrada();
     this.dataSaida = contratoFuncionario.getDataSaida();
+    addLinks();
+  }
+  
+  private void addLinks() {
+    Link selfLink = linkTo(
+        methodOn(ContratoFuncionarioController.class).buscarPorId(id))
+        .withSelfRel()
+        .withType("GET");
+    Link funcionarioLink = linkTo(
+        methodOn(PessoaController.class).buscarPorId(funcionarioId))
+        .withRel("funcionario")
+        .withType("GET");
+    Link dadosBancariosLink = linkTo(
+        methodOn(DadosBancariosController.class).buscarPorId(dadosBancarios.id))
+        .withRel("dadosBancarios")
+        .withType("GET");
+    
+    super.add(selfLink, funcionarioLink, dadosBancariosLink);
   }
 
   public ContratoFuncionario toEntity() {
@@ -61,10 +88,14 @@ public final class ContratoFuncionarioDto {
     return new ContratoFuncionarioDto(contratoFuncionario);
   }
 
-  public static List<ContratoFuncionarioDto> ofContratosFuncionario(
+  public static CollectionModel<ContratoFuncionarioDto> ofContratosFuncionario(
       List<ContratoFuncionario> contratosFuncionario) {
-    return contratosFuncionario.stream()
+    Link selfLink = linkTo(
+        methodOn(ContratoFuncionarioController.class).buscarTodos())
+        .withSelfRel()
+        .withType("GET");
+    return CollectionModel.of(contratosFuncionario.stream()
         .map(ContratoFuncionarioDto::ofContratoFuncionario)
-        .toList();
+        .toList(), selfLink);
   }
 }

@@ -26,7 +26,7 @@ public class VendaService {
   }
 
   @Transactional
-  public List<VendaDto> salvarTodos(Iterable<VendaDto> dtos) {
+  public Iterable<VendaDto> salvarTodos(Iterable<VendaDto> dtos) {
     List<Venda> contratosFuncionario =
         StreamSupport.stream(dtos.spliterator(), true).map(VendaDto::toEntity).toList();
 
@@ -67,7 +67,7 @@ public class VendaService {
     return VendaDto.ofVenda(venda);
   }
 
-  public List<VendaDto> buscarTodos() {
+  public Iterable<VendaDto> buscarTodos() {
     List<Venda> contratosFuncionario = vendaRepository.findAll();
 
     return VendaDto.ofVendas(contratosFuncionario);
