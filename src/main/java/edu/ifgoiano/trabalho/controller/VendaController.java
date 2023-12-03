@@ -4,6 +4,7 @@ import edu.ifgoiano.trabalho.dto.VendaDto;
 import edu.ifgoiano.trabalho.service.VendaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +21,7 @@ public class VendaController {
    */
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public VendaDto salvar(@RequestBody VendaDto dto) {
     return vendaService.salvar(dto);
   }
@@ -32,6 +34,7 @@ public class VendaController {
    */
   @PostMapping("/varias")
   @ResponseStatus(HttpStatus.CREATED)
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public Iterable<VendaDto> salvarTodos(@RequestBody Iterable<VendaDto> dtos) {
     return vendaService.salvarTodos(dtos);
   }
@@ -42,6 +45,7 @@ public class VendaController {
    * @return Uma lista de todas as vendas registradas.
    */
   @GetMapping
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public Iterable<VendaDto> buscarTodos() {
     return vendaService.buscarTodos();
   }
@@ -53,6 +57,7 @@ public class VendaController {
    * @return A venda, caso esteja registrada.
    */
   @GetMapping("/{id}")
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public VendaDto buscarPorId(@PathVariable Long id) {
     return vendaService.buscarPorId(id);
   }
@@ -65,6 +70,7 @@ public class VendaController {
    * @return A venda entrada na base de dados.
    */
   @PutMapping("/{id}")
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public VendaDto atualizarCompletamente(@PathVariable Long id, @RequestBody VendaDto dto) {
     return vendaService.atualizarCompletamente(dto, id);
   }
@@ -77,6 +83,7 @@ public class VendaController {
    * @return Os dados da venda que foi atualizada.
    */
   @PatchMapping("/{id}")
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public VendaDto atualizarParcialmente(@PathVariable Long id, @RequestBody VendaDto dto) {
     return vendaService.atualizarParcialmente(dto, id);
   }
@@ -87,6 +94,7 @@ public class VendaController {
    * @param id O id da venda a ser deletada.
    */
   @DeleteMapping("/{id}")
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deletarPorId(@PathVariable Long id) {
     vendaService.deletarPorId(id);

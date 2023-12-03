@@ -5,6 +5,7 @@ import edu.ifgoiano.trabalho.service.FornecedorService;
 import edu.ifgoiano.trabalho.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +23,7 @@ public class FornecedorController {
    */
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public FornecedorDto salvar(@RequestBody FornecedorDto dto) {
     return pessoaService.salvar(dto);
   }
@@ -34,6 +36,7 @@ public class FornecedorController {
    */
   @PostMapping("/varias")
   @ResponseStatus(HttpStatus.CREATED)
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public Iterable<FornecedorDto> salvarTodos(@RequestBody Iterable<FornecedorDto> dtos) {
     return pessoaService.salvarTodos(dtos);
   }
@@ -44,6 +47,7 @@ public class FornecedorController {
    * @return Uma lista de todos os fornecedores registrados.
    */
   @GetMapping
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public Iterable<FornecedorDto> buscarTodos() {
     return fornecedorService.buscarTodos();
   }
@@ -55,6 +59,7 @@ public class FornecedorController {
    * @return O fornecedor, caso esteja registrado.
    */
   @GetMapping("/{id}")
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public FornecedorDto buscarPorId(@PathVariable Long id) {
     return fornecedorService.buscarPorId(id);
   }
@@ -67,6 +72,7 @@ public class FornecedorController {
    * @return O fornecedor que foi entrado na base de dados.
    */
   @PutMapping("/{id}")
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public FornecedorDto atualizarCompletamente(
       @PathVariable Long id, @RequestBody FornecedorDto dto) {
     return fornecedorService.atualizarCompletamente(dto, id);
@@ -80,6 +86,7 @@ public class FornecedorController {
    * @return Os dados do fornecedor que foi atualizado.
    */
   @PatchMapping("/{id}")
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public FornecedorDto atualizarParcialmente(
       @PathVariable Long id, @RequestBody FornecedorDto dto) {
     return fornecedorService.atualizarParcialmente(dto, id);
@@ -91,6 +98,7 @@ public class FornecedorController {
    * @param id O id do fornecedor a ser deletado.
    */
   @DeleteMapping("/{id}")
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deletarPorId(@PathVariable Long id) {
     pessoaService.deletarPorId(id);

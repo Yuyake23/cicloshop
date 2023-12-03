@@ -6,6 +6,7 @@ import edu.ifgoiano.trabalho.service.PessoaService;
 import edu.ifgoiano.trabalho.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,6 +22,7 @@ public class PessoaController {
    * @return Uma lista de todas as pessoas registradas.
    */
   @GetMapping
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public Iterable<? extends PessoaDto> buscarTodos() {
     return pessoaService.buscarTodos();
   }
@@ -32,6 +34,7 @@ public class PessoaController {
    * @return A pessoa, caso esteja registrada.
    */
   @GetMapping("/{id}")
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public PessoaDto buscarPorId(@PathVariable Long id) {
     return pessoaService.buscarPorId(id);
   }
@@ -43,6 +46,8 @@ public class PessoaController {
    * @return Uma lista contendo os produtos da pessoa.
    */
   @GetMapping("/{id}/produtos")
+  // TODO terminar
+  @PreAuthorize("hasAuthority('FUNCIONARIO') OR #id == authentication.principal.id")
   public Iterable<? extends ProdutoDto> buscarPorDono(@PathVariable Long id) {
     return produtoService.buscarPorDono(id);
   }
@@ -54,6 +59,7 @@ public class PessoaController {
    */
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public void deletarPorId(@PathVariable Long id) {
     produtoService.deletarPorId(id);
   }

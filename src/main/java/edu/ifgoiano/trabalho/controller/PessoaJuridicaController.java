@@ -5,6 +5,7 @@ import edu.ifgoiano.trabalho.service.PessoaJuridicaService;
 import edu.ifgoiano.trabalho.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +23,7 @@ public class PessoaJuridicaController {
    */
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public PessoaJuridicaDto salvar(@RequestBody PessoaJuridicaDto dto) {
     return pessoaService.salvar(dto);
   }
@@ -34,6 +36,7 @@ public class PessoaJuridicaController {
    */
   @PostMapping("/varias")
   @ResponseStatus(HttpStatus.CREATED)
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public Iterable<PessoaJuridicaDto> salvarTodos(@RequestBody Iterable<PessoaJuridicaDto> dtos) {
     return pessoaService.salvarTodos(dtos);
   }
@@ -44,6 +47,7 @@ public class PessoaJuridicaController {
    * @return Uma lista de todas as pessoas jurídicas registradas.
    */
   @GetMapping
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public Iterable<? extends PessoaJuridicaDto> buscarTodos() {
     return pessoaJuridicaService.buscarTodos();
   }
@@ -55,6 +59,7 @@ public class PessoaJuridicaController {
    * @return A pessoa, caso esteja registrada.
    */
   @GetMapping("/{id}")
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public PessoaJuridicaDto buscarPorId(@PathVariable Long id) {
     return pessoaJuridicaService.buscarPorId(id);
   }
@@ -67,6 +72,7 @@ public class PessoaJuridicaController {
    * @return A pessoa jurídica entrada na base de dados.
    */
   @PutMapping("/{id}")
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public PessoaJuridicaDto atualizarCompletamente(
       @PathVariable Long id, @RequestBody PessoaJuridicaDto dto) {
     return pessoaJuridicaService.atualizarCompletamente(dto, id);
@@ -80,6 +86,7 @@ public class PessoaJuridicaController {
    * @return Os dados da pessoa jurídica atualizada.
    */
   @PatchMapping("/{id}")
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public PessoaJuridicaDto atualizarParcialmente(
       @PathVariable Long id, @RequestBody PessoaJuridicaDto dto) {
     return pessoaJuridicaService.atualizarParcialmente(dto, id);
@@ -91,6 +98,7 @@ public class PessoaJuridicaController {
    * @param id O id da pessoa jurídica a ser deletada.
    */
   @DeleteMapping("/{id}")
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deletarPorId(@PathVariable Long id) {
     pessoaService.deletarPorId(id);

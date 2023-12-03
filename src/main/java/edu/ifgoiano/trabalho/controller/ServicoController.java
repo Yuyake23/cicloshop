@@ -4,6 +4,7 @@ import edu.ifgoiano.trabalho.dto.ServicoDto;
 import edu.ifgoiano.trabalho.service.ServicoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +21,7 @@ public class ServicoController {
    */
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public ServicoDto salvar(@RequestBody ServicoDto dto) {
     return servicoService.salvar(dto);
   }
@@ -32,6 +34,7 @@ public class ServicoController {
    */
   @PostMapping("/varias")
   @ResponseStatus(HttpStatus.CREATED)
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public Iterable<ServicoDto> salvarTodos(@RequestBody Iterable<ServicoDto> dtos) {
     return servicoService.salvarTodos(dtos);
   }
@@ -42,6 +45,7 @@ public class ServicoController {
    * @return Uma lista de todos os serviços registrados.
    */
   @GetMapping
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public Iterable<ServicoDto> buscarTodos() {
     return servicoService.buscarTodos();
   }
@@ -53,6 +57,7 @@ public class ServicoController {
    * @return O serviço, caso esteja registrado.
    */
   @GetMapping("/{id}")
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public ServicoDto buscarPorId(@PathVariable Long id) {
     return servicoService.buscarPorId(id);
   }
@@ -65,6 +70,7 @@ public class ServicoController {
    * @return O serviço que foi entrado na base de dados.
    */
   @PutMapping("/{id}")
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public ServicoDto atualizarCompletamente(@PathVariable Long id, @RequestBody ServicoDto dto) {
     return servicoService.atualizarCompletamente(dto, id);
   }
@@ -77,6 +83,7 @@ public class ServicoController {
    * @return Os dados do serviço que foi atualizado.
    */
   @PatchMapping("/{id}")
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public ServicoDto atualizarParcialmente(@PathVariable Long id, @RequestBody ServicoDto dto) {
     return servicoService.atualizarParcialmente(dto, id);
   }
@@ -88,6 +95,7 @@ public class ServicoController {
    */
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public void deletarPorId(@PathVariable Long id) {
     servicoService.deletarPorId(id);
   }

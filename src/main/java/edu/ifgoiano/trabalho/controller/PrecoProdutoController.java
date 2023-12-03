@@ -4,6 +4,7 @@ import edu.ifgoiano.trabalho.dto.PrecoProdutoDto;
 import edu.ifgoiano.trabalho.service.PrecoProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +21,7 @@ public class PrecoProdutoController {
    */
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public PrecoProdutoDto salvar(@RequestBody PrecoProdutoDto dto) {
     return precoProdutoService.salvar(dto);
   }
@@ -32,6 +34,7 @@ public class PrecoProdutoController {
    */
   @PostMapping("/varias")
   @ResponseStatus(HttpStatus.CREATED)
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public Iterable<PrecoProdutoDto> salvarTodos(@RequestBody Iterable<PrecoProdutoDto> dtos) {
     return precoProdutoService.salvarTodos(dtos);
   }
@@ -42,6 +45,7 @@ public class PrecoProdutoController {
    * @return Uma lista de todos os preços de produtos registrados.
    */
   @GetMapping
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public Iterable<PrecoProdutoDto> buscarTodos() {
     return precoProdutoService.buscarTodos();
   }
@@ -53,6 +57,8 @@ public class PrecoProdutoController {
    * @return O preço de produto, caso esteja registrado.
    */
   @GetMapping("/{id}")
+  // TODO deixar clientes consultarem preços de produtos?
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public PrecoProdutoDto buscarPorId(@PathVariable Long id) {
     return precoProdutoService.buscarPorId(id);
   }
@@ -65,6 +71,7 @@ public class PrecoProdutoController {
    * @return O preço de produto entrado na base de dados.
    */
   @PutMapping("/{id}")
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public PrecoProdutoDto atualizarCompletamente(
       @PathVariable Long id, @RequestBody PrecoProdutoDto dto) {
     return precoProdutoService.atualizarCompletamente(dto, id);
@@ -78,6 +85,7 @@ public class PrecoProdutoController {
    * @return Os dados do preço de produto atualizado.
    */
   @PatchMapping("/{id}")
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public PrecoProdutoDto atualizarParcialmente(
       @PathVariable Long id, @RequestBody PrecoProdutoDto dto) {
     return precoProdutoService.atualizarParcialmente(dto, id);
@@ -89,6 +97,7 @@ public class PrecoProdutoController {
    * @param id O id do preço de produto a ser deletado.
    */
   @DeleteMapping("/{id}")
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deletarPorId(@PathVariable Long id) {
     precoProdutoService.deletarPorId(id);
