@@ -32,7 +32,8 @@ public class AuthenticationService {
             .pessoa(
                 pessoaRepository
                     .findByDocumento(request.getDocumento())
-                    .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa não encontrada.")))
+                    .orElseThrow(() -> new RecursoNaoEncontradoException(
+                        "Pessoa com documento=%s não encontrada.".formatted(request.getDocumento()))))
             .permissao(Permissao.CLIENTE)
             .build();
 
