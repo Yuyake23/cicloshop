@@ -2,17 +2,23 @@ package edu.ifgoiano.trabalho.service;
 
 import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorBicicletaNaoEncontrada;
 import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorPessoaNaoEncontrada;
-
-import edu.ifgoiano.trabalho.dto.BicicletaDto;
-import edu.ifgoiano.trabalho.model.entity.Bicicleta;
-import edu.ifgoiano.trabalho.model.entity.Pessoa;
-import edu.ifgoiano.trabalho.model.repository.BicicletaRepository;
-import edu.ifgoiano.trabalho.model.repository.PessoaRepository;
-import jakarta.transaction.Transactional;
+import static edu.ifgoiano.trabalho.util.RecursoNaoEncontradoExceptionProvider.excecaoPorPecaNaoEncontrada;
+import java.math.BigDecimal;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Optional;
+import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import edu.ifgoiano.trabalho.dto.BicicletaDto;
+import edu.ifgoiano.trabalho.exception.PecasInsuficientesException;
+import edu.ifgoiano.trabalho.model.entity.Bicicleta;
+import edu.ifgoiano.trabalho.model.entity.Peca;
+import edu.ifgoiano.trabalho.model.entity.Pessoa;
+import edu.ifgoiano.trabalho.model.repository.BicicletaRepository;
+import edu.ifgoiano.trabalho.model.repository.PecaRepository;
+import edu.ifgoiano.trabalho.model.repository.PessoaRepository;
+import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
@@ -20,6 +26,7 @@ public class BicicletaService {
 
   @Autowired private BicicletaRepository bicicletaRepository;
   @Autowired private PessoaRepository pessoaRepository;
+  @Autowired private PecaRepository pecaRepository;
 
   @Transactional
   public BicicletaDto atualizarCompletamente(BicicletaDto dto, Long id) {
@@ -76,6 +83,38 @@ public class BicicletaService {
     List<Bicicleta> bicicletas = bicicletaRepository.findByDonoId(idDono);
     return BicicletaDto.ofBicicletas(bicicletas);
   }
+  
+  @Transactional
+  public BicicletaDto montarBicicleta(Iterable<Long> pecasId, Float lucro, String serial) {
+    List<Peca> pecas = StreamSupport.stream(pecasId.spliterator(), true).map(id -> {
+        Optional<Peca> peca = pecaRepository.findById(id);
+        return peca.orElseThrow(() -> excecaoPorPecaNaoEncontrada(id));
+      }
+    ).toList();
+    
+    pecas.forEach(p -> {
+      if (p.getQuantidade() == 0)
+        throw new PecasInsuficientesException(
+            "Não há %s o suficiente. Id=%d".formatted(p.getNome(), p.getId()));
+      
+      p.setQuantidade(p.getQuantidade()-1);
+    });
+    
+    BigDecimal precoCusto = pecas.stream()
+        .map(Peca::getValor)
+        .reduce(BigDecimal.ZERO, BigDecimal::add)
+        .setScale(2);
+    
+    pecaRepository.saveAll(pecas);
+    
+    Bicicleta bicicleta = new Bicicleta();
+    bicicleta.setDono(new Pessoa(1L));
+    bicicleta.setCodigoSerial(serial);
+    bicicleta.setValor(precoCusto.multiply(BigDecimal.valueOf(1 + lucro)));
+    
+    bicicleta = bicicletaRepository.save(bicicleta);
+    return BicicletaDto.ofBicicleta(bicicleta);
+  }
 
   private void atualizarParcialmente(Bicicleta bicicleta, BicicletaDto dto) {
     if (dto.marca != null) bicicleta.setMarca(dto.marca);
@@ -94,4 +133,5 @@ public class BicicletaService {
         .findById(idDono)
         .orElseThrow(() -> excecaoPorPessoaNaoEncontrada(idDono));
   }
+
 }

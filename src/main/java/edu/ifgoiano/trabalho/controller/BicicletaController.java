@@ -52,6 +52,19 @@ public class BicicletaController {
   public Iterable<BicicletaDto> salvarTodos(@RequestBody Iterable<BicicletaDto> dtos) {
     return produtoService.salvarTodos(dtos);
   }
+  
+  /**
+   * Registra várias bicicletas na base de dados.
+   *
+   * @param dtos Uma lista iterável de bicicletas.
+   * @return A lista de bicicletas salvas.
+   */
+  @PostMapping("/montar/{serial}")
+  @ResponseStatus(HttpStatus.CREATED)
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
+  public BicicletaDto montarBicicleta(@RequestBody Iterable<Long> pecasId, @RequestParam Float lucro, @PathVariable String serial) {
+    return bicicletaService.montarBicicleta(pecasId, lucro, serial);
+  }
 
   /**
    * Busca todas as bicicletas na base de dados.

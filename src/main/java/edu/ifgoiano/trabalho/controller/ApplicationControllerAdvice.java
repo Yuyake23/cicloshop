@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import edu.ifgoiano.trabalho.dto.ExceptionDto;
+import edu.ifgoiano.trabalho.exception.PecasInsuficientesException;
 import edu.ifgoiano.trabalho.exception.RecursoNaoEncontradoException;
 import edu.ifgoiano.trabalho.exception.TipoDeArquivoNaoSuportado;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -36,6 +37,14 @@ public class ApplicationControllerAdvice {
   @ExceptionHandler(TipoDeArquivoNaoSuportado.class)
   @ResponseStatus(BAD_REQUEST)
   public ExceptionDto handleTipoDeArquivoNaoSuportado(TipoDeArquivoNaoSuportado e, HttpServletRequest request) {
+    ExceptionDto exceptionDto = new ExceptionDto(BAD_REQUEST, e.getMessage(), request.getRequestURI());
+    
+    return exceptionDto;
+  }
+  
+  @ExceptionHandler(PecasInsuficientesException.class)
+  @ResponseStatus(BAD_REQUEST)
+  public ExceptionDto handlePecasInsuficientesException(PecasInsuficientesException e, HttpServletRequest request) {
     ExceptionDto exceptionDto = new ExceptionDto(BAD_REQUEST, e.getMessage(), request.getRequestURI());
     
     return exceptionDto;
