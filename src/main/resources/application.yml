@@ -6,7 +6,7 @@ spring:
   jpa:
     openInView: true
     hibernate:
-      ddlAuto: create
+      ddlAuto: create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
