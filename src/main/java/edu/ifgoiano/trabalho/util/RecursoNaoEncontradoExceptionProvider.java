@@ -1,5 +1,6 @@
 package edu.ifgoiano.trabalho.util;
 
+import edu.ifgoiano.trabalho.exception.ArquivoNaoEncontradoException;
 import edu.ifgoiano.trabalho.exception.RecursoNaoEncontradoException;
 
 public class RecursoNaoEncontradoExceptionProvider {
@@ -55,5 +56,9 @@ public class RecursoNaoEncontradoExceptionProvider {
 
   public static RecursoNaoEncontradoException excecaoPorServicoNaoEncontrado(Long id) {
     return new RecursoNaoEncontradoException("Servico com id=%d não encontrado.".formatted(id));
+  }
+  
+  public static ArquivoNaoEncontradoException excecaoPorArquivoNaoEncontrado(String nomeArquivo) {
+    return new ArquivoNaoEncontradoException("Arquivo %s não encontrado.".formatted(nomeArquivo));
   }
 }
