@@ -49,7 +49,7 @@ public class Servico implements Serializable {
   @JoinTable(
       name = "produto_servico",
       joinColumns = {@JoinColumn(name = "servico_id")},
-      inverseJoinColumns = {@JoinColumn(name = "contrato_funcionario_id")})
+      inverseJoinColumns = {@JoinColumn(name = "produto_id")})
   private List<Peca> pecas;
 
   private BigDecimal custoMaoDeObra;
