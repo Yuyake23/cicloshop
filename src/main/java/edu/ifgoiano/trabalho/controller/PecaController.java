@@ -5,6 +5,7 @@ import edu.ifgoiano.trabalho.service.PecaService;
 import edu.ifgoiano.trabalho.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +23,7 @@ public class PecaController {
    */
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public PecaDto salvar(@RequestBody PecaDto dto) {
     return produtoService.salvar(dto);
   }
@@ -34,6 +36,7 @@ public class PecaController {
    */
   @PostMapping("/varias")
   @ResponseStatus(HttpStatus.CREATED)
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public Iterable<PecaDto> salvarTodos(@RequestBody Iterable<PecaDto> dtos) {
     return produtoService.salvarTodos(dtos);
   }
@@ -44,6 +47,7 @@ public class PecaController {
    * @return Uma lista de todas as peças registradas.
    */
   @GetMapping
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public Iterable<PecaDto> buscarTodos() {
     return pecaService.buscarTodos();
   }
@@ -55,6 +59,7 @@ public class PecaController {
    * @return A peça, caso esteja registrada.
    */
   @GetMapping("/{id}")
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public PecaDto buscarPorId(@PathVariable Long id) {
     return pecaService.buscarPorId(id);
   }
@@ -67,6 +72,7 @@ public class PecaController {
    * @return A peça entrada na base de dados.
    */
   @PutMapping("/{id}")
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public PecaDto atualizarCompletamente(@PathVariable Long id, @RequestBody PecaDto dto) {
     return pecaService.atualizarCompletamente(dto, id);
   }
@@ -79,6 +85,7 @@ public class PecaController {
    * @return Os dados da peça que foi atualizada.
    */
   @PatchMapping("/{id}")
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public PecaDto atualizarParcialmente(@PathVariable Long id, @RequestBody PecaDto dto) {
     return pecaService.atualizarParcialmente(dto, id);
   }
@@ -90,6 +97,7 @@ public class PecaController {
    */
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public void deletarPorId(@PathVariable Long id) {
     produtoService.deletarPorId(id);
   }

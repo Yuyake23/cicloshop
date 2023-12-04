@@ -4,6 +4,7 @@ import edu.ifgoiano.trabalho.dto.ContratoFuncionarioDto;
 import edu.ifgoiano.trabalho.service.ContratoFuncionarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +21,7 @@ public class ContratoFuncionarioController {
    */
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public ContratoFuncionarioDto salvar(@RequestBody ContratoFuncionarioDto dto) {
     return contratoFuncionarioService.salvar(dto);
   }
@@ -32,7 +34,9 @@ public class ContratoFuncionarioController {
    */
   @PostMapping("/varias")
   @ResponseStatus(HttpStatus.CREATED)
-  public Iterable<ContratoFuncionarioDto> salvarTodos(@RequestBody Iterable<ContratoFuncionarioDto> dtos) {
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+  public Iterable<ContratoFuncionarioDto> salvarTodos(
+      @RequestBody Iterable<ContratoFuncionarioDto> dtos) {
     return contratoFuncionarioService.salvarTodos(dtos);
   }
 
@@ -42,6 +46,7 @@ public class ContratoFuncionarioController {
    * @return Uma lista de todos os funcionários registrados.
    */
   @GetMapping
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public Iterable<ContratoFuncionarioDto> buscarTodos() {
     return contratoFuncionarioService.buscarTodos();
   }
@@ -53,6 +58,7 @@ public class ContratoFuncionarioController {
    * @return O funcionário, caso esteja registrado.
    */
   @GetMapping("/{id}")
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public ContratoFuncionarioDto buscarPorId(@PathVariable Long id) {
     return contratoFuncionarioService.buscarPorId(id);
   }
@@ -65,6 +71,7 @@ public class ContratoFuncionarioController {
    * @return O funcionário que foi entrado na base de dados.
    */
   @PutMapping("/{id}")
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public ContratoFuncionarioDto atualizarCompletamente(
       @PathVariable Long id, @RequestBody ContratoFuncionarioDto dto) {
     return contratoFuncionarioService.atualizarCompletamente(dto, id);
@@ -78,6 +85,7 @@ public class ContratoFuncionarioController {
    * @return Os dados do funcionário que foi atualizado.
    */
   @PatchMapping("/{id}")
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public ContratoFuncionarioDto atualizarParcialmente(
       @PathVariable Long id, @RequestBody ContratoFuncionarioDto dto) {
     return contratoFuncionarioService.atualizarParcialmente(dto, id);
@@ -90,6 +98,7 @@ public class ContratoFuncionarioController {
    */
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public void deletarPorId(@PathVariable Long id) {
     contratoFuncionarioService.deletarPorId(id);
   }

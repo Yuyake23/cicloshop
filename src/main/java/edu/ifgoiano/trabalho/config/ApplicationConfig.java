@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -73,5 +75,13 @@ public class ApplicationConfig {
     var expressionHandler = new DefaultWebSecurityExpressionHandler();
     expressionHandler.setRoleHierarchy(roleHierarchy());
     return expressionHandler;
+  }
+
+  // Conserta hierarquia de autoridades em @PreAuthorized
+  @Bean
+  MethodSecurityExpressionHandler MethodSecurityExpressionHandler(RoleHierarchy roleHierarchy) {
+    var meh = new DefaultMethodSecurityExpressionHandler();
+    meh.setRoleHierarchy(roleHierarchy);
+    return meh;
   }
 }

@@ -4,6 +4,7 @@ import edu.ifgoiano.trabalho.dto.DadosBancariosDto;
 import edu.ifgoiano.trabalho.service.DadosBancariosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +21,7 @@ public class DadosBancariosController {
    */
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public DadosBancariosDto salvar(@RequestBody DadosBancariosDto dto) {
     return dadosBancariosService.salvar(dto);
   }
@@ -32,6 +34,7 @@ public class DadosBancariosController {
    */
   @PostMapping("/varias")
   @ResponseStatus(HttpStatus.CREATED)
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public Iterable<DadosBancariosDto> salvarTodos(@RequestBody Iterable<DadosBancariosDto> dtos) {
     return dadosBancariosService.salvarTodos(dtos);
   }
@@ -42,6 +45,7 @@ public class DadosBancariosController {
    * @return Uma lista de todos os dados bancários registrados.
    */
   @GetMapping
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public Iterable<DadosBancariosDto> buscarTodos() {
     return dadosBancariosService.buscarTodos();
   }
@@ -53,6 +57,7 @@ public class DadosBancariosController {
    * @return Os dados bancários, caso estejam registrados.
    */
   @GetMapping("/{id}")
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public DadosBancariosDto buscarPorId(@PathVariable Long id) {
     return dadosBancariosService.buscarPorId(id);
   }
@@ -65,6 +70,7 @@ public class DadosBancariosController {
    * @return Os dados bancários entrados na base de dados.
    */
   @PutMapping("/{id}")
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public DadosBancariosDto atualizarCompletamente(
       @PathVariable Long id, @RequestBody DadosBancariosDto dto) {
     return dadosBancariosService.atualizarCompletamente(dto, id);
@@ -78,6 +84,7 @@ public class DadosBancariosController {
    * @return Os dados bancários atualizados.
    */
   @PatchMapping("/{id}")
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public DadosBancariosDto atualizarParcialmente(
       @PathVariable Long id, @RequestBody DadosBancariosDto dto) {
     return dadosBancariosService.atualizarParcialmente(dto, id);
@@ -90,6 +97,7 @@ public class DadosBancariosController {
    */
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
   public void deletarPorId(@PathVariable Long id) {
     dadosBancariosService.deletarPorId(id);
   }

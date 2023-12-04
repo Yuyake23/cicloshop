@@ -5,6 +5,7 @@ import edu.ifgoiano.trabalho.service.BicicletaService;
 import edu.ifgoiano.trabalho.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,6 +24,7 @@ public class BicicletaController {
    */
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public BicicletaDto salvar(@RequestBody BicicletaDto dto) {
     return produtoService.salvar(dto);
   }
@@ -35,6 +37,7 @@ public class BicicletaController {
    */
   @PostMapping("/varias")
   @ResponseStatus(HttpStatus.CREATED)
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public Iterable<BicicletaDto> salvarTodos(@RequestBody Iterable<BicicletaDto> dtos) {
     return produtoService.salvarTodos(dtos);
   }
@@ -45,6 +48,7 @@ public class BicicletaController {
    * @return Todas as bicicletas na base de dados da oficina.
    */
   @GetMapping
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public Iterable<BicicletaDto> buscarTodos() {
     return bicicletaService.buscarTodos();
   }
@@ -56,6 +60,7 @@ public class BicicletaController {
    * @return A bicicleta buscada.
    */
   @GetMapping("/{id}")
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public BicicletaDto buscarPorId(@PathVariable Long id) {
     return bicicletaService.buscarPorId(id);
   }
@@ -68,6 +73,7 @@ public class BicicletaController {
    * @return A bicicleta que foi colocada na base de dados.
    */
   @PutMapping("/{id}")
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public BicicletaDto atualizarCompletamente(@PathVariable Long id, @RequestBody BicicletaDto dto) {
     return bicicletaService.atualizarCompletamente(dto, id);
   }
@@ -80,6 +86,7 @@ public class BicicletaController {
    * @return A bicicleta com os dados novos.
    */
   @PatchMapping("/{id}")
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public BicicletaDto atualizarParcialmente(@PathVariable Long id, @RequestBody BicicletaDto dto) {
     return bicicletaService.atualizarParcialmente(dto, id);
   }
@@ -91,6 +98,7 @@ public class BicicletaController {
    */
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public void deletarPorId(@PathVariable Long id) {
     produtoService.deletarPorId(id);
   }
