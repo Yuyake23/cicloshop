@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import edu.ifgoiano.trabalho.dto.ExceptionDto;
 import edu.ifgoiano.trabalho.exception.RecursoNaoEncontradoException;
+import edu.ifgoiano.trabalho.exception.TipoDeArquivoNaoSuportado;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,6 +28,14 @@ public class ApplicationControllerAdvice {
   @ExceptionHandler(DataIntegrityViolationException.class)
   @ResponseStatus(BAD_REQUEST)
   public ExceptionDto handleDataIntegrityViolationException(DataIntegrityViolationException e, HttpServletRequest request) {
+    ExceptionDto exceptionDto = new ExceptionDto(BAD_REQUEST, e.getMessage(), request.getRequestURI());
+    
+    return exceptionDto;
+  }
+  
+  @ExceptionHandler(TipoDeArquivoNaoSuportado.class)
+  @ResponseStatus(BAD_REQUEST)
+  public ExceptionDto handleTipoDeArquivoNaoSuportado(TipoDeArquivoNaoSuportado e, HttpServletRequest request) {
     ExceptionDto exceptionDto = new ExceptionDto(BAD_REQUEST, e.getMessage(), request.getRequestURI());
     
     return exceptionDto;
