@@ -47,7 +47,12 @@ public abstract class ProdutoDto extends RepresentationModel<ProdutoDto> {
         .withRel("dono")
         .withType("GET");
     
-    super.add(selfLink, donoLink);
+    Link imagemLink = linkTo(
+        methodOn(ProdutoController.class).buscarImagem(id, null))
+        .withRel("imagem")
+        .withType("GET");
+    
+    super.add(selfLink, donoLink, imagemLink);
   }
 
   public abstract Produto toEntity();

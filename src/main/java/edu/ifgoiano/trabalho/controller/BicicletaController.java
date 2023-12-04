@@ -1,12 +1,22 @@
 package edu.ifgoiano.trabalho.controller;
 
 import edu.ifgoiano.trabalho.dto.BicicletaDto;
+import edu.ifgoiano.trabalho.service.ArquivoService;
 import edu.ifgoiano.trabalho.service.BicicletaService;
 import edu.ifgoiano.trabalho.service.ProdutoService;
+import jakarta.servlet.http.HttpServletRequest;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.hateoas.Link;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/v1/bicicleta")
@@ -14,6 +24,7 @@ public class BicicletaController {
 
   @Autowired private ProdutoService produtoService;
   @Autowired private BicicletaService bicicletaService;
+  @Autowired private ArquivoService arquivoService;
 
   /**
    * Registra uma bicicleta na base de dados.
@@ -64,7 +75,7 @@ public class BicicletaController {
   public BicicletaDto buscarPorId(@PathVariable Long id) {
     return bicicletaService.buscarPorId(id);
   }
-
+  
   /**
    * Atualiza uma bicicleta no banco de dados, sobrescrevendo-a com os dados novos.
    *
@@ -89,6 +100,55 @@ public class BicicletaController {
   @PreAuthorize("hasAuthority('FUNCIONARIO')")
   public BicicletaDto atualizarParcialmente(@PathVariable Long id, @RequestBody BicicletaDto dto) {
     return bicicletaService.atualizarParcialmente(dto, id);
+  }
+  
+  /**
+   * Busca a imagem de uma bicicleta pelo id da bicicleta.
+   *
+   * @param id O id da bicicleta.
+   * @return A imagem da bicicleta.
+   */
+  @GetMapping("/{id}/imagem")
+  @PreAuthorize("hasAuthority('FUNCIONARIO')")
+  public ResponseEntity<Resource> buscarImagem(@PathVariable Long id, HttpServletRequest request) {
+    Resource resource = arquivoService.buscarArquivo(id);
+    
+    return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG)
+        .header(HttpHeaders.CONTENT_DISPOSITION,
+            "attachment; filename=\"" + resource.getFilename() + "\"")
+        .body(resource);
+  }
+  
+  /**
+   * Salva a imagem de uma bicicleta.
+   *
+   * @param arquivo O arquivo da imagem.
+   * @param id O id da bicicleta.
+   * @return O link para recuperar a imagem da bicicleta.
+   */
+  @PostMapping("/{id}/imagem")
+  @ResponseStatus(HttpStatus.CREATED)
+  public Link salvarImagem(@RequestParam MultipartFile arquivo, @PathVariable Long id) {
+    arquivoService.salvarArquivo(arquivo, id);
+
+    Link link = linkTo(
+        methodOn(BicicletaController.class).buscarImagem(id, null))
+        .withRel("imagem")
+        .withType("GET");;
+
+    return link;
+  }
+  
+  /**
+   * Deleta a imagem de uma bicicleta caso exista.
+   *
+   * @param id O id da bicicleta que deve ter a imagem deletada.
+   */
+  @DeleteMapping("/{id}/imagem")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+  public void deletarImagem(@PathVariable Long id) {
+    arquivoService.deletarArquivoSeExistir(id);
   }
 
   /**
