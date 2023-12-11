@@ -93,7 +93,7 @@ public class BicicletaService {
     ).toList();
     
     pecas.forEach(p -> {
-      if (p.getQuantidade() == 0)
+      if (p.getQuantidade() <= 0)
         throw new PecasInsuficientesException(
             "Não há %s o suficiente. Id=%d".formatted(p.getNome(), p.getId()));
       
